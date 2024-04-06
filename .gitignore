@@ -32,4 +32,6 @@ google-services.json
 # Android Profiling
 *.hprof
 
+app/build.gradle.kts
 
+build.gradle.kts
