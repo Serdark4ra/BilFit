@@ -29,10 +29,4 @@
         app:layout_constraintTop_toTopOf="@+id/textView"
         app:layout_constraintVertical_bias="0.0" />
 
-    <RadioGroup
-        android:layout_width="84dp"
-        android:layout_height="114dp"
-        tools:layout_editor_absoluteX="147dp"
-        tools:layout_editor_absoluteY="144dp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
