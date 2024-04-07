@@ -1,4 +1,4 @@
-package com.serdar_kara.bilfit;
+package com.serdar_kara.bilfit.login_activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +14,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.serdar_kara.bilfit.MainActivity;
 import com.serdar_kara.bilfit.databinding.ActivitySignUpBinding;
+import com.serdar_kara.bilfit.get_info_activities.GenderActivity;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -34,7 +36,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         if (currentUser != null){
             finish();
-            Intent intent = new Intent(this,MainActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
         
@@ -73,6 +75,8 @@ public class SignUpActivity extends AppCompatActivity {
                 });
 
         }
+        Intent intent = new Intent(this, GenderActivity.class);
+        startActivity(intent);
     }
 
 

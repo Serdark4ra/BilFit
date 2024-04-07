@@ -5,6 +5,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".get_info_ctivities.BodyInfoActivity">
+    tools:context=".get_info_activities.BodyInfoActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

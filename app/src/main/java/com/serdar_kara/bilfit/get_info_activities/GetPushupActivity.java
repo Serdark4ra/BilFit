@@ -1,4 +1,4 @@
-package com.serdar_kara.bilfit.get_info_ctivities;
+package com.serdar_kara.bilfit.get_info_activities;
 
 import android.os.Bundle;
 

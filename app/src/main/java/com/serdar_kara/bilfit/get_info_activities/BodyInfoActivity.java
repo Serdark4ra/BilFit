@@ -1,4 +1,4 @@
-package com.serdar_kara.bilfit.get_info_ctivities;
+package com.serdar_kara.bilfit.get_info_activities;
 
 import android.os.Bundle;
 
@@ -11,16 +11,11 @@ import androidx.core.view.WindowInsetsCompat;
 import com.serdar_kara.bilfit.R;
 
 public class BodyInfoActivity extends AppCompatActivity {
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_body_info);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
     }
 }

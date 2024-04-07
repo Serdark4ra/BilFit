@@ -13,26 +13,50 @@
         android:theme="@style/Theme.BilFit"
         tools:targetApi="31">
         <activity
-            android:name=".ForgotPasswordActivity"
+            android:name=".get_info_activities.LoadingInfoSessionSActivity"
             android:exported="false" />
         <activity
-            android:name=".SignInActivity"
+            android:name=".get_info_activities.GetPushupActivity"
             android:exported="false" />
         <activity
-            android:name=".SignUpActivity"
-            android:exported="true" >
+            android:name=".get_info_activities.BodyTypeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".get_info_activities.GoalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".get_info_activities.TargetMusclesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".get_info_activities.PreferredDaysActivity"
+            android:exported="false" />
+        <activity
+            android:name=".get_info_activities.BodyInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".get_info_activities.MuscleGroupsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".get_info_activities.GenderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".login_activities.ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".login_activities.SignInActivity"
+            android:exported="false" />
+        <activity
+            android:name=".login_activities.SignUpActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>

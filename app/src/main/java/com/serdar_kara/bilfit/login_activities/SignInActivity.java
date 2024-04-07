@@ -1,22 +1,19 @@
-package com.serdar_kara.bilfit;
+package com.serdar_kara.bilfit.login_activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.serdar_kara.bilfit.MainActivity;
 import com.serdar_kara.bilfit.databinding.ActivitySignInBinding;
 
 public class SignInActivity extends AppCompatActivity {
@@ -58,7 +55,7 @@ public class SignInActivity extends AppCompatActivity {
                         if (task.isSuccessful()){
                             currentUser = auth.getCurrentUser();
                             Log.d("Login Page","login  Successful");
-                            Intent intent = new Intent(SignInActivity.this,MainActivity.class);
+                            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                             startActivity(intent);
 
                         }else{

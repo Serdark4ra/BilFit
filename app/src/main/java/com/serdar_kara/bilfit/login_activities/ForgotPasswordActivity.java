@@ -1,4 +1,4 @@
-package com.serdar_kara.bilfit;
+package com.serdar_kara.bilfit.login_activities;
 
 import android.os.Bundle;
 import android.widget.Toast;
