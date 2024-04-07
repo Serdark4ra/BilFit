@@ -1,6 +1,7 @@
 package com.serdar_kara.bilfit;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,7 +31,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         if (!email.isEmpty()){
-
+            auth.sendPasswordResetEmail(email);
+        }else{
+            Toast.makeText(this,"fill in the blanks", Toast.LENGTH_LONG).show();
         }
 
     }

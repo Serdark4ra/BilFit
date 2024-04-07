@@ -31,7 +31,9 @@ public class SignInActivity extends AppCompatActivity {
         activitySignInBinding = ActivitySignInBinding.inflate(getLayoutInflater());
         setContentView(activitySignInBinding.getRoot());
 
+
         auth = FirebaseAuth.getInstance();
+
 
         activitySignInBinding.loginButton.setOnClickListener(view -> login());
 
