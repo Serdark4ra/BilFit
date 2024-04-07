@@ -161,11 +161,9 @@ public class UserInfoHolder implements Serializable {
     public void setWednesdayEligible(boolean wednesdayEligible) {
         isWednesdayEligible = wednesdayEligible;
     }
-
     public void setThursdayEligible(boolean thursdayEligible) {
         isThursdayEligible = thursdayEligible;
     }
-
     public void setFridayEligible(boolean fridayEligible) {
         isFridayEligible = fridayEligible;
     }
@@ -173,7 +171,6 @@ public class UserInfoHolder implements Serializable {
     public void setSaturdayEligible(boolean saturdayEligible) {
         isSaturdayEligible = saturdayEligible;
     }
-
     public void setSundayEligible(boolean sundayEligible) {
         isSundayEligible = sundayEligible;
     }
