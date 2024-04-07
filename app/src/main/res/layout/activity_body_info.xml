@@ -7,4 +7,30 @@
     android:layout_height="match_parent"
     tools:context=".get_info_activities.BodyInfoActivity">
 
+    <EditText
+        android:id="@+id/editTextNumberDecimal_height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        tools:layout_editor_absoluteX="84dp"
+        tools:layout_editor_absoluteY="71dp" />
+
+    <EditText
+        android:id="@+id/editTextNumber_weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        tools:layout_editor_absoluteX="93dp"
+        tools:layout_editor_absoluteY="223dp" />
+
+    <EditText
+        android:id="@+id/editTextNumber_age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        tools:layout_editor_absoluteX="89dp"
+        tools:layout_editor_absoluteY="381dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
