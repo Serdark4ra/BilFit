@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "581515603166",
+    "project_id": "bilfit-ca03d",
+    "storage_bucket": "bilfit-ca03d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:581515603166:android:bbd14c6cdc5caa2ec6264f",
+        "android_client_info": {
+          "package_name": "com.serdar_kara.bilfit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDn6I6N102y6wF8LBejrzImCM9Ppfs4pQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
