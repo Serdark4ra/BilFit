@@ -34,11 +34,11 @@ public class SignUpActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
 
-        if (currentUser != null){
+        /*if (currentUser != null){
             finish();
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-        }
+        }*/
         
         signUpBinding.signupButton.setOnClickListener(view1 -> createUser());
         signUpBinding.textViewSignIn.setOnClickListener(view1 -> goSignin());
@@ -63,11 +63,11 @@ public class SignUpActivity extends AppCompatActivity {
                         if (task.isSuccessful()){
                             currentUser = auth.getCurrentUser();
                             Log.d("Login Page","Create account Successful");
-                            Intent intent = new Intent(SignUpActivity.this,MainActivity.class);
+                            Intent intent = new Intent(SignUpActivity.this,GenderActivity.class);
                             startActivity(intent);
 
                     }else{
-                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                            Toast.makeText(SignUpActivity.this, task.getException().toString(),
                                     Toast.LENGTH_SHORT).show();
                             Log.d("Login Page","Create account failed!");
                         }
@@ -75,8 +75,6 @@ public class SignUpActivity extends AppCompatActivity {
                 });
 
         }
-        Intent intent = new Intent(this, GenderActivity.class);
-        startActivity(intent);
     }
 
 

@@ -58,8 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Add Friend"
-                app:shapeAppearance="a" />
+                android:text="Add Friend" />
 
             <Button
                 android:id="@+id/editFriendButton"
@@ -67,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Edit Friend"
-                app:shapeAppearance="a" />
+               />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

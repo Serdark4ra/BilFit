@@ -39,7 +39,7 @@ public class PreferredDaysActivity extends AppCompatActivity {
         binding.buttonNextPrefDays.setOnClickListener(view -> {
             startActivity(intent);
         });
-        binding.buttonNextPrefDays.setOnClickListener(view -> {
+        binding.buttonPrevPrefDays.setOnClickListener(view -> {
             Intent intentPrev = new Intent(PreferredDaysActivity.this, BodyInfoActivity.class);
             startActivity(intentPrev);
         });

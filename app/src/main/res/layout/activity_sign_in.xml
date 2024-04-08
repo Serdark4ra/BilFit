@@ -82,5 +82,15 @@
         app:layout_constraintEnd_toEndOf="@id/edit_text_password_signIn"
         app:layout_constraintTop_toBottomOf="@id/edit_text_password_signIn" />
 
+    <TextView
+        android:id="@+id/textView_return_signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Return Sign up"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/edit_text_password_signIn"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_password_signIn" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

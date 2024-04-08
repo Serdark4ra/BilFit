@@ -35,6 +35,13 @@ public class SignInActivity extends AppCompatActivity {
         activitySignInBinding.loginButton.setOnClickListener(view -> login());
 
         activitySignInBinding.textViewForgetPass.setOnClickListener(view -> goForgotPass());
+
+        activitySignInBinding.textViewReturnSignup.setOnClickListener(view -> goSignUp());
+    }
+
+    private void goSignUp() {
+        Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
     }
 
     private void goForgotPass() {

@@ -47,5 +47,13 @@ public class GetPushupActivity extends AppCompatActivity {
         Intent intent = new Intent(GetPushupActivity.this, LoadingInfoSessionSActivity. class);
         intent.putExtra("userInfoHolder", userInfoHolder);
 
+        binding.buttonNextPushup.setOnClickListener(view -> {
+            startActivity(intent);
+        });
+        binding.buttonPrevPushup.setOnClickListener(view -> {
+            Intent intentPrev = new Intent(GetPushupActivity.this, BodyTypeActivity.class);
+            startActivity(intentPrev);
+        });
+
     }
 }

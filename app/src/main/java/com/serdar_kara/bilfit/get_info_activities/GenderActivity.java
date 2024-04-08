@@ -26,17 +26,24 @@ public class GenderActivity extends AppCompatActivity {
 
 
         binding.buttonMale.setOnClickListener(view -> {
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+
                     userInfoHolder.setGender("male");
                     Intent intent = new Intent(GenderActivity.this, TargetMusclesActivity.class);
                     intent.putExtra("userInfoHolder", userInfoHolder);
                     startActivity(intent);
-                }
-            };
         });
+
+        binding.buttonFemale.setOnClickListener(view -> {
+
+                    userInfoHolder.setGender("female");
+                    Intent intent = new Intent(GenderActivity.this, TargetMusclesActivity.class);
+                    intent.putExtra("userInfoHolder", userInfoHolder);
+                    startActivity(intent);
+
+        });
+
+
+
+
     }
-
-
 }

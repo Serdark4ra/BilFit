@@ -2,6 +2,7 @@ package com.serdar_kara.bilfit.get_info_activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,14 +24,22 @@ public class BodyInfoActivity extends AppCompatActivity {
 
         Intent comingIntent = getIntent();
         UserInfoHolder userInfoHolder = (UserInfoHolder) comingIntent.getSerializableExtra("userInfoHolder");
-        userInfoHolder.setWeight(Integer.parseInt(binding.editTextNumberWeight.getText().toString()));
-        userInfoHolder.setHeight(Integer.parseInt(binding.editTextNumberDecimalHeight.getText().toString()));
-        userInfoHolder.setAge(Integer.parseInt(binding.editTextNumberAge.getText().toString()));
 
-        Intent intent = new Intent(BodyInfoActivity.this, PreferredDaysActivity.class);
-        intent.putExtra("userInfoHolder", userInfoHolder);
+
+
 
         binding.buttonNextBodyInfo.setOnClickListener(view -> {
+            if(binding.editTextNumberWeight.getText().toString().isEmpty() || binding.editTextNumberDecimalHeight.getText().toString().isEmpty() || binding.editTextNumberAge.getText().toString().isEmpty()){
+                Toast.makeText(this,"fill in the blanks",Toast.LENGTH_LONG).show();
+                return;
+            }
+            userInfoHolder.setWeight(Integer.parseInt(binding.editTextNumberWeight.getText().toString()));
+            userInfoHolder.setHeight(Integer.parseInt(binding.editTextNumberDecimalHeight.getText().toString()));
+            userInfoHolder.setAge(Integer.parseInt(binding.editTextNumberAge.getText().toString()));
+
+            Intent intent = new Intent(BodyInfoActivity.this, PreferredDaysActivity.class);
+            intent.putExtra("userInfoHolder", userInfoHolder);
+
             startActivity(intent);
         });
         binding.buttonPrevBodyInfo.setOnClickListener(view -> {
