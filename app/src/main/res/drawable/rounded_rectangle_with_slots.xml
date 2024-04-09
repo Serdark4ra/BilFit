@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background rounded rectangle -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#D6D7D7"/> <!-- Background color -->
+            <corners android:radius="16dp"/> <!-- Adjust corner radius here -->
+        </shape>
+    </item>
+
+    <!-- Vertical lines to simulate slots -->
+    <!-- Adjust the width and height as needed -->
+    <!-- This example assumes the overall height of the drawable is 48dp -->
+    <item android:left="3dp" android:top="5dp" android:bottom="5dp" android:right="4dp">
+        <shape>
+            <solid android:color="#FFFFFF"/> <!-- Color of the separator lines -->
+            <size android:width="1dp"/>
+        </shape>
+    </item>
+    <!-- Repeat the <item> tag for each slot line, adjusting the left and right attributes -->
+
+</layer-list>

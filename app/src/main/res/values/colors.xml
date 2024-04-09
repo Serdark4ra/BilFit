@@ -18,5 +18,10 @@
     <color name="chatRight">#8B9E75</color>
     <color name="text_color">#000000</color>
 
+    <color name="active_color">#FF0000</color> <!-- Define the color for active items -->
+    <color name="inactive_color">#808080</color> <!-- Define the color for inactive items -->
+    <color name="bottom_navigation_item_color">#000000</color> <!-- Define the text color for items -->
+
+
 
 </resources>

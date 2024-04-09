@@ -53,5 +53,6 @@ public class GoalActivity extends AppCompatActivity {
             Intent intentPrev = new Intent(GoalActivity.this, PreferredDaysActivity.class);
             startActivity(intentPrev);
         });
+
     }
 }
