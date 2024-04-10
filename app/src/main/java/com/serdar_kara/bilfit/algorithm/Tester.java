@@ -3,8 +3,6 @@ package com.serdar_kara.bilfit.algorithm;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.swing.JFrame;
-
 public class Tester {
 
     static Random rnd;
@@ -243,20 +241,5 @@ public class Tester {
         hareketler.sort(null);
         hareketleriKaristir();
 
-        //programDoldurucu(program, 6);
-        User sporcu = new User();
-        JFrame frame = new KullaniciArayuzu(sporcu);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        //System.out.println(program); 
-        /* for (int i = 0; i < program.size(); i++)
-        {
-            System.out.println("--------- " + (i + 1) + ". Day ---------");
-            for (int j = 0; j < program.get(i).size(); j++)
-            {
-                System.out.println(program.get(i).get(j));
-            }
-        } */
     }
 }

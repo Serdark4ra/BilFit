@@ -1,6 +1,9 @@
 package com.serdar_kara.bilfit.get_info_activities;
 
+import com.serdar_kara.bilfit.algorithm.Exercises;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class UserInfoHolder implements Serializable {
     private String gender;
@@ -25,6 +28,14 @@ public class UserInfoHolder implements Serializable {
     private String bodyType;
     private int pushupCount;
 
+    private int numberGoingGym;
+
+    private boolean[] days;
+
+    private double userPoint;
+    private double ibm;
+    private ArrayList<ArrayList<Exercises>> program;
+
     public UserInfoHolder(String gender, boolean chest, boolean back, boolean arm, boolean leg,
                           int age, int weight, int height, boolean isMondayEligible,
                           boolean isTuesdayEligible, boolean isWednesdayEligible,
@@ -34,16 +45,28 @@ public class UserInfoHolder implements Serializable {
         this.age = age;
         this.weight = weight;
         this.height = height;
-        this.isMondayEligible = isMondayEligible;
-        this.isTuesdayEligible = isTuesdayEligible;
-        this.isWednesdayEligible = isWednesdayEligible;
-        this.isThursdayEligible = isThursdayEligible;
-        this.isFridayEligible = isFridayEligible;
-        this.isSaturdayEligible = isSaturdayEligible;
-        this.isSundayEligible = isSundayEligible;
+        this.days = new boolean[7];
         this.purpose = purpose;
         this.bodyType = bodyType;
         this.pushupCount = pushupCount;
+        this.userPoint = 2;
+        this.numberGoingGym = 0;
+    }
+
+    public void calculateIbm()
+    {
+        this.ibm = (double) this.getWeight() / ((double) (this.getHeight() * this.getHeight()) / 10000);
+    }
+
+
+
+    public void setDays(int index, boolean isEligible)
+    {
+        this.days[index] = isEligible;
+        if (isEligible)
+        {
+            this.numberGoingGym++;
+        }
     }
 
     public String getGender() {
@@ -149,7 +172,7 @@ public class UserInfoHolder implements Serializable {
     public void setHeight(int height) {
         this.height = height;
     }
-
+/*
     public void setMondayEligible(boolean mondayEligible) {
         isMondayEligible = mondayEligible;
     }
@@ -173,7 +196,7 @@ public class UserInfoHolder implements Serializable {
     }
     public void setSundayEligible(boolean sundayEligible) {
         isSundayEligible = sundayEligible;
-    }
+    }*/
 
     public void setPurpose(String purpose) {
         this.purpose = purpose;

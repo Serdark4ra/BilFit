@@ -1,6 +1,6 @@
 package com.serdar_kara.bilfit.algorithm;
 
-abstract class Exercises implements Comparable<Exercises>{
+public abstract class Exercises implements Comparable<Exercises>{
     
     private double zorluk;
     private String isim;
