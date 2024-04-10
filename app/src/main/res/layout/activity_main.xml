@@ -127,6 +127,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_navigation_menu"
         android:focusable="false"
+
         />
 
 

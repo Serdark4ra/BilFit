@@ -34,11 +34,11 @@ public class SignUpActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
 
-        /*if (currentUser != null){
+        if (currentUser != null){
             finish();
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-        }*/
+        }
         
         signUpBinding.signupButton.setOnClickListener(view1 -> createUser());
         signUpBinding.textViewSignIn.setOnClickListener(view1 -> goSignin());

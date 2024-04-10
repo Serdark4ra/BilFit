@@ -2,20 +2,21 @@
     <item
         android:id="@+id/navigation_leaderBoard"
         android:icon="@drawable/image_4"
-        android:title="a" />
+        android:title="" />
 
     <item
         android:id="@+id/navigation_program"
         android:icon="@drawable/image_5"
-        android:title="a" />
+        android:title="" />
 
     <item
         android:id="@+id/navigation_report"
         android:icon="@drawable/image_7"
-        android:title="_notifications" />
+        android:title="" />
 
     <item
         android:id="@+id/navigation_friends"
         android:icon="@drawable/image_6"
-        android:title="_profile" />
+        android:title=""
+        />
 </menu>
