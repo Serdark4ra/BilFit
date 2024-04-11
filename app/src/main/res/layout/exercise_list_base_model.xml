@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="5dp"
+    app:cardCornerRadius="20dp"
+    app:contentPadding="8dp">
+
+    <RelativeLayout
+        android:id="@+id/user_relative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/text_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            android:maxLength="20"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:text="Pull Over" />
+
+        <ImageView
+            android:id="@+id/image_user"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/text_user_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_user_name"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_toStartOf="@id/image_user"
+            android:layout_toEndOf="@id/text_user_name"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:maxLength="20"
+            android:textSize="18sp"
+            android:textStyle="bold"
+
+            android:text="3x4" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
