@@ -32,7 +32,9 @@ public class PreferredDaysActivity extends AppCompatActivity {
         userInfoHolder.setDays(4, binding.checkBoxFri.isChecked());
         userInfoHolder.setDays(5, binding.checkBoxSat.isChecked());
         userInfoHolder.setDays(6, binding.checkBoxSun.isChecked());
-        
+
+        userInfoHolder.printPrefDays();
+
         Intent intent = new Intent(PreferredDaysActivity.this, GoalActivity.class);
         intent.putExtra("userInfoHolder", userInfoHolder);
         

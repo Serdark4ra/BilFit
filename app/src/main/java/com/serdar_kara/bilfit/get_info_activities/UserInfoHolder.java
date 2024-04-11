@@ -209,4 +209,8 @@ public class UserInfoHolder implements Serializable {
     public void setPushupCount(int pushupCount) {
         this.pushupCount = pushupCount;
     }
+
+    public void printPrefDays(){
+        System.out.println(numberGoingGym);
+    }
 }
