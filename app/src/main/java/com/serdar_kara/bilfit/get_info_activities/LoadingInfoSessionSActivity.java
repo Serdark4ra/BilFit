@@ -26,6 +26,7 @@ public class LoadingInfoSessionSActivity extends AppCompatActivity {
         });
 
         Intent intent = getIntent();
+
         Intent intent1 = new Intent(LoadingInfoSessionSActivity.this, MainActivity.class);
         startActivity(intent1);
     }
