@@ -9,6 +9,16 @@ public class WorkoutPrograms {
     ArrayList<ArrayList<Exercises>> dortGunluk;
     ArrayList<ArrayList<Exercises>> besGunluk;
 
+    ArrayList<ArrayList<Exercises>> ikiGunlukCardio;
+    ArrayList<ArrayList<Exercises>> ucGunlukCardio;
+    ArrayList<ArrayList<Exercises>> dortGunlukCardio;
+    ArrayList<ArrayList<Exercises>> besGunlukCardio;
+
+    ArrayList<ArrayList<Exercises>> ikiGunlukMixed;
+    ArrayList<ArrayList<Exercises>> ucGunlukMixed;
+    ArrayList<ArrayList<Exercises>> dortGunlukMixed;
+    ArrayList<ArrayList<Exercises>> besGunlukMixed;
+
     public WorkoutPrograms()
     {
         ikiGunlukOlusturucu();

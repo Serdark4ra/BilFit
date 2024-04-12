@@ -37,7 +37,7 @@ public class GetPushupActivity extends AppCompatActivity {
                 userInfoHolder.setPushupCount(20);
             }
             else if(checkedId == R.id.radioButton_20_more_reps) {
-                userInfoHolder.setPushupCount(30);
+                userInfoHolder.setPushupCount(25);
             }
             else{
                 throw new IllegalStateException("Unexpected value: " + checkedId);

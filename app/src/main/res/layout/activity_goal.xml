@@ -18,9 +18,9 @@
 
         <RadioButton
             android:id="@+id/radioButton_buildMuscles"
-            android:layout_width="match_parent"
+            android:layout_width="165dp"
             android:layout_height="wrap_content"
-            android:text="RadioButton" />
+            android:text="Build Muscle" />
 
         <RadioButton
             android:id="@+id/radioButton_loseWeight"

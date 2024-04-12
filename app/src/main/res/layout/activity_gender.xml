@@ -11,7 +11,7 @@
         android:id="@+id/button_male"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="34dp"
+        android:layout_marginStart="80dp"
         android:text="Male"
         app:layout_constraintBaseline_toBaselineOf="@+id/button_female"
         app:layout_constraintStart_toStartOf="parent" />

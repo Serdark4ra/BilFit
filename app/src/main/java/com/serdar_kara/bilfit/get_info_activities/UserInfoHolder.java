@@ -6,6 +6,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class UserInfoHolder implements Serializable {
+
+    private double power;
+
     private String gender;
     private boolean chest;
     private boolean back;
@@ -34,7 +37,7 @@ public class UserInfoHolder implements Serializable {
 
     private double userPoint;
     private double ibm;
-    private ArrayList<ArrayList<Exercises>> program;
+    private ArrayList<Exercises>[] program;
 
     public UserInfoHolder(String gender, boolean chest, boolean back, boolean arm, boolean leg,
                           int age, int weight, int height, boolean isMondayEligible,
@@ -51,14 +54,14 @@ public class UserInfoHolder implements Serializable {
         this.pushupCount = pushupCount;
         this.userPoint = 2;
         this.numberGoingGym = 0;
+        this.power = 2;
+        this.program = new ArrayList[7];
     }
 
     public void calculateIbm()
     {
         this.ibm = (double) this.getWeight() / ((double) (this.getHeight() * this.getHeight()) / 10000);
     }
-
-
 
     public void setDays(int index, boolean isEligible)
     {
@@ -172,7 +175,51 @@ public class UserInfoHolder implements Serializable {
     public void setHeight(int height) {
         this.height = height;
     }
-/*
+
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
+    }
+
+    public void setBodyType(String bodyType) {
+        this.bodyType = bodyType;
+    }
+
+    public void setPushupCount(int pushupCount) {
+        this.pushupCount = pushupCount;
+    }
+
+    public void printPrefDays(){
+        System.out.println(numberGoingGym);
+    }
+
+    /**
+     * returns the days in which the user goes to gym
+     * if days[0] is true it means the user goes to gym on monday.     *
+     * @return the days of a week as a boolean arraylist
+     */
+    public boolean[] getDays()
+    {
+        return this.days;
+    }
+
+    /**
+     * We won't use this when first issuing the program, it can be used in feedback later.
+     * @param n increases the user's power by n
+     */
+    public void increasePower(double n)
+    {
+        this.power += n;
+    }
+
+    /**
+     * It evaluates the power of the user according to their body information.
+     */
+    public void setPower()
+    {
+
+    }
+
+    /*
     public void setMondayEligible(boolean mondayEligible) {
         isMondayEligible = mondayEligible;
     }
@@ -198,19 +245,4 @@ public class UserInfoHolder implements Serializable {
         isSundayEligible = sundayEligible;
     }*/
 
-    public void setPurpose(String purpose) {
-        this.purpose = purpose;
-    }
-
-    public void setBodyType(String bodyType) {
-        this.bodyType = bodyType;
-    }
-
-    public void setPushupCount(int pushupCount) {
-        this.pushupCount = pushupCount;
-    }
-
-    public void printPrefDays(){
-        System.out.println(numberGoingGym);
-    }
 }

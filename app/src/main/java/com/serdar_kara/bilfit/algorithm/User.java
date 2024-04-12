@@ -44,7 +44,7 @@ public class User {
         return this.program;
     }
 
-    public void programiOlustur()
+    /*public void programiOlustur()
     {
         if (this.gunSayisi == 2)
         {
@@ -61,7 +61,7 @@ public class User {
         }
 
         Tester.programDoldurucu(program, guc);
-    }
+    }*/
 
     public void programiYazdir()
     {
