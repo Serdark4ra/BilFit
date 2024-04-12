@@ -5,9 +5,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 
 public class SlottedRectangleView extends View {
 
@@ -49,13 +53,22 @@ public class SlottedRectangleView extends View {
         Paint.Align originalAlign = paint.getTextAlign();
         paint.setTextAlign(Paint.Align.CENTER); // Center text
 
+        paint.setTypeface(Typeface.DEFAULT_BOLD); // Set text style (bold)
+
         for (int i = 0; i < 7; i++) { // Draw 6 lines to create 7 slots and text for each slot
             if (i > 0) {
                 float xLine = width * i / 7.0f;
                 canvas.drawLine(xLine, 0, xLine, height, paint);
             }
             float xText = width * (i / 7.0f) + width / 14.0f; // Center of each slot
-            canvas.drawText(DAYS[i], xText, height / 2 + textHeight / 2, paint);
+            LocalDate today = LocalDate.now();
+            DayOfWeek dayOfWeek = today.getDayOfWeek();
+            if (dayOfWeek.getValue() == i + 1) {
+                paint.setColor(Color.parseColor("#FF0000")); // Highlight today
+            } else {
+                paint.setColor(Color.BLACK);
+            }
+            canvas.drawText(DAYS[i], xText, (float) (height / (2.5)) + textHeight / 2, paint);
         }
 
         paint.setTextAlign(originalAlign); // Reset text align
