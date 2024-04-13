@@ -25,9 +25,6 @@ public class BodyInfoActivity extends AppCompatActivity {
         Intent comingIntent = getIntent();
         UserInfoHolder userInfoHolder = (UserInfoHolder) comingIntent.getSerializableExtra("userInfoHolder");
 
-
-
-
         binding.buttonNextBodyInfo.setOnClickListener(view -> {
 
             if(binding.editTextNumberWeight.getText().toString().isEmpty() || binding.editTextNumberDecimalHeight.getText().toString().isEmpty() || binding.editTextNumberAge.getText().toString().isEmpty()){

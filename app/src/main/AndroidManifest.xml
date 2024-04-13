@@ -24,11 +24,7 @@
         <activity
             android:name=".get_info_activities.LoadingInfoSessionSActivity"
             android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".get_info_activities.GetPushupActivity"
@@ -50,7 +46,14 @@
             android:exported="false" />
         <activity
             android:name=".get_info_activities.GenderActivity"
-            android:exported="false" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".login_activities.ForgotPasswordActivity"
             android:exported="false" />

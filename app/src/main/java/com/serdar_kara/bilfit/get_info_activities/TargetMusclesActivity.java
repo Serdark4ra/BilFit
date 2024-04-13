@@ -23,15 +23,16 @@ public class TargetMusclesActivity extends AppCompatActivity {
 
         Intent comingIntent = getIntent();
         UserInfoHolder userInfoHolder = (UserInfoHolder) comingIntent.getSerializableExtra("userInfoHolder");
-        userInfoHolder.setChest(binding.checkBoxChest.isChecked());
-        userInfoHolder.setBack(binding.checkBoxBack.isChecked());
-        userInfoHolder.setLeg(binding.checkBoxLegs.isChecked());
-        userInfoHolder.setArm(binding.checkBoxArms.isChecked());
 
-        Intent intent = new Intent(TargetMusclesActivity.this, BodyTypeActivity.class);
-        intent.putExtra("userInfoHolder", userInfoHolder);
 
         binding.buttonNext.setOnClickListener(view -> {
+            userInfoHolder.setChest(binding.checkBoxChest.isChecked());
+            userInfoHolder.setBack(binding.checkBoxBack.isChecked());
+            userInfoHolder.setLeg(binding.checkBoxLegs.isChecked());
+            userInfoHolder.setArm(binding.checkBoxArms.isChecked());
+
+            Intent intent = new Intent(TargetMusclesActivity.this, BodyTypeActivity.class);
+            intent.putExtra("userInfoHolder", userInfoHolder);
             startActivity(intent);
         });
         binding.buttonPrev.setOnClickListener(view -> {

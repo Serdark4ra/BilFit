@@ -25,31 +25,6 @@ public class GetPushupActivity extends AppCompatActivity {
         Intent comingIntent = getIntent();
         UserInfoHolder userInfoHolder = (UserInfoHolder) comingIntent.getSerializableExtra("userInfoHolder");
 
-//<<<<<<< HEAD
-        RadioGroup radioGroup = binding.radioGroup3;
-        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            if(checkedId == R.id.radioButton_1_5_reps) {
-                userInfoHolder.setPushupCount(5);
-            }
-            else if(checkedId == R.id.radioButton_5_10_reps) {
-                userInfoHolder.setPushupCount(10);
-            }
-            else if(checkedId == R.id.radioButton_10_20_reps) {
-                userInfoHolder.setPushupCount(20);
-            }
-            else if(checkedId == R.id.radioButton_20_more_reps) {
-                userInfoHolder.setPushupCount(25);
-            }
-            else{
-                throw new IllegalStateException("Unexpected value: " + checkedId);
-            }
-        });
-
-        userInfoHolder.setPower();
-
-        Intent intent = new Intent(GetPushupActivity.this, LoadingInfoSessionSActivity. class);
-        intent.putExtra("userInfoHolder", userInfoHolder);
-
         binding.buttonNextPushup.setOnClickListener(view -> {
 
             RadioGroup radioGroup = binding.radioGroup3;
@@ -70,6 +45,8 @@ public class GetPushupActivity extends AppCompatActivity {
                 } else {
                     throw new IllegalStateException("Unexpected value: " + selectedId);
                 }
+
+                userInfoHolder.setPower();
 
                 Intent intent = new Intent(GetPushupActivity.this, LoadingInfoSessionSActivity.class);
                 intent.putExtra("userInfoHolder", userInfoHolder);
