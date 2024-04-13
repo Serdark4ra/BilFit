@@ -74,7 +74,7 @@ public class User {
             }
         }
     }
-
+/*
     public void gogseOdak()
     {
         ChestExercises h = new ChestExercises(0, null);
@@ -138,7 +138,7 @@ public class User {
         }
     }
 
-    /*public void kolaOdak()
+    public void kolaOdak()
     {
         GogusHareketi h = new GogusHareketi(0, null);
 

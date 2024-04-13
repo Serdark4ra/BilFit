@@ -3,140 +3,239 @@ package com.serdar_kara.bilfit.algorithm;
 import java.util.ArrayList;
 
 public class WorkoutPrograms {
-    
-    ArrayList<ArrayList<Exercises>> ikiGunluk;
-    ArrayList<ArrayList<Exercises>> ucGunluk;
-    ArrayList<ArrayList<Exercises>> dortGunluk;
-    ArrayList<ArrayList<Exercises>> besGunluk;
 
-    ArrayList<ArrayList<Exercises>> ikiGunlukCardio;
-    ArrayList<ArrayList<Exercises>> ucGunlukCardio;
-    ArrayList<ArrayList<Exercises>> dortGunlukCardio;
-    ArrayList<ArrayList<Exercises>> besGunlukCardio;
+    ArrayList<ArrayList<Exercises>>[] buildMusclePrograms;
+    ArrayList<ArrayList<Exercises>> twoDaysMuscle;
+    ArrayList<ArrayList<Exercises>> threeDaysMuscle;
+    ArrayList<ArrayList<Exercises>> fourDaysMuscle;
+    ArrayList<ArrayList<Exercises>> fiveDaysMuscle;
 
-    ArrayList<ArrayList<Exercises>> ikiGunlukMixed;
-    ArrayList<ArrayList<Exercises>> ucGunlukMixed;
-    ArrayList<ArrayList<Exercises>> dortGunlukMixed;
-    ArrayList<ArrayList<Exercises>> besGunlukMixed;
+    ArrayList<ArrayList<Exercises>>[] cardioPrograms;
+    ArrayList<ArrayList<Exercises>> twoDaysCardio;
+    ArrayList<ArrayList<Exercises>> threeDaysCardio;
+    ArrayList<ArrayList<Exercises>> fourDaysCardio;
+    ArrayList<ArrayList<Exercises>> fiveDaysCardio;
+
+    ArrayList<ArrayList<Exercises>>[] mixedPrograms;
+    ArrayList<ArrayList<Exercises>> twoDaysMixed;
+    ArrayList<ArrayList<Exercises>> threeDaysMixed;
+    ArrayList<ArrayList<Exercises>> fourDaysMixed;
+    ArrayList<ArrayList<Exercises>> fiveDaysMixed;
 
     public WorkoutPrograms()
     {
-        ikiGunlukOlusturucu();
-        ucGunlukOlusturucu();
-        dortGunlukOlusturucu();
-        besGunlukOlusturucu();
+        twoDaysBuildMuscleProgramGenerator();
+        threeDaysBuildMuscleProgramGenerator();
+        fourDaysBuildMuscleProgramGenerator();
+        fiveDaysBuildMuscleProgramGenerator();
+
+        buildMusclePrograms = new ArrayList[4];
+        buildMusclePrograms[0] = twoDaysMuscle;
+        buildMusclePrograms[1] = threeDaysMuscle;
+        buildMusclePrograms[2] = fourDaysMuscle;
+        buildMusclePrograms[3] = fiveDaysMuscle;
+
+        twoDaysCardioGenerator();
+        threeDaysCardioGenerator();
+        fourDaysCardioGenerator();
+        fiveDaysCardioGenerator();
+
+        cardioPrograms = new ArrayList[4];
+        cardioPrograms[0] = twoDaysCardio;
+        cardioPrograms[1] = threeDaysCardio;
+        cardioPrograms[2] = fourDaysCardio;
+        cardioPrograms[3] = fiveDaysCardio;
+
+        //buraya da mixed program olusturan metodlar gelecek...
+
+        mixedPrograms = new ArrayList[4];
+        mixedPrograms[0] = twoDaysMixed;
+        mixedPrograms[1] = threeDaysMixed;
+        mixedPrograms[2] = fourDaysMixed;
+        mixedPrograms[3] = fiveDaysMixed;
     }
 
-    private void ikiGunlukOlusturucu()
+    private void twoDaysBuildMuscleProgramGenerator()
     {
-        ikiGunluk = new ArrayList<>();
-        ikiGunluk.add(new ArrayList<>());
+        twoDaysMuscle = new ArrayList<>();
+        twoDaysMuscle.add(new ArrayList<>());
 
-        ikiGunluk.get(0).add(new BackExercises(0, null));
-        ikiGunluk.get(0).add(new BicepsExercises(0, null));
-        ikiGunluk.get(0).add(new ShoulderExercises(0, null));
-        ikiGunluk.get(0).add(new LegExercises(0, null));
+        twoDaysMuscle.get(0).add(new BackExercises(0, null));
+        twoDaysMuscle.get(0).add(new BicepsExercises(0, null));
+        twoDaysMuscle.get(0).add(new ShoulderExercises(0, null));
+        twoDaysMuscle.get(0).add(new LegExercises(0, null));
 
-        ikiGunluk.add(new ArrayList<>());
-        ikiGunluk.get(1).add(new ChestExercises(0, null));
-        ikiGunluk.get(1).add(new TricepsExercises(0, null));
-        ikiGunluk.get(1).add(new BackExercises(0, null));
-        ikiGunluk.get(1).add(new LegExercises(0, null));
+        twoDaysMuscle.add(new ArrayList<>());
+        twoDaysMuscle.get(1).add(new ChestExercises(0, null));
+        twoDaysMuscle.get(1).add(new TricepsExercises(0, null));
+        twoDaysMuscle.get(1).add(new BackExercises(0, null));
+        twoDaysMuscle.get(1).add(new LegExercises(0, null));
     }
 
-    private void ucGunlukOlusturucu()
+    private void threeDaysBuildMuscleProgramGenerator()
     {
-        ucGunluk = new ArrayList<>();
-        ucGunluk.add(new ArrayList<>()); 
-        ucGunluk.get(0).add(new LegExercises(0, null));
-        ucGunluk.get(0).add(new ChestExercises(0, null));
-        ucGunluk.get(0).add(new BackExercises(0, null));
+        threeDaysMuscle = new ArrayList<>();
+        threeDaysMuscle.add(new ArrayList<>());
+        threeDaysMuscle.get(0).add(new LegExercises(0, null));
+        threeDaysMuscle.get(0).add(new ChestExercises(0, null));
+        threeDaysMuscle.get(0).add(new BackExercises(0, null));
 
-        ucGunluk.add(new ArrayList<>()); 
-        ucGunluk.get(1).add(new LegExercises(0, null));
-        ucGunluk.get(1).add(new ShoulderExercises(0, null));
-        ucGunluk.get(1).add(new BackExercises(0, null));
-        ucGunluk.get(1).add(new TricepsExercises(0, null));
+        threeDaysMuscle.add(new ArrayList<>());
+        threeDaysMuscle.get(1).add(new LegExercises(0, null));
+        threeDaysMuscle.get(1).add(new ShoulderExercises(0, null));
+        threeDaysMuscle.get(1).add(new BackExercises(0, null));
+        threeDaysMuscle.get(1).add(new TricepsExercises(0, null));
 
-        ucGunluk.add(new ArrayList<>());
-        ucGunluk.get(2).add(new LegExercises(0, null));
-        ucGunluk.get(2).add(new ChestExercises(0, null));
-        ucGunluk.get(2).add(new BackExercises(0, null));
-        ucGunluk.get(2).add(new BicepsExercises(0, null));
+        threeDaysMuscle.add(new ArrayList<>());
+        threeDaysMuscle.get(2).add(new LegExercises(0, null));
+        threeDaysMuscle.get(2).add(new ChestExercises(0, null));
+        threeDaysMuscle.get(2).add(new BackExercises(0, null));
+        threeDaysMuscle.get(2).add(new BicepsExercises(0, null));
     }
 
-    private void dortGunlukOlusturucu()
+    private void fourDaysBuildMuscleProgramGenerator()
     {
-        dortGunluk = new ArrayList<>();
-        dortGunluk.add(new ArrayList<>());
-        dortGunluk.get(0).add(new BackExercises(0, null));
-        dortGunluk.get(0).add(new BicepsExercises(0, null));
-        dortGunluk.get(0).add(new ShoulderExercises(0, null));
-        dortGunluk.get(0).add(new LegExercises(0, null));
+        fourDaysMuscle = new ArrayList<>();
+        fourDaysMuscle.add(new ArrayList<>());
+        fourDaysMuscle.get(0).add(new BackExercises(0, null));
+        fourDaysMuscle.get(0).add(new BicepsExercises(0, null));
+        fourDaysMuscle.get(0).add(new ShoulderExercises(0, null));
+        fourDaysMuscle.get(0).add(new LegExercises(0, null));
 
-        dortGunluk.add(new ArrayList<>());
-        dortGunluk.get(1).add(new ChestExercises(0, null));
-        dortGunluk.get(1).add(new TricepsExercises(0, null));
-        dortGunluk.get(1).add(new BackExercises(0, null));
-        dortGunluk.get(1).add(new LegExercises(0, null));
+        fourDaysMuscle.add(new ArrayList<>());
+        fourDaysMuscle.get(1).add(new ChestExercises(0, null));
+        fourDaysMuscle.get(1).add(new TricepsExercises(0, null));
+        fourDaysMuscle.get(1).add(new BackExercises(0, null));
+        fourDaysMuscle.get(1).add(new LegExercises(0, null));
     
-        dortGunluk.add(new ArrayList<>());
-        dortGunluk.get(2).add(new BackExercises(0, null));
-        dortGunluk.get(2).add(new BicepsExercises(0, null));
-        dortGunluk.get(2).add(new ShoulderExercises(0, null));
-        dortGunluk.get(2).add(new LegExercises(0, null));
+        fourDaysMuscle.add(new ArrayList<>());
+        fourDaysMuscle.get(2).add(new BackExercises(0, null));
+        fourDaysMuscle.get(2).add(new BicepsExercises(0, null));
+        fourDaysMuscle.get(2).add(new ShoulderExercises(0, null));
+        fourDaysMuscle.get(2).add(new LegExercises(0, null));
 
-        dortGunluk.add(new ArrayList<>()); 
-        dortGunluk.get(3).add(new ChestExercises(0, null));
-        dortGunluk.get(3).add(new TricepsExercises(0, null));
-        dortGunluk.get(3).add(new BackExercises(0, null));
-        dortGunluk.get(3).add(new LegExercises(0, null));
+        fourDaysMuscle.add(new ArrayList<>());
+        fourDaysMuscle.get(3).add(new ChestExercises(0, null));
+        fourDaysMuscle.get(3).add(new TricepsExercises(0, null));
+        fourDaysMuscle.get(3).add(new BackExercises(0, null));
+        fourDaysMuscle.get(3).add(new LegExercises(0, null));
     }
 
-    private void besGunlukOlusturucu()
+    private void fiveDaysBuildMuscleProgramGenerator()
     {
-        besGunluk = new ArrayList<>();
-        besGunluk.add(new ArrayList<>());
-        besGunluk.get(0).add(new BackExercises(0, null));
-        besGunluk.get(0).add(new BackExercises(0, null));
-        besGunluk.get(0).add(new BicepsExercises(0, null));
-        besGunluk.get(0).add(new BicepsExercises(0, null));
+        fiveDaysMuscle = new ArrayList<>();
+        fiveDaysMuscle.add(new ArrayList<>());
+        fiveDaysMuscle.get(0).add(new BackExercises(0, null));
+        fiveDaysMuscle.get(0).add(new BackExercises(0, null));
+        fiveDaysMuscle.get(0).add(new BicepsExercises(0, null));
+        fiveDaysMuscle.get(0).add(new BicepsExercises(0, null));
 
-        besGunluk.add(new ArrayList<>());
-        besGunluk.get(1).add(new ChestExercises(0, null));
-        besGunluk.get(1).add(new ChestExercises(0, null));
-        besGunluk.get(1).add(new TricepsExercises(0, null));
-        besGunluk.get(1).add(new ShoulderExercises(0, null));
+        fiveDaysMuscle.add(new ArrayList<>());
+        fiveDaysMuscle.get(1).add(new ChestExercises(0, null));
+        fiveDaysMuscle.get(1).add(new ChestExercises(0, null));
+        fiveDaysMuscle.get(1).add(new TricepsExercises(0, null));
+        fiveDaysMuscle.get(1).add(new ShoulderExercises(0, null));
     
-        besGunluk.add(new ArrayList<>());
-        besGunluk.get(2).add(new LegExercises(0, null));
-        besGunluk.get(2).add(new LegExercises(0, null));
-        besGunluk.get(2).add(new BicepsExercises(0, null));
+        fiveDaysMuscle.add(new ArrayList<>());
+        fiveDaysMuscle.get(2).add(new LegExercises(0, null));
+        fiveDaysMuscle.get(2).add(new LegExercises(0, null));
+        fiveDaysMuscle.get(2).add(new BicepsExercises(0, null));
 
-        besGunluk.add(new ArrayList<>()); 
-        besGunluk.get(3).add(new BackExercises(0, null));
-        besGunluk.get(3).add(new ShoulderExercises(0, null));
-        besGunluk.get(3).add(new ChestExercises(0, null));
+        fiveDaysMuscle.add(new ArrayList<>());
+        fiveDaysMuscle.get(3).add(new BackExercises(0, null));
+        fiveDaysMuscle.get(3).add(new ShoulderExercises(0, null));
+        fiveDaysMuscle.get(3).add(new ChestExercises(0, null));
 
-        besGunluk.add(new ArrayList<>());
-        besGunluk.get(4).add(new LegExercises(0, null));
-        besGunluk.get(4).add(new LegExercises(0, null));
-        besGunluk.get(4).add(new TricepsExercises(0, null));
+        fiveDaysMuscle.add(new ArrayList<>());
+        fiveDaysMuscle.get(4).add(new LegExercises(0, null));
+        fiveDaysMuscle.get(4).add(new LegExercises(0, null));
+        fiveDaysMuscle.get(4).add(new TricepsExercises(0, null));
     }
 
-    public ArrayList<ArrayList<Exercises>> getIkiGunluk() {
-        return this.ikiGunluk;
+    private void twoDaysCardioGenerator()
+    {
+        twoDaysCardio = new ArrayList<>();
+
+        twoDaysCardio.add(new ArrayList<>());
+        twoDaysCardio.add(new ArrayList<>());
+
+        cardioHelper(twoDaysCardio);
     }
 
-    public ArrayList<ArrayList<Exercises>> getUcGunluk() {
-        return this.ucGunluk;
+    private void threeDaysCardioGenerator()
+    {
+        threeDaysCardio = new ArrayList<>();
+
+        threeDaysCardio.add(new ArrayList<>());
+        threeDaysCardio.add(new ArrayList<>());
+        threeDaysCardio.add(new ArrayList<>());
+
+        cardioHelper(threeDaysCardio);
     }
 
-    public ArrayList<ArrayList<Exercises>> getDortGunluk() {
-        return this.dortGunluk;
+    private void fourDaysCardioGenerator()
+    {
+        fourDaysCardio = new ArrayList<>();
+
+        fourDaysCardio.add(new ArrayList<>());
+        fourDaysCardio.add(new ArrayList<>());
+        fourDaysCardio.add(new ArrayList<>());
+        fourDaysCardio.add(new ArrayList<>());
+
+        cardioHelper(fourDaysCardio);
     }
 
-    public ArrayList<ArrayList<Exercises>> getBesGunluk() {
-        return this.besGunluk;
+    private void fiveDaysCardioGenerator()
+    {
+        fiveDaysCardio = new ArrayList<>();
+
+        fiveDaysCardio.add(new ArrayList<>());
+        fiveDaysCardio.add(new ArrayList<>());
+        fiveDaysCardio.add(new ArrayList<>());
+        fiveDaysCardio.add(new ArrayList<>());
+        fiveDaysCardio.add(new ArrayList<>());
+
+        cardioHelper(fiveDaysCardio);
+    }
+
+    private void cardioHelper(ArrayList<ArrayList<Exercises>> exerciseList)
+    {
+        for (int i = 0; i < exerciseList.size(); i++)
+        {
+            exerciseList.get(i).add(new CardioExercises(0, null));
+            exerciseList.get(i).add(new CardioExercises(0, null));
+            exerciseList.get(i).add(new CardioExercises(0, null));
+        }
+    }
+
+    public ArrayList<ArrayList<Exercises>>[] getBuildMusclePrograms()
+    {
+        return buildMusclePrograms;
+    }
+
+    public ArrayList<ArrayList<Exercises>>[] getCardioPrograms()
+    {
+        return  this.cardioPrograms;
+    }
+
+    public ArrayList<ArrayList<Exercises>>[] getMixedPrograms()
+    {
+        return this.mixedPrograms;
+    }
+
+    public ArrayList<ArrayList<Exercises>> getTwoDaysMuscle() {
+        return this.twoDaysMuscle;
+    }
+
+    public ArrayList<ArrayList<Exercises>> getThreeDaysMuscle() {
+        return this.threeDaysMuscle;
+    }
+
+    public ArrayList<ArrayList<Exercises>> getFourDaysMuscle() {
+        return this.fourDaysMuscle;
+    }
+
+    public ArrayList<ArrayList<Exercises>> getFiveDaysMuscle() {
+        return this.fiveDaysMuscle;
     }
 }

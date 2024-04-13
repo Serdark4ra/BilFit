@@ -33,6 +33,14 @@ public class PreferredDaysActivity extends AppCompatActivity {
         userInfoHolder.setDays(5, binding.checkBoxSat.isChecked());
         userInfoHolder.setDays(6, binding.checkBoxSun.isChecked());
 
+        userInfoHolder.setMondayEligible(binding.checkBoxMon.isChecked());
+        userInfoHolder.setTuesdayEligible(binding.checkBoxTue.isChecked());
+        userInfoHolder.setWednesdayEligible(binding.checkBoxWed.isChecked());
+        userInfoHolder.setThursdayEligible(binding.checkBoxThu.isChecked());
+        userInfoHolder.setFridayEligible(binding.checkBoxFri.isChecked());
+        userInfoHolder.setSaturdayEligible(binding.checkBoxSat.isChecked());
+        userInfoHolder.setFridayEligible(binding.checkBoxSun.isChecked());
+
         userInfoHolder.printPrefDays();
 
         Intent intent = new Intent(PreferredDaysActivity.this, GoalActivity.class);

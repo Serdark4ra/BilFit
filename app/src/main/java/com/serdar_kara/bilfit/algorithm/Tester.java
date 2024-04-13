@@ -8,8 +8,30 @@ public class Tester {
     static Random rnd;
     static ArrayList<Exercises> exercisesList;
     static ArrayList<Exercises> cardioExercises;
-    public static void programDoldurucu(ArrayList<ArrayList<Exercises>> program, double power)
+
+    public static void generateMuscleProgram (ArrayList<ArrayList<Exercises>> program, double power)
     {
+        for (int i = 0; i < program.size(); i++)
+        {
+            shuffleExercises();
+
+            for (int j = 0; j < program.get(i).size(); j++)
+            {
+                for (int k = 0; k < exercisesList.size(); k++)
+                {
+                    if (exercisesList.get(k).getClass() == program.get(i).get(j).getClass()
+                        && exercisesList.get(k).getZorluk() < power && program.get(i).get(j).getZorluk() == 0
+                            && !program.get(i).contains(exercisesList.get(k)))
+                    {
+                        program.get(i).set(j, exercisesList.get(k));
+                        if (power > 1.1)
+                        {
+                            power = power - exercisesList.get(k).getZorluk() * 0.03;
+                        }
+                    }
+                }
+            }
+        }
 
         /*for (int i = 0; i < days.length; i ++)
         {
@@ -34,35 +56,61 @@ public class Tester {
             }
         }*/
 
+    }
+
+    public static void generateCardioWorkoutProgram(ArrayList<ArrayList<Exercises>> program, double power)
+    {
         for (int i = 0; i < program.size(); i++)
         {
+            shuffleCardioExercises();
+
             for (int j = 0; j < program.get(i).size(); j++)
             {
-                for (int k = 0; k < exercisesList.size(); k++)
+                for (int k = 0; k < cardioExercises.size(); k++)
                 {
-                    if (exercisesList.get(k).getClass() == program.get(i).get(j).getClass()
-                        && exercisesList.get(k).getZorluk() < power && program.get(i).get(j).getZorluk() == 0
-                            && !program.get(i).contains(exercisesList.get(k)))
+                    if (cardioExercises.get(k).getZorluk() < power && program.get(i).get(j).getZorluk() == 0
+                            && !program.get(i).contains(cardioExercises.get(k)))
                     {
-                        program.get(i).set(j, exercisesList.get(k));
+                        program.get(i).set(j, cardioExercises.get(k));
                         if (power > 1.1)
                         {
-                            power = power - exercisesList.get(k).getZorluk() * 0.03;
+                            power = power - cardioExercises.get(k).getZorluk() * 0.03;
                         }
                     }
                 }
             }
         }
-
-        hareketleriKaristir();
     }
 
-    public static void generateCardioWorkout()
+    public static void addTargetGroupExercise(Exercises e, ArrayList<ArrayList<Exercises>> program, double power)
     {
+        shuffleExercises();
 
+        for (int i = 0; i < program.size(); i++)
+        {
+            boolean isAddable = false;
+
+            for (int j = 0; j < program.get(i).size(); j++)
+            {
+                if (program.get(i).get(j).getClass() == e.getClass())
+                {
+                    isAddable = true;
+                }
+            }
+            if (isAddable)
+            {
+                for (int j = 0; j < exercisesList.size(); j++)
+                {
+                    if (exercisesList.get(j).getClass() == e.getClass() && !program.contains(exercisesList.get(j)) && power > exercisesList.get(j).getZorluk())
+                    {
+                        program.get(i).add(exercisesList.get(j));
+                    }
+                }
+            }
+        }
     }
 
-
+    /*
     public static ChestExercises getAvailableChestExercise(double guc, ArrayList<Exercises> program)
     {
         ChestExercises h = new ChestExercises(0, null);
@@ -149,25 +197,40 @@ public class Tester {
         }
 
         return null;
-    }
+    }*/
 
-    public static void hareketleriKaristir()
+    public static void shuffleExercises()
     {
         rnd = new Random();
-        for (int i = 0; i < 10000; i++)
+        for (int i = 0; i < 5000; i++)
         {
             int a = rnd.nextInt(exercisesList.size());
             int b = rnd.nextInt(exercisesList.size());
 
-            //System.out.println("a: " + a + " , b: " + b);
-
             if (exercisesList.get(a).getClass() == exercisesList.get(b).getClass() &&
                 exercisesList.get(a).getZorluk() == exercisesList.get(b).getZorluk())
             {
-                //System.out.println("bunlarin yeri degistirildi");
                 Exercises temp = exercisesList.get(a);
                 exercisesList.set(a, exercisesList.get(b));
                 exercisesList.set(b, temp);
+            }
+        }
+    }
+
+    public static void shuffleCardioExercises()
+    {
+        rnd = new Random();
+        for (int i = 0; i < 5000; i++)
+        {
+            int a = rnd.nextInt(cardioExercises.size());
+            int b = rnd.nextInt(cardioExercises.size());
+
+            if (cardioExercises.get(a).getClass() == cardioExercises.get(b).getClass() &&
+                    cardioExercises.get(a).getZorluk() == cardioExercises.get(b).getZorluk())
+            {
+                Exercises temp = cardioExercises.get(a);
+                cardioExercises.set(a, cardioExercises.get(b));
+                cardioExercises.set(b, temp);
             }
         }
     }
@@ -292,7 +355,7 @@ public class Tester {
         exercisesList.add(new ChestExercises(1, "Smith Machine Bench Press"));
 
         exercisesList.sort(null);
-        hareketleriKaristir();
+        shuffleExercises();
 
     }
 }

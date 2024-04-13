@@ -1,6 +1,13 @@
 package com.serdar_kara.bilfit.get_info_activities;
 
+import com.serdar_kara.bilfit.algorithm.BackExercises;
+import com.serdar_kara.bilfit.algorithm.BicepsExercises;
+import com.serdar_kara.bilfit.algorithm.ChestExercises;
 import com.serdar_kara.bilfit.algorithm.Exercises;
+import com.serdar_kara.bilfit.algorithm.LegExercises;
+import com.serdar_kara.bilfit.algorithm.ShoulderExercises;
+import com.serdar_kara.bilfit.algorithm.Tester;
+import com.serdar_kara.bilfit.algorithm.WorkoutPrograms;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -37,7 +44,11 @@ public class UserInfoHolder implements Serializable {
 
     private double userPoint;
     private double ibm;
-    private ArrayList<Exercises>[] program;
+
+    //We will not use this program "for now".
+    /*private ArrayList<Exercises>[] program;*/
+
+    private ArrayList<ArrayList<Exercises>> program;
 
     public UserInfoHolder(String gender, boolean chest, boolean back, boolean arm, boolean leg,
                           int age, int weight, int height, boolean isMondayEligible,
@@ -55,7 +66,7 @@ public class UserInfoHolder implements Serializable {
         this.userPoint = 2;
         this.numberGoingGym = 0;
         this.power = 2;
-        this.program = new ArrayList[7];
+        /*this.program = new ArrayList[7];*/
     }
 
     public void calculateIbm()
@@ -216,10 +227,107 @@ public class UserInfoHolder implements Serializable {
      */
     public void setPower()
     {
+        //increases the power according to bmi.
+        //if bmi is equal to 23.5 increment will be max.
+        this.power = this.power + ((5 - Math.abs(ibm - 23.5)) / 5);
 
+        //increases the power according to body type.
+        if (this.bodyType.equals("muscular"))
+        {
+            this.power += 1.7;
+        }
+        else if(this.bodyType.equals("normal"))
+        {
+            this.power += 0.7;
+        }
+        else if (this.bodyType.equals("thin"))
+        {
+            this.power += 0.3;
+        }
+        else if (this.bodyType.equals("fat"))
+        {
+            this.power += 0.5;
+        }
+
+        //increases the power according to pushup count.
+        this.power += this.pushupCount / 9.0;
+
+        if (this.gender.equals("male"))
+        {
+            this.power += 0.4;
+        }
+
+        this.generateProgram();
     }
 
-    /*
+    private void generateProgram()
+    {
+        WorkoutPrograms w = new WorkoutPrograms();
+
+        if (this.purpose.equals("buildMuscles"))
+        {
+            this.program = w.getBuildMusclePrograms()[numberGoingGym - 2];
+            Tester.generateMuscleProgram(this.program, this.power);
+        }
+        else if (this.purpose.equals("loseWeight"))
+        {
+            this.program = w.getCardioPrograms()[numberGoingGym - 2];
+            Tester.generateCardioWorkoutProgram(this.program, this.power);
+        }
+        else if (this.purpose.equals("maintainForm"))
+        {
+            this.program = w.getMixedPrograms()[numberGoingGym - 2];
+            //buraya da karısık programın metodu gelecek...
+        }
+
+        if(chest)
+        {
+            this.arrangeAccordingToTarget(new ChestExercises(0, ""));
+        }
+        if(back)
+        {
+            this.arrangeAccordingToTarget(new BackExercises(0, ""));
+        }
+        if(arm)
+        {
+            this.arrangeAccordingToTarget(new BicepsExercises(0, ""));
+            this.arrangeAccordingToTarget(new ShoulderExercises(0, ""));
+        }
+        if(leg)
+        {
+            this.arrangeAccordingToTarget(new LegExercises(0, ""));
+        }
+
+        this.programiYazdir();
+    }
+
+    private void arrangeAccordingToTarget(Exercises e)
+    {
+        Tester.addTargetGroupExercise(e, this.program, this.power);
+    }
+
+    //sadece test amaçlı bir kod daha sonra sileriz...
+    public void programiYazdir()
+    {
+        int k = 0;
+        String[] gunler = {"monday" , "tuesday", "wedn", "thurs" ,"friday" , "saturday", "sunday"};
+        for (int i = 0; i < program.size(); i++)
+        {
+            System.out.print("--------- " + (i + 1) + ". Day ---------" + "Gunlerden ");
+            for (;k < 7; k++)
+            {
+                if (this.days[k])
+                {
+                    System.out.print(gunler[k] + "-------------------------\n");
+                }
+            }
+            for (int j = 0; j < program.get(i).size(); j++)
+            {
+                System.out.println(program.get(i).get(j));
+            }
+        }
+    }
+
     public void setMondayEligible(boolean mondayEligible) {
         isMondayEligible = mondayEligible;
     }
@@ -243,6 +351,11 @@ public class UserInfoHolder implements Serializable {
     }
     public void setSundayEligible(boolean sundayEligible) {
         isSundayEligible = sundayEligible;
-    }*/
+    }
 
 }
+
+
+
+
+

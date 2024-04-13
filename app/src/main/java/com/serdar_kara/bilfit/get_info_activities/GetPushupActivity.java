@@ -44,6 +44,8 @@ public class GetPushupActivity extends AppCompatActivity {
             }
         });
 
+        userInfoHolder.setPower();
+
         Intent intent = new Intent(GetPushupActivity.this, LoadingInfoSessionSActivity. class);
         intent.putExtra("userInfoHolder", userInfoHolder);
 
