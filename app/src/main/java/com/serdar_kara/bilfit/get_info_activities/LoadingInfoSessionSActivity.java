@@ -2,6 +2,8 @@ package com.serdar_kara.bilfit.get_info_activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,23 +13,30 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.serdar_kara.bilfit.MainActivity;
 import com.serdar_kara.bilfit.R;
+import com.serdar_kara.bilfit.databinding.ActivityLoadingInfoSessionSactivityBinding;
 
 public class LoadingInfoSessionSActivity extends AppCompatActivity {
+
+    private ActivityLoadingInfoSessionSactivityBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_loading_info_session_sactivity);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        binding = ActivityLoadingInfoSessionSactivityBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         Intent intent = getIntent();
 
-        Intent intent1 = new Intent(LoadingInfoSessionSActivity.this, MainActivity.class);
-        startActivity(intent1);
+        ProgressBar progressBar = binding.progressBar;
+        TextView loadingPercentage = binding.textViewLoadingPercentage;
+
+        // Calculate the completion percentage (assuming completionPercentage is between 0 and 100)
+        int completionPercentage = 56;
+        progressBar.setProgress(completionPercentage);
+        loadingPercentage.setText(completionPercentage + "%");
+
+
+        //Intent intent1 = new Intent(LoadingInfoSessionSActivity.this, MainActivity.class);
+        //startActivity(intent1);
     }
 }

@@ -46,7 +46,7 @@ public class BodyInfoActivity extends AppCompatActivity {
             startActivity(intent);
         });
         binding.buttonPrevBodyInfo.setOnClickListener(view -> {
-            Intent intentPrev = new Intent(BodyInfoActivity.this, TargetMusclesActivity.class);
+            Intent intentPrev = new Intent(BodyInfoActivity.this, GenderActivity.class);
             startActivity(intentPrev);
         });
 

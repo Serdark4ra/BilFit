@@ -25,6 +25,7 @@ public class GetPushupActivity extends AppCompatActivity {
         Intent comingIntent = getIntent();
         UserInfoHolder userInfoHolder = (UserInfoHolder) comingIntent.getSerializableExtra("userInfoHolder");
 
+<<<<<<< HEAD
         RadioGroup radioGroup = binding.radioGroup3;
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if(checkedId == R.id.radioButton_1_5_reps) {
@@ -48,9 +49,34 @@ public class GetPushupActivity extends AppCompatActivity {
 
         Intent intent = new Intent(GetPushupActivity.this, LoadingInfoSessionSActivity. class);
         intent.putExtra("userInfoHolder", userInfoHolder);
+=======
+>>>>>>> 425d8f846b75c26017e768adb1765487dc2e8729
 
         binding.buttonNextPushup.setOnClickListener(view -> {
-            startActivity(intent);
+
+            RadioGroup radioGroup = binding.radioGroup3;
+            int selectedId = radioGroup.getCheckedRadioButtonId();
+
+            if (selectedId == -1) {
+                throw new IllegalStateException("Choose a pushup count");
+            }
+            else {
+                if (selectedId == R.id.radioButton_1_5_reps) {
+                    userInfoHolder.setPushupCount(5);
+                } else if (selectedId == R.id.radioButton_5_10_reps) {
+                    userInfoHolder.setPushupCount(10);
+                } else if (selectedId == R.id.radioButton_10_20_reps) {
+                    userInfoHolder.setPushupCount(20);
+                } else if (selectedId == R.id.radioButton_20_more_reps) {
+                    userInfoHolder.setPushupCount(25);
+                } else {
+                    throw new IllegalStateException("Unexpected value: " + selectedId);
+                }
+
+                Intent intent = new Intent(GetPushupActivity.this, LoadingInfoSessionSActivity.class);
+                intent.putExtra("userInfoHolder", userInfoHolder);
+                startActivity(intent);
+            }
         });
         binding.buttonPrevPushup.setOnClickListener(view -> {
             Intent intentPrev = new Intent(GetPushupActivity.this, BodyTypeActivity.class);
