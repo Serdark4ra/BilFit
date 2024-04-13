@@ -235,8 +235,8 @@ public class Tester {
         }
     }
 
-    public static void main(String[] args) {
-
+    public Tester()
+    {
         exercisesList = new ArrayList<Exercises>();
         cardioExercises = new ArrayList<Exercises>();
 
@@ -292,7 +292,7 @@ public class Tester {
         exercisesList.add(new BackExercises(3, "Machine Row"));
         exercisesList.add(new BackExercises(4, "Romanian Deadlift"));
         exercisesList.add(new BackExercises(1, "Inverted Row"));
-    
+
         // Biceps Hareketleri
         exercisesList.add(new BicepsExercises(5, "Barbell Curl"));
         exercisesList.add(new BicepsExercises(1, "Dumbbell Curl"));
@@ -318,7 +318,7 @@ public class Tester {
         exercisesList.add(new TricepsExercises(2, "Triceps Cable Kickback"));
         exercisesList.add(new TricepsExercises(5, "Dumbbell Triceps Extension"));
         exercisesList.add(new TricepsExercises(4, "Triceps Rope Overhead Extension"));
-        
+
         // Omuz Hareketleri
         exercisesList.add(new ShoulderExercises(5, "Military Press"));
         exercisesList.add(new ShoulderExercises(5, "Arnold Press"));
@@ -356,6 +356,11 @@ public class Tester {
 
         exercisesList.sort(null);
         shuffleExercises();
+
+    }
+
+    public static void main(String[] args) {
+        Tester tester = new Tester();
 
     }
 }

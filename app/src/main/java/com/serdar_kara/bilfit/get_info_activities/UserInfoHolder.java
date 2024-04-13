@@ -56,6 +56,7 @@ public class UserInfoHolder implements Serializable {
                           boolean isThursdayEligible, boolean isFridayEligible,
                           boolean isSaturdayEligible, boolean isSundayEligible,
                           String purpose, String bodyType, int pushupCount) {
+        Tester t = new Tester();
         this.age = age;
         this.weight = weight;
         this.height = height;
@@ -297,6 +298,7 @@ public class UserInfoHolder implements Serializable {
         {
             this.arrangeAccordingToTarget(new LegExercises(0, ""));
         }
+
 
         this.programiYazdir();
     }

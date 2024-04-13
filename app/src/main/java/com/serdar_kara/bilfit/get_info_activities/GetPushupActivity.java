@@ -45,7 +45,7 @@ public class GetPushupActivity extends AppCompatActivity {
                 } else {
                     throw new IllegalStateException("Unexpected value: " + selectedId);
                 }
-
+                System.out.println("BURAYA GELDIIIIIIIIIIIIIIIIIIIII");
                 userInfoHolder.setPower();
 
                 Intent intent = new Intent(GetPushupActivity.this, LoadingInfoSessionSActivity.class);
