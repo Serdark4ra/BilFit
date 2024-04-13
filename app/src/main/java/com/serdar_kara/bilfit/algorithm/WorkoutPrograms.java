@@ -46,7 +46,12 @@ public class WorkoutPrograms {
         cardioPrograms[2] = fourDaysCardio;
         cardioPrograms[3] = fiveDaysCardio;
 
-        //buraya da mixed program olusturan metodlar gelecek...
+        //buraya da mixed program olusturan metodlar gelecek... done
+
+        twoDaysBuildMixedProgramGenerator();
+        threeDaysBuildMixedProgramGenerator();
+        fourDaysBuildMixedProgramGenerator();
+        fiveDaysBuildMixedProgramGenerator();
 
         mixedPrograms = new ArrayList[4];
         mixedPrograms[0] = twoDaysMixed;
@@ -225,7 +230,7 @@ public class WorkoutPrograms {
         twoDaysMixed.get(1).add(new CardioExercises(0, null));
     }
 
-    private void threeDaysBuildMuscleProgramGenerator()
+    private void threeDaysBuildMixedProgramGenerator()
     {
         threeDaysMixed = new ArrayList<>();
         threeDaysMixed.add(new ArrayList<>());
@@ -247,7 +252,7 @@ public class WorkoutPrograms {
         threeDaysMixed.get(2).add(new CardioExercises(0, null));
     }
 
-    private void fourDaysBuildMuscleProgramGenerator()
+    private void fourDaysBuildMixedProgramGenerator()
     {
         fourDaysMixed = new ArrayList<>();
         fourDaysMixed.add(new ArrayList<>());
@@ -275,7 +280,7 @@ public class WorkoutPrograms {
         fourDaysMixed.get(3).add(new CardioExercises(0, null));
     }
 
-    private void fiveDaysBuildMuscleProgramGenerator()
+    private void fiveDaysBuildMixedProgramGenerator()
     {
         fiveDaysMixed = new ArrayList<>();
         fiveDaysMixed.add(new ArrayList<>());
