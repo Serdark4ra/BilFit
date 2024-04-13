@@ -82,8 +82,10 @@ public class Tester {
         }
     }
 
-    public static void addTargetGroupExercise(Exercises e, ArrayList<ArrayList<Exercises>> program, double power)
+    public static void addBackTargetExercises(ArrayList<ArrayList<Exercises>> program, double power)
     {
+        shuffleExercises();
+        BackExercises e = new BackExercises(0, "0");
         shuffleExercises();
 
         for (int i = 0; i < program.size(); i++)
@@ -101,9 +103,52 @@ public class Tester {
             {
                 for (int j = 0; j < exercisesList.size(); j++)
                 {
-                    if (exercisesList.get(j).getClass() == e.getClass() && !program.contains(exercisesList.get(j)) && power > exercisesList.get(j).getZorluk())
+                    if (exercisesList.get(j).getClass() == e.getClass() && !isProgramContains(program.get(i), exercisesList.get(j)) && power > exercisesList.get(j).getZorluk())
                     {
                         program.get(i).add(exercisesList.get(j));
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    private static boolean isProgramContains(ArrayList<Exercises> program, Exercises e)
+    {
+        boolean contains = false;
+        for (int i = 0; i < program.size(); i++)
+        {
+            if (program.get(i).getIsim().equals(e.getIsim()))
+            {
+                contains = true;
+            }
+        }
+        return contains;
+    }
+
+    public static void addChestTargetExercises(ArrayList<ArrayList<Exercises>> program, double power)
+    {
+
+        ChestExercises e = new ChestExercises(0, "0");
+        shuffleExercises();
+
+        for (int i = 0; i < program.size(); i++)
+        {
+            boolean isAddable = false;
+
+            for (int j = 0; j < program.get(i).size(); j++)
+            {
+                if (program.get(i).get(j).getClass() == e.getClass())
+                {
+                    isAddable = true;
+                }
+            }
+            if (isAddable)
+            {
+                for (int j = 0; j < exercisesList.size(); j++) {
+                    if (exercisesList.get(j).getClass() == e.getClass() && !isProgramContains(program.get(i), exercisesList.get(j)) && power > exercisesList.get(j).getZorluk()) {
+                        program.get(i).add(exercisesList.get(j));
+                        break;
                     }
                 }
             }
@@ -235,8 +280,8 @@ public class Tester {
         }
     }
 
-    public static void main(String[] args) {
-
+    public Tester()
+    {
         exercisesList = new ArrayList<Exercises>();
         cardioExercises = new ArrayList<Exercises>();
 
@@ -278,7 +323,7 @@ public class Tester {
         exercisesList.add(new LegExercises(1, "Good Mornings"));
 
         // Sırt Hareketleri
-        exercisesList.add(new BackExercises(5, "Geleneksel Deadlift"));
+        exercisesList.add(new BackExercises(5, "Conventional Deadlift"));
         exercisesList.add(new BackExercises(5, "Pull-up"));
         exercisesList.add(new BackExercises(4, "Barbell Row"));
         exercisesList.add(new BackExercises(3, "Lat Pulldown"));
@@ -292,7 +337,7 @@ public class Tester {
         exercisesList.add(new BackExercises(3, "Machine Row"));
         exercisesList.add(new BackExercises(4, "Romanian Deadlift"));
         exercisesList.add(new BackExercises(1, "Inverted Row"));
-    
+
         // Biceps Hareketleri
         exercisesList.add(new BicepsExercises(5, "Barbell Curl"));
         exercisesList.add(new BicepsExercises(1, "Dumbbell Curl"));
@@ -318,7 +363,7 @@ public class Tester {
         exercisesList.add(new TricepsExercises(2, "Triceps Cable Kickback"));
         exercisesList.add(new TricepsExercises(5, "Dumbbell Triceps Extension"));
         exercisesList.add(new TricepsExercises(4, "Triceps Rope Overhead Extension"));
-        
+
         // Omuz Hareketleri
         exercisesList.add(new ShoulderExercises(5, "Military Press"));
         exercisesList.add(new ShoulderExercises(5, "Arnold Press"));
@@ -356,6 +401,11 @@ public class Tester {
 
         exercisesList.sort(null);
         shuffleExercises();
+
+    }
+
+    public static void main(String[] args) {
+        Tester tester = new Tester();
 
     }
 }

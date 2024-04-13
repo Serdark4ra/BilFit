@@ -15,10 +15,9 @@
         android:layout_marginTop="71dp"
         android:ems="10"
         android:inputType="numberDecimal"
+        android:text="height"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="weight"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editTextNumber_weight"

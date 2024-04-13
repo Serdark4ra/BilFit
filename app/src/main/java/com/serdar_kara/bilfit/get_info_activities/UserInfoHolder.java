@@ -56,6 +56,7 @@ public class UserInfoHolder implements Serializable {
                           boolean isThursdayEligible, boolean isFridayEligible,
                           boolean isSaturdayEligible, boolean isSundayEligible,
                           String purpose, String bodyType, int pushupCount) {
+        Tester t = new Tester();
         this.age = age;
         this.weight = weight;
         this.height = height;
@@ -71,7 +72,9 @@ public class UserInfoHolder implements Serializable {
 
     public void calculateIbm()
     {
+        System.out.println("sirayla kilo boy: *************** : " + this.weight + " , " + this.height);
         this.ibm = (double) this.getWeight() / ((double) (this.getHeight() * this.getHeight()) / 10000);
+        System.out.println("ibm: *************** : " + this.ibm);
     }
 
     public void setDays(int index, boolean isEligible)
@@ -231,6 +234,8 @@ public class UserInfoHolder implements Serializable {
         //if bmi is equal to 23.5 increment will be max.
         this.power = this.power + ((5 - Math.abs(ibm - 23.5)) / 5);
 
+        System.out.println("*********IBMDEN SONRA " + this.power);
+
         //increases the power according to body type.
         if (this.bodyType.equals("muscular"))
         {
@@ -249,14 +254,18 @@ public class UserInfoHolder implements Serializable {
             this.power += 0.5;
         }
 
+        System.out.println("*********BODITYPETAN SONRA " + this.power);
+
         //increases the power according to pushup count.
         this.power += this.pushupCount / 9.0;
+
+        System.out.println("*********PUSHUPTANSONRA " + this.power);
 
         if (this.gender.equals("male"))
         {
             this.power += 0.4;
         }
-
+        System.out.println("*********FINAL " + this.power);
         this.generateProgram();
     }
 
@@ -282,28 +291,23 @@ public class UserInfoHolder implements Serializable {
 
         if(chest)
         {
-            this.arrangeAccordingToTarget(new ChestExercises(0, ""));
+            Tester.addChestTargetExercises(this.program, this.power);
         }
         if(back)
         {
-            this.arrangeAccordingToTarget(new BackExercises(0, ""));
+            Tester.addBackTargetExercises(this.program, this.power);
         }
         if(arm)
         {
-            this.arrangeAccordingToTarget(new BicepsExercises(0, ""));
-            this.arrangeAccordingToTarget(new ShoulderExercises(0, ""));
+
         }
         if(leg)
         {
-            this.arrangeAccordingToTarget(new LegExercises(0, ""));
+
         }
 
-        this.programiYazdir();
-    }
 
-    private void arrangeAccordingToTarget(Exercises e)
-    {
-        Tester.addTargetGroupExercise(e, this.program, this.power);
+        this.programiYazdir();
     }
 
     //sadece test amaçlı bir kod daha sonra sileriz...
@@ -314,11 +318,13 @@ public class UserInfoHolder implements Serializable {
         for (int i = 0; i < program.size(); i++)
         {
             System.out.print("--------- " + (i + 1) + ". Day ---------" + "Gunlerden ");
-            for (;k < 7; k++)
+            boolean gunBulundu = true;
+            for (;gunBulundu && k < 7; k++)
             {
                 if (this.days[k])
                 {
                     System.out.print(gunler[k] + "-------------------------\n");
+                    gunBulundu = false;
                 }
             }
             for (int j = 0; j < program.get(i).size(); j++)
