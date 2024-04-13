@@ -25,7 +25,7 @@ public class GetPushupActivity extends AppCompatActivity {
         Intent comingIntent = getIntent();
         UserInfoHolder userInfoHolder = (UserInfoHolder) comingIntent.getSerializableExtra("userInfoHolder");
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
         RadioGroup radioGroup = binding.radioGroup3;
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if(checkedId == R.id.radioButton_1_5_reps) {
@@ -49,8 +49,6 @@ public class GetPushupActivity extends AppCompatActivity {
 
         Intent intent = new Intent(GetPushupActivity.this, LoadingInfoSessionSActivity. class);
         intent.putExtra("userInfoHolder", userInfoHolder);
-=======
->>>>>>> 425d8f846b75c26017e768adb1765487dc2e8729
 
         binding.buttonNextPushup.setOnClickListener(view -> {
 
