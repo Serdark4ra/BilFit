@@ -28,14 +28,14 @@ public class TargetMusclesActivity extends AppCompatActivity {
         userInfoHolder.setLeg(binding.checkBoxLegs.isChecked());
         userInfoHolder.setArm(binding.checkBoxArms.isChecked());
 
-        Intent intent = new Intent(TargetMusclesActivity.this, BodyInfoActivity.class);
+        Intent intent = new Intent(TargetMusclesActivity.this, BodyTypeActivity.class);
         intent.putExtra("userInfoHolder", userInfoHolder);
 
         binding.buttonNext.setOnClickListener(view -> {
             startActivity(intent);
         });
         binding.buttonPrev.setOnClickListener(view -> {
-            Intent intentPrev = new Intent(TargetMusclesActivity.this, GenderActivity.class);
+            Intent intentPrev = new Intent(TargetMusclesActivity.this, GoalActivity.class);
             startActivity(intentPrev);
         });
     }

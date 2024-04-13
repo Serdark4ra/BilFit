@@ -25,32 +25,38 @@ public class BodyTypeActivity extends AppCompatActivity {
         Intent comingIntent = getIntent();
         UserInfoHolder userInfoHolder = (UserInfoHolder) comingIntent.getSerializableExtra("userInfoHolder");
 
-        RadioGroup radioGroup = binding.radioGroup2;
-        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            if(checkedId == R.id.radioButton_muscular) {
-                userInfoHolder.setBodyType("muscular");
-            }
-            else if(checkedId == R.id.radioButton_fat) {
-                userInfoHolder.setBodyType("fat");
-            }
-            else if(checkedId == R.id.radioButton_thin) {
-                userInfoHolder.setBodyType("thin");
-            }
-            else if(checkedId == R.id.radioButton_normal) {
-                userInfoHolder.setBodyType("normal");
-            }else{
-                throw new IllegalStateException("Unexpected value: " + checkedId);
-            }
-        });
-
-        Intent intent = new Intent(BodyTypeActivity.this, GetPushupActivity.class);
-        intent.putExtra("userInfoHolder", userInfoHolder);
 
         binding.buttonNextBodyType.setOnClickListener(view -> {
-            startActivity(intent);
+
+            RadioGroup radioGroup = binding.radioGroup2;
+            int selectedId = radioGroup.getCheckedRadioButtonId();
+
+            if(selectedId == -1){
+                throw new IllegalStateException("Choose a body type");
+            }else {
+                if (selectedId == R.id.radioButton_muscular) {
+                    userInfoHolder.setBodyType("muscular");
+                } else if (selectedId == R.id.radioButton_fat) {
+                    userInfoHolder.setBodyType("fat");
+                } else if (selectedId == R.id.radioButton_thin) {
+                    userInfoHolder.setBodyType("thin");
+                } else if (selectedId == R.id.radioButton_normal) {
+                    userInfoHolder.setBodyType("normal");
+                } else {
+                    throw new IllegalStateException("Unexpected value: " + selectedId);
+                }
+
+                Intent intent = new Intent(BodyTypeActivity.this, GetPushupActivity.class);
+                intent.putExtra("userInfoHolder", userInfoHolder);
+                startActivity(intent);
+            }
         });
         binding.buttonPrevBodyType.setOnClickListener(view -> {
-            Intent intentPrev = new Intent(BodyTypeActivity.this, GoalActivity.class);
+            Intent intentPrev;
+            if (userInfoHolder.getPurpose().equals("loseWeight"))
+                intentPrev = new Intent(BodyTypeActivity.this, GoalActivity.class);
+            else
+                intentPrev = new Intent(BodyTypeActivity.this, TargetMusclesActivity.class);
             startActivity(intentPrev);
         });
 

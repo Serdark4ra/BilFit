@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,27 +27,35 @@ public class GoalActivity extends AppCompatActivity {
         Intent comingIntent = getIntent();
         UserInfoHolder userInfoHolder = (UserInfoHolder) comingIntent.getSerializableExtra("userInfoHolder");
 
-        RadioGroup radioGroup = binding.radioGroup;
-        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-             if(checkedId == R.id.radioButton_buildMuscles) {
-                 userInfoHolder.setPurpose("buildMuscles");
-             }
-             else if(checkedId == R.id.radioButton_loseWeight) {
-                 userInfoHolder.setPurpose("loseWeight");
-             }
-             else if(checkedId == R.id.radioButton_MaintainingForm) {
-                 userInfoHolder.setPurpose("maintainForm");
-            }else{
-                 Log.d("Error in choosing form ", String.valueOf(checkedId));
-                 throw new IllegalStateException("Unexpected value: " + checkedId);
-             }
-        });
-
-        Intent intent = new Intent(GoalActivity.this, BodyTypeActivity.class);
-        intent.putExtra("userInfoHolder", userInfoHolder);
-
         binding.buttonNextGoal.setOnClickListener(view -> {
-            startActivity(intent);
+            RadioGroup radioGroup = binding.radioGroup;
+            int checkedRadioButtonId = radioGroup.getCheckedRadioButtonId();
+
+            if(checkedRadioButtonId == -1){
+                Toast.makeText(this,"Choose a goal",Toast.LENGTH_LONG).show();
+            }else{
+                if(checkedRadioButtonId == R.id.radioButton_buildMuscles) {
+                    userInfoHolder.setPurpose("buildMuscles");
+                }
+                else if(checkedRadioButtonId == R.id.radioButton_loseWeight) {
+                    userInfoHolder.setPurpose("loseWeight");
+                }
+                else if(checkedRadioButtonId == R.id.radioButton_MaintainingForm) {
+                    userInfoHolder.setPurpose("maintainForm");
+                }else{
+                    Log.d("Error in choosing form ", String.valueOf(checkedRadioButtonId));
+                    throw new IllegalStateException("Unexpected value: " + checkedRadioButtonId);
+                }
+
+                Intent intent;
+                if(userInfoHolder.getPurpose().equals("loseWeight")) {
+                    intent = new Intent(GoalActivity.this, BodyTypeActivity.class);
+                } else {
+                    intent = new Intent(GoalActivity.this, TargetMusclesActivity.class);
+                }
+                intent.putExtra("userInfoHolder", userInfoHolder);
+                startActivity(intent);
+            }
         });
 
         binding.buttonPrevGoal.setOnClickListener(view -> {
