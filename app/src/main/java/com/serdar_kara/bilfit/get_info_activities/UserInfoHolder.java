@@ -306,6 +306,12 @@ public class UserInfoHolder implements Serializable {
 
         }
 
+<<<<<<< HEAD
+=======
+
+        this.programiYazdir();
+    }
+>>>>>>> 0a3e8c42e68f19256d6c52b365d8c8fdd0385b8a
 
         this.programiYazdir();
     }
