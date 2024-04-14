@@ -41,4 +41,9 @@ public abstract class Exercises implements Comparable<Exercises>, Serializable{
             return 0;
         }
     }
+
+    public String getName()
+    {
+        return this.isim;
+    }
 }

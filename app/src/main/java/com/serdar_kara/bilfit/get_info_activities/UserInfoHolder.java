@@ -354,6 +354,11 @@ public class UserInfoHolder implements Serializable {
         isSundayEligible = sundayEligible;
     }
 
+    public ArrayList<ArrayList<Exercises>> getProgram() {
+        return program;
+    }
+
+
 }
 
 

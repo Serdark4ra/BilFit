@@ -1,23 +1,42 @@
 package com.serdar_kara.bilfit.get_info_activities;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.serdar_kara.bilfit.MainActivity;
 import com.serdar_kara.bilfit.R;
+import com.serdar_kara.bilfit.algorithm.Exercises;
 import com.serdar_kara.bilfit.databinding.ActivityLoadingInfoSessionSactivityBinding;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoadingInfoSessionSActivity extends AppCompatActivity {
 
     private ActivityLoadingInfoSessionSactivityBinding binding;
+    private FirebaseFirestore db;
+    private DocumentReference documentReference;
+    private FirebaseAuth auth;
+    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,18 +44,84 @@ public class LoadingInfoSessionSActivity extends AppCompatActivity {
         binding = ActivityLoadingInfoSessionSactivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Intent intent = getIntent();
+        Intent comingIntent = getIntent();
+        UserInfoHolder userInfoHolder = (UserInfoHolder) comingIntent.getSerializableExtra("userInfoHolder");
 
         ProgressBar progressBar = binding.progressBar;
         TextView loadingPercentage = binding.textViewLoadingPercentage;
 
-        // Calculate the completion percentage (assuming completionPercentage is between 0 and 100)
+        System.out.println("BURAYA GELDIIIIIIIIIIIIIIIIIIIII");
+        userInfoHolder.setPower();
+        ArrayList<ArrayList<Exercises>> program = userInfoHolder.getProgram();
+
+        boolean[] days = userInfoHolder.getDays();
+        putProgramToDatabase(program,days);
+
+
         int completionPercentage = 56;
         progressBar.setProgress(completionPercentage);
         loadingPercentage.setText(completionPercentage + "%");
 
 
+
+
         //Intent intent1 = new Intent(LoadingInfoSessionSActivity.this, MainActivity.class);
         //startActivity(intent1);
     }
+
+    private void putProgramToDatabase(ArrayList<ArrayList<Exercises>> program, boolean[] days) {
+        db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
+        documentReference = db.collection("Users").document(currentUser.getUid());
+
+        // Convert the program ArrayList<ArrayList<Exercises>> to a format Firestore understands
+        // For example, you can use a HashMap to represent the program
+        // Here, assuming you have a method to convert the program to a HashMap
+        HashMap<String, Object> programData = convertProgramToHashMap(program, days);
+
+        // Update the document with the program data
+        documentReference.update("program", programData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Program data added successfully");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding program data", e);
+                    }
+                });
+    }
+
+    // Method to convert the program ArrayList<ArrayList<Exercises>> to a HashMap
+    private HashMap<String, Object> convertProgramToHashMap(ArrayList<ArrayList<Exercises>> program, boolean[] days) {
+        HashMap<String, Object> programData = new HashMap<>();
+        String[] gunler = {"monday" , "tuesday", "wednesday", "thursday" ,"friday" , "saturday", "sunday"};
+        int k = 0;
+        for (int i = 0; i < program.size(); i++) {
+            boolean gunBulundu = true;
+            String currentDay = "";
+            for (;gunBulundu && k < 7; k++)
+            {
+                if (days[k])
+                {
+                    currentDay = gunler[k];
+                    gunBulundu = false;
+                }
+            }
+            ArrayList<Exercises> dayProgram = program.get(i);
+            ArrayList<String> exerciseNames = new ArrayList<>();
+            for (Exercises exercise : dayProgram) {
+                exerciseNames.add(exercise.getName());
+            }
+            // Add the list of exercise names for this day to the programData
+            programData.put(currentDay, exerciseNames);
+        }
+        return programData;
+    }
+
+
 }
