@@ -1,8 +1,13 @@
 package com.serdar_kara.bilfit;
 
+import static java.security.AccessController.getContext;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +16,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.serdar_kara.bilfit.databinding.ActivityMainBinding;
+import com.serdar_kara.bilfit.get_info_activities.LoadingInfoSessionSActivity;
+
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding activityMainBinding;
@@ -27,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
 
+        Button completedButton = activityMainBinding.buttonCompletedExercise;
+
         setVariablesForUser();
 
         mAuth = FirebaseAuth.getInstance();
@@ -42,6 +53,22 @@ public class MainActivity extends AppCompatActivity {
             }else{
                 Log.d("Error", "No such document with the current user id: " + currentUser.getUid());
             }
+        });
+
+        SharedPreferences sharedPreferences = getSharedPreferences("CompletedExerciseDays", Context.MODE_PRIVATE);
+        Boolean isCompleted = sharedPreferences.getBoolean("day_" + (LocalDate.now().getDayOfWeek().getValue() - 1), false);
+        if (isCompleted){
+            completedButton.setVisibility(Button.INVISIBLE);
+        }
+
+
+        completedButton.setOnClickListener(v -> {
+            LocalDate today = LocalDate.now();
+            DayOfWeek dayOfWeek = today.getDayOfWeek();
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("day_" + (dayOfWeek.getValue() - 1), true);
+            editor.apply();
+            completedButton.setVisibility(Button.INVISIBLE);
         });
 
         activityMainBinding.Navi.setOnItemSelectedListener(item -> {

@@ -1,6 +1,7 @@
 package com.serdar_kara.bilfit;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -17,22 +18,15 @@ public class SlottedRectangleView extends View {
 
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private RectF rect = new RectF(); // Used for drawing rounded rectangle
-    private SlotClickListener slotClickListener;
 
     private final String[] DAYS = {"M", "T", "W", "T", "F", "S", "S"};
 
-    public interface SlotClickListener {
-        void onSlotClicked(int position);
-    }
 
     public SlottedRectangleView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setClickable(true);
     }
 
-    public void setSlotClickListener(SlotClickListener listener) {
-        this.slotClickListener = listener;
-    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -69,26 +63,51 @@ public class SlottedRectangleView extends View {
                 paint.setColor(Color.BLACK);
             }
             canvas.drawText(DAYS[i], xText, (float) (height / (2.5)) + textHeight / 2, paint);
+
+            boolean[] exerciseDays = getExerciseDays();
+            boolean[] completedExerciseDays = getCompletedExerciseDays();
+
+
+            if (exerciseDays[i]) {
+                if (completedExerciseDays[i]) {
+                    paint.setColor(Color.GREEN);
+                    System.out.println("ticccccc");
+                    canvas.drawText("+", xText, (float) (height / 1.5) + textHeight / 2, paint);
+                } else {
+                    paint.setColor(Color.RED);
+                    System.out.println("minuss");
+                    canvas.drawText("-", xText, (float) (height / 1.5) + textHeight / 2, paint);
+                }
+            }else{
+                System.out.println(exerciseDays.length);
+                System.out.println("nooo");
+            }
+
+
+
         }
 
         paint.setTextAlign(originalAlign); // Reset text align
     }
 
-
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_UP && slotClickListener != null) {
-            float x = event.getX();
-            int position = calculateSlotPosition(x);
-            slotClickListener.onSlotClicked(position);
-            return true;
+    public boolean[] getExerciseDays(){
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("ExerciseDays", Context.MODE_PRIVATE);
+        boolean[] days = new boolean[7];
+        for (int i = 0; i < 7; i++) {
+            days[i] = sharedPreferences.getBoolean("day_" + i, false);
         }
-        return super.onTouchEvent(event);
+        return days;
     }
 
-    private int calculateSlotPosition(float clickX) {
-        int width = getWidth();
-        return (int) (clickX / (width / 7));
+    public boolean[] getCompletedExerciseDays(){
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("CompletedExerciseDays", Context.MODE_PRIVATE);
+        boolean[] days = new boolean[7];
+        for (int i = 0; i < 7; i++) {
+            days[i] = sharedPreferences.getBoolean("day_" + i, false);
+        }
+        return days;
     }
+
+
+
 }

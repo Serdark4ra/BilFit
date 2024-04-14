@@ -2,7 +2,9 @@ package com.serdar_kara.bilfit.get_info_activities;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ProgressBar;
@@ -56,6 +58,8 @@ public class LoadingInfoSessionSActivity extends AppCompatActivity {
 
         boolean[] days = userInfoHolder.getDays();
         putProgramToDatabase(program,days);
+        userInfoHolder.saveExerciseDaysToThePhone(this, days);
+        saveCompletedExercisesToThePhone(this);
 
 
         int completionPercentage = 56;
@@ -67,6 +71,16 @@ public class LoadingInfoSessionSActivity extends AppCompatActivity {
 
         //Intent intent1 = new Intent(LoadingInfoSessionSActivity.this, MainActivity.class);
         //startActivity(intent1);
+    }
+    public void saveCompletedExercisesToThePhone(Context context) {
+        String PREF_NAME = "CompletedExerciseDays";
+        String KEY_PREFIX = "day_";
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        for (int i = 0; i < 7; i++) {
+            editor.putBoolean(KEY_PREFIX + i, false);
+        }
+        editor.apply();
     }
 
     private void putProgramToDatabase(ArrayList<ArrayList<Exercises>> program, boolean[] days) {

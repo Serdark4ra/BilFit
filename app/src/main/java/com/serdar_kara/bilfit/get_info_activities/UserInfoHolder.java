@@ -1,5 +1,8 @@
 package com.serdar_kara.bilfit.get_info_activities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.serdar_kara.bilfit.algorithm.Exercises;
 import com.serdar_kara.bilfit.algorithm.Tester;
 import com.serdar_kara.bilfit.algorithm.WorkoutPrograms;
@@ -209,6 +212,17 @@ public class UserInfoHolder implements Serializable {
     public boolean[] getDays()
     {
         return this.days;
+    }
+
+    public void saveExerciseDaysToThePhone(Context context, boolean[] days) {
+        String PREF_NAME = "ExerciseDays";
+        String KEY_PREFIX = "day_";
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        for (int i = 0; i < days.length; i++) {
+            editor.putBoolean(KEY_PREFIX + i, days[i]);
+        }
+        editor.apply();
     }
 
     /**
