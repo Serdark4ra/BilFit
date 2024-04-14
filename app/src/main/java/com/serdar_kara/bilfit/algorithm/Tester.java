@@ -9,13 +9,22 @@ public class Tester {
     static ArrayList<Exercises> exercisesList;
     static ArrayList<Exercises> cardioExercises;
 
-    public static void generateMuscleProgram (ArrayList<ArrayList<Exercises>> program, double power)
+    public static void main(String[] args){
+        Tester tester = new Tester();
+    }
+
+    public static void generateMuscleProgram (ArrayList<ArrayList<Exercises>> program, double power, boolean generateHalf)
     {
         for (int i = 0; i < program.size(); i++)
         {
             shuffleExercises();
 
-            for (int j = 0; j < program.get(i).size(); j++)
+            /* This line sets the repeat count for the second for loop. If we generate fully (generateHalf is false) it sets 
+             * generationCount to the size of the arraylist, if not it sets it to the half of it so we can generate mixed programs
+             */             
+            int generationCount = generateHalf ? program.get(i).size() / 2 : program.get(i).size(); 
+
+            for (int j = 0; j < generationCount; j++)
             {
                 for (int k = 0; k < exercisesList.size(); k++)
                 {
@@ -58,13 +67,16 @@ public class Tester {
 
     }
 
-    public static void generateCardioWorkoutProgram(ArrayList<ArrayList<Exercises>> program, double power)
+    public static void generateCardioWorkoutProgram(ArrayList<ArrayList<Exercises>> program, double power, boolean generateHalf)
     {
         for (int i = 0; i < program.size(); i++)
         {
             shuffleCardioExercises();
 
-            for (int j = 0; j < program.get(i).size(); j++)
+            // Similar to line 21           
+            int generationCount = generateHalf ? program.get(i).size() / 2 : program.get(i).size(); 
+
+            for (int j = 0; j < generationCount; j++)
             {
                 for (int k = 0; k < cardioExercises.size(); k++)
                 {
@@ -401,11 +413,6 @@ public class Tester {
 
         exercisesList.sort(null);
         shuffleExercises();
-
-    }
-
-    public static void main(String[] args) {
-        Tester tester = new Tester();
 
     }
 }

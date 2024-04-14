@@ -46,7 +46,12 @@ public class WorkoutPrograms {
         cardioPrograms[2] = fourDaysCardio;
         cardioPrograms[3] = fiveDaysCardio;
 
-        //buraya da mixed program olusturan metodlar gelecek...
+        //buraya da mixed program olusturan metodlar gelecek... done
+
+        twoDaysBuildMixedProgramGenerator();
+        threeDaysBuildMixedProgramGenerator();
+        fourDaysBuildMixedProgramGenerator();
+        fiveDaysBuildMixedProgramGenerator();
 
         mixedPrograms = new ArrayList[4];
         mixedPrograms[0] = twoDaysMixed;
@@ -206,6 +211,107 @@ public class WorkoutPrograms {
             exerciseList.get(i).add(new CardioExercises(0, null));
             exerciseList.get(i).add(new CardioExercises(0, null));
         }
+    }
+
+    private void twoDaysBuildMixedProgramGenerator() // Start of mixed programs
+    {
+        twoDaysMixed = new ArrayList<>();
+        twoDaysMixed.add(new ArrayList<>());
+
+        twoDaysMixed.get(0).add(new BackExercises(0, null));
+        twoDaysMixed.get(0).add(new BicepsExercises(0, null));
+        twoDaysMixed.get(0).add(new CardioExercises(0, null)); // half of the day cardio and half of it other muscle groups
+        twoDaysMixed.get(0).add(new CardioExercises(0, null));
+
+        twoDaysMixed.add(new ArrayList<>());
+        twoDaysMixed.get(1).add(new ChestExercises(0, null));
+        twoDaysMixed.get(1).add(new TricepsExercises(0, null));
+        twoDaysMixed.get(1).add(new CardioExercises(0, null));
+        twoDaysMixed.get(1).add(new CardioExercises(0, null));
+    }
+
+    private void threeDaysBuildMixedProgramGenerator()
+    {
+        threeDaysMixed = new ArrayList<>();
+        threeDaysMixed.add(new ArrayList<>());
+        threeDaysMixed.get(0).add(new BackExercises(0, null));
+        threeDaysMixed.get(0).add(new ChestExercises(0, null));
+        threeDaysMixed.get(0).add(new CardioExercises(0, null));
+        threeDaysMixed.get(0).add(new CardioExercises(0, null));
+
+        threeDaysMixed.add(new ArrayList<>());
+        threeDaysMixed.get(1).add(new LegExercises(0, null));
+        threeDaysMixed.get(1).add(new ShoulderExercises(0, null));
+        threeDaysMixed.get(1).add(new CardioExercises(0, null));
+        threeDaysMixed.get(1).add(new CardioExercises(0, null));
+
+        threeDaysMixed.add(new ArrayList<>());
+        threeDaysMixed.get(2).add(new LegExercises(0, null));
+        threeDaysMixed.get(2).add(new ChestExercises(0, null));
+        threeDaysMixed.get(2).add(new CardioExercises(0, null));
+        threeDaysMixed.get(2).add(new CardioExercises(0, null));
+    }
+
+    private void fourDaysBuildMixedProgramGenerator()
+    {
+        fourDaysMixed = new ArrayList<>();
+        fourDaysMixed.add(new ArrayList<>());
+        fourDaysMixed.get(0).add(new BackExercises(0, null));
+        fourDaysMixed.get(0).add(new BicepsExercises(0, null));
+        fourDaysMixed.get(0).add(new CardioExercises(0, null));
+        fourDaysMixed.get(0).add(new CardioExercises(0, null));
+
+        fourDaysMixed.add(new ArrayList<>());
+        fourDaysMixed.get(1).add(new ChestExercises(0, null));
+        fourDaysMixed.get(1).add(new TricepsExercises(0, null));
+        fourDaysMixed.get(1).add(new CardioExercises(0, null));
+        fourDaysMixed.get(1).add(new CardioExercises(0, null));
+    
+        fourDaysMixed.add(new ArrayList<>());
+        fourDaysMixed.get(2).add(new BackExercises(0, null));
+        fourDaysMixed.get(2).add(new LegExercises(0, null));
+        fourDaysMixed.get(2).add(new CardioExercises(0, null));
+        fourDaysMixed.get(2).add(new CardioExercises(0, null));
+
+        fourDaysMixed.add(new ArrayList<>());
+        fourDaysMixed.get(3).add(new ChestExercises(0, null));
+        fourDaysMixed.get(3).add(new TricepsExercises(0, null));
+        fourDaysMixed.get(3).add(new CardioExercises(0, null));
+        fourDaysMixed.get(3).add(new CardioExercises(0, null));
+    }
+
+    private void fiveDaysBuildMixedProgramGenerator()
+    {
+        fiveDaysMixed = new ArrayList<>();
+        fiveDaysMixed.add(new ArrayList<>());
+        fiveDaysMixed.get(0).add(new BackExercises(0, null));
+        fiveDaysMixed.get(0).add(new BackExercises(0, null));
+        fiveDaysMixed.get(0).add(new CardioExercises(0, null));
+        fiveDaysMixed.get(0).add(new CardioExercises(0, null));
+
+        fiveDaysMixed.add(new ArrayList<>());
+        fiveDaysMixed.get(1).add(new ChestExercises(0, null));
+        fiveDaysMixed.get(1).add(new LegExercises(0, null));
+        fiveDaysMixed.get(1).add(new CardioExercises(0, null));
+        fiveDaysMixed.get(1).add(new CardioExercises(0, null));
+    
+        fiveDaysMixed.add(new ArrayList<>());
+        fiveDaysMixed.get(2).add(new TricepsExercises(0, null));
+        fiveDaysMixed.get(2).add(new LegExercises(0, null));
+        fiveDaysMixed.get(2).add(new CardioExercises(0, null));
+        fiveDaysMixed.get(2).add(new CardioExercises(0, null));
+
+        fiveDaysMixed.add(new ArrayList<>());
+        fiveDaysMixed.get(3).add(new BackExercises(0, null));
+        fiveDaysMixed.get(3).add(new ShoulderExercises(0, null));
+        fiveDaysMixed.get(3).add(new CardioExercises(0, null));
+        fiveDaysMixed.get(3).add(new CardioExercises(0, null));
+
+        fiveDaysMixed.add(new ArrayList<>());
+        fiveDaysMixed.get(4).add(new LegExercises(0, null));
+        fiveDaysMixed.get(4).add(new TricepsExercises(0, null));
+        fiveDaysMixed.get(4).add(new CardioExercises(0, null));
+        fiveDaysMixed.get(4).add(new CardioExercises(0, null)); // End of mixed programs
     }
 
     public ArrayList<ArrayList<Exercises>>[] getBuildMusclePrograms()
