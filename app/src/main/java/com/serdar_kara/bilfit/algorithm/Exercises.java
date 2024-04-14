@@ -1,6 +1,8 @@
 package com.serdar_kara.bilfit.algorithm;
 
-public abstract class Exercises implements Comparable<Exercises>{
+import java.io.Serializable;
+
+public abstract class Exercises implements Comparable<Exercises>, Serializable{
     
     private double zorluk;
     private String isim;

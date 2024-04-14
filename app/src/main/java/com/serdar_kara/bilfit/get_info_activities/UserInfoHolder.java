@@ -1,11 +1,6 @@
 package com.serdar_kara.bilfit.get_info_activities;
 
-import com.serdar_kara.bilfit.algorithm.BackExercises;
-import com.serdar_kara.bilfit.algorithm.BicepsExercises;
-import com.serdar_kara.bilfit.algorithm.ChestExercises;
 import com.serdar_kara.bilfit.algorithm.Exercises;
-import com.serdar_kara.bilfit.algorithm.LegExercises;
-import com.serdar_kara.bilfit.algorithm.ShoulderExercises;
 import com.serdar_kara.bilfit.algorithm.Tester;
 import com.serdar_kara.bilfit.algorithm.WorkoutPrograms;
 

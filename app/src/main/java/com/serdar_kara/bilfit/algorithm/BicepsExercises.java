@@ -1,6 +1,8 @@
 package com.serdar_kara.bilfit.algorithm;
 
-public class BicepsExercises extends Exercises{
+import java.io.Serializable;
+
+public class BicepsExercises extends Exercises implements Serializable {
 
     public BicepsExercises(int zorluk, String isim)
     {
