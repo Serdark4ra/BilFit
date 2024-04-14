@@ -276,12 +276,12 @@ public class UserInfoHolder implements Serializable {
         if (this.purpose.equals("buildMuscles"))
         {
             this.program = w.getBuildMusclePrograms()[numberGoingGym - 2];
-            Tester.generateMuscleProgram(this.program, this.power);
+            Tester.generateMuscleProgram(this.program, this.power, false);
         }
         else if (this.purpose.equals("loseWeight"))
         {
             this.program = w.getCardioPrograms()[numberGoingGym - 2];
-            Tester.generateCardioWorkoutProgram(this.program, this.power);
+            Tester.generateCardioWorkoutProgram(this.program, this.power, false);
         }
         else if (this.purpose.equals("maintainForm"))
         {
@@ -306,12 +306,6 @@ public class UserInfoHolder implements Serializable {
 
         }
 
-<<<<<<< HEAD
-=======
-
-        this.programiYazdir();
-    }
->>>>>>> 0a3e8c42e68f19256d6c52b365d8c8fdd0385b8a
 
         this.programiYazdir();
     }
