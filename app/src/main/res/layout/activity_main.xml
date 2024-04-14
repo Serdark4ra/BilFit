@@ -125,6 +125,7 @@
         app:layout_constraintBottom_toTopOf="@id/button_completed_exercise"
         app:layout_constraintTop_toBottomOf="@id/textView_upcoming_exercises">
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_exercise_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/exercise_list_base_model"
