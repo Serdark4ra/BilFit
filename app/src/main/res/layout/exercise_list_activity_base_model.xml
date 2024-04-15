@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="5dp"
+    app:cardCornerRadius="20dp"
+    app:contentPadding="8dp">
+
+    <RelativeLayout
+        android:id="@+id/user_relative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/text_exercise_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            android:maxWidth="140dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="Pull Over" />
+
+        <!-- Edit symbol -->
+        <ImageView
+            android:id="@+id/image_edit"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+            android:layout_alignTop="@id/text_exercise_name"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/baseline_edit_24"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_centerVertical= "true"/>
+
+        <ImageView
+            android:id="@+id/image_exercise"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:layout_toStartOf="@id/image_edit"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/text_exercise_set_reps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_exercise_name"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_toStartOf="@id/image_exercise"
+            android:layout_toEndOf="@id/text_exercise_name"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:maxLength="20"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:text="3x4" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
