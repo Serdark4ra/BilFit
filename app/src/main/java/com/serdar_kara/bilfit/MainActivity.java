@@ -110,29 +110,30 @@ public class MainActivity extends AppCompatActivity {
         documentReference = db.collection("Users").document(currentUser.getUid());
 
         documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
-                    Map<String, Object> userData = documentSnapshot.getData();
-                    if (userData != null && userData.containsKey("program")) {
-                        Map<String, Object> programData = (Map<String, Object>) userData.get("program");
-                        // Now you have the program data as a Map<String, Object>
-                        // Iterate through the map to access each day and its exercises
-                        if (programData.containsKey(determineDayToShowProgram())) {
-                            List<String> exercises = (List<String>) programData.get(determineDayToShowProgram());
-                            // Now you have the exercises for the day
-                            for (String exercise : exercises) {
-                                // Add the exercise to the list
+                    Map<String, Object> programData = (Map<String, Object>) documentSnapshot.get("program");
+                    if (programData != null) {
+                        // Get the program for the current day
+                        ArrayList<String> program = (ArrayList<String>) programData.get(determineDayToShowProgram());
+                        if (program != null) {
+                            // Clear the exerciseList before adding new exercises
+                            exerciseList.clear();
+                            for (String exercise : program) {
                                 exerciseList.add(new ExerciseModel(exercise));
                             }
+                            // Notify the adapter that the data set has changed
+                            exerciseAdapter.notifyDataSetChanged();
                         } else {
-                            Log.d(TAG, "No data found for " );
+                            Log.d("Error", "No program data for the current day: " + determineDayToShowProgram());
                         }
                     } else {
-                        Log.d(TAG, "No program data found for the user");
+                        Log.d("Error", "No program data for the current user id: " + currentUser.getUid());
                     }
                 } else {
-                    Log.d(TAG, "Document does not exist");
+                    Log.d("Error", "No such document with the current user id: " + currentUser.getUid());
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -178,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
 
         int currentDay = dayOfWeek.getValue();
         for (; currentDay < 7 ; currentDay++) {
-            if (exerciseDays[currentDay]){
+            if (exerciseDays[currentDay- 1]){
                 break;
             }
         }
