@@ -20,7 +20,7 @@
         android:paddingLeft="85dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:text="Height"
+        android:hint="Height"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextNumberDecimal_height"
-        tools:text="Weight"
+        android:hint="Weight"
         android:paddingLeft="85dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"/>
@@ -58,7 +58,7 @@
         app:layout_constraintHorizontal_bias="0.545"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextNumber_weight"
-        tools:text="Age"
+        android:hint="Age"
         android:paddingLeft="85dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"/>
@@ -67,18 +67,18 @@
         android:id="@+id/button_next_bodyInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
         android:layout_marginEnd="60dp"
+        android:layout_marginBottom="60dp"
         android:text="Next"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumber_age" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/button_prev_bodyInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="60dp"
         android:text="Previous"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
