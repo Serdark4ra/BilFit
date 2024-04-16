@@ -15,29 +15,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <RadioButton
-            android:id="@+id/radioButton_muscular"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="RadioButton" />
-
-        <RadioButton
-            android:id="@+id/radioButton_fat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="RadioButton" />
-
-        <RadioButton
-            android:id="@+id/radioButton_thin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="RadioButton" />
-
-        <RadioButton
-            android:id="@+id/radioButton_normal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="RadioButton" />
     </RadioGroup>
 
     <Button
@@ -59,4 +36,36 @@
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <RadioButton
+        android:id="@+id/radioButton_muscular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="RadioButton"
+        tools:layout_editor_absoluteX="217dp"
+        tools:layout_editor_absoluteY="119dp" />
+
+    <RadioButton
+        android:id="@+id/radioButton_thin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="RadioButton"
+        tools:layout_editor_absoluteX="137dp"
+        tools:layout_editor_absoluteY="239dp" />
+
+    <RadioButton
+        android:id="@+id/radioButton_normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="RadioButton"
+        tools:layout_editor_absoluteX="124dp"
+        tools:layout_editor_absoluteY="358dp" />
+
+    <RadioButton
+        android:id="@+id/radioButton_fat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="RadioButton"
+        tools:layout_editor_absoluteX="105dp"
+        tools:layout_editor_absoluteY="465dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
