@@ -11,91 +11,148 @@
         android:id="@+id/button_prev_prefDays"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="51dp"
-        android:layout_marginTop="96dp"
-        android:layout_marginBottom="101dp"
-        android:text="Button"
+        android:layout_marginStart="60dp"
+        android:layout_marginBottom="60dp"
+        android:text="Previous"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/checkBox_sun" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button_next_prefDays"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="37dp"
-        android:text="Button"
-        app:layout_constraintStart_toEndOf="@+id/checkBox_sun"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox_sun" />
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="60dp"
+        android:text="Next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <CheckBox
         android:id="@+id/checkBox_mon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="129dp"
-        android:layout_marginTop="43dp"
-        android:text="CheckBox"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="80dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Monday"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/checkBox_tue"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <CheckBox
         android:id="@+id/checkBox_tue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="29dp"
-        android:text="CheckBox"
+        android:layout_marginStart="80dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Tuesday"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/checkBox_wed"
-        app:layout_constraintStart_toStartOf="@+id/checkBox_mon" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <CheckBox
         android:id="@+id/checkBox_wed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
-        android:layout_marginBottom="22dp"
-        android:text="CheckBox"
+        android:layout_marginStart="80dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Wednesday"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/checkBox_thu"
-        app:layout_constraintStart_toStartOf="@+id/checkBox_thu" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <CheckBox
         android:id="@+id/checkBox_thu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="269dp"
-        android:text="CheckBox"
-        app:layout_constraintStart_toStartOf="@+id/checkBox_tue"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="80dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Thursday"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/checkBox_fri"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <CheckBox
         android:id="@+id/checkBox_fri"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="27dp"
-        android:text="CheckBox"
-        app:layout_constraintStart_toStartOf="@+id/checkBox_thu"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox_thu" />
+        android:layout_marginStart="80dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="sans-serif-black"
+        android:lineSpacingExtra="20sp"
+        android:text="Friday"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/checkBox_sat"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <CheckBox
         android:id="@+id/checkBox_sat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="17dp"
-        android:text="CheckBox"
-        app:layout_constraintStart_toStartOf="@+id/checkBox_fri"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox_fri" />
+        android:layout_marginStart="80dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Saturday"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/checkBox_sun"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <CheckBox
         android:id="@+id/checkBox_sun"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="29dp"
-        android:layout_marginEnd="6dp"
-        android:text="CheckBox"
-        app:layout_constraintEnd_toEndOf="@+id/checkBox_sat"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox_sat" />
+        android:layout_marginStart="80dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Sunday"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="543dp" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="80dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Indicate your preferred days"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
