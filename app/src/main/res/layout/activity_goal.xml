@@ -29,10 +29,11 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="374dp"
-        android:layout_height="71dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="40dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="10dp"
         android:fontFamily="sans-serif-black"
         android:paddingLeft="5dp"
@@ -54,42 +55,45 @@
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:srcCompat="@drawable/goal_screen" />
 
-    <RadioButton
-        android:id="@+id/radioButton_loseWeight"
-        android:layout_width="250dp"
-        android:layout_height="63dp"
-        android:layout_marginStart="-60dp"
-        android:layout_marginTop="90dp"
-        android:fontFamily="sans-serif-black"
-        android:text="Losing Weight"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.452"
-        app:layout_constraintStart_toStartOf="@+id/imageView5"
-        app:layout_constraintTop_toBottomOf="@+id/radioButton_buildMuscles" />
+    <RadioGroup
 
-    <RadioButton
-        android:id="@+id/radioButton_MaintainingForm"
+        android:id="@+id/radioGroup_goal"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="90dp"
-        android:fontFamily="sans-serif-black"
-        android:text="Maintaining Form"
-        android:textSize="24sp"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioButton_loseWeight" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView"
+        >
 
-    <RadioButton
-        android:id="@+id/radioButton_buildMuscles"
-        android:layout_width="246dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="20dp"
-        android:fontFamily="sans-serif-black"
-        android:text="Build Muscle"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView5" />
+        <RadioButton
+            android:id="@+id/radioButton_loseWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="90dp"
+            android:fontFamily="sans-serif-black"
+            android:text="Losing Weight"
+            android:textSize="24sp" />
+
+        <RadioButton
+            android:id="@+id/radioButton_MaintainingForm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="90dp"
+            android:fontFamily="sans-serif-black"
+            android:text="Maintaining Form"
+            android:textSize="24sp" />
+
+        <RadioButton
+            android:id="@+id/radioButton_buildMuscles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="90dp"
+            android:fontFamily="sans-serif-black"
+            android:text="Build Muscle"
+            android:textSize="24sp" />
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

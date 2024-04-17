@@ -28,7 +28,7 @@ public class GoalActivity extends AppCompatActivity {
         UserInfoHolder userInfoHolder = (UserInfoHolder) comingIntent.getSerializableExtra("userInfoHolder");
 
         binding.buttonNextGoal.setOnClickListener(view -> {
-            RadioGroup radioGroup = binding.radioGroup;
+            RadioGroup radioGroup = binding.radioGroupGoal;
             int checkedRadioButtonId = radioGroup.getCheckedRadioButtonId();
 
             if(checkedRadioButtonId == -1){

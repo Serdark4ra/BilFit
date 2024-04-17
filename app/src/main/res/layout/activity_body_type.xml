@@ -97,7 +97,7 @@
         android:layout_marginTop="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView8"
-        app:srcCompat="@drawable/bodyType_fat" />
+        app:srcCompat="@drawable/body_type_fat" />
 
     <ImageView
         android:id="@+id/imageView7"
@@ -107,7 +107,7 @@
         android:layout_marginTop="148dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/bodyType_muscular" />
+        app:srcCompat="@drawable/body_type_muscular" />
 
     <ImageView
         android:id="@+id/imageView8"
@@ -117,7 +117,7 @@
         android:layout_marginTop="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView9"
-        app:srcCompat="@drawable/bodyType_normal" />
+        app:srcCompat="@drawable/body_type_normal" />
 
     <ImageView
         android:id="@+id/imageView9"
@@ -127,7 +127,7 @@
         android:layout_marginTop="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView7"
-        app:srcCompat="@drawable/bodyType_thin" />
+        app:srcCompat="@drawable/body_type_thin" />
 
     <TextView
         android:id="@+id/textView3"
