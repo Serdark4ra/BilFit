@@ -11,61 +11,150 @@
         android:id="@+id/checkBox_chest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
-        android:layout_marginBottom="32dp"
-        android:text="CheckBox"
-        app:layout_constraintBottom_toTopOf="@+id/checkBox_back"
-        app:layout_constraintStart_toStartOf="@+id/checkBox_back" />
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="132dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Chest"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/imageView12"
+        app:layout_constraintTop_toTopOf="@+id/imageView10" />
 
     <CheckBox
         android:id="@+id/checkBox_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="197dp"
-        android:text="CheckBox"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="110dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Back"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView16"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_arms" />
 
     <CheckBox
         android:id="@+id/checkBox_arms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="35dp"
-        android:text="CheckBox"
-        app:layout_constraintStart_toStartOf="@+id/checkBox_back"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox_back" />
+        android:layout_marginTop="132dp"
+        android:layout_marginEnd="108dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Arms"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView11" />
 
     <CheckBox
         android:id="@+id/checkBox_legs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="85dp"
-        android:text="CheckBox"
-        app:layout_constraintStart_toStartOf="@+id/checkBox_arms"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox_arms" />
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="100dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Legs"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/imageView13"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_chest" />
 
     <Button
         android:id="@+id/button_prev"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="19dp"
-        android:layout_marginBottom="84dp"
-        android:text="Button"
+        android:layout_marginStart="60dp"
+        android:layout_marginBottom="60dp"
+        android:text="Previous"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_next"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="94dp"
-        android:text="Button"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="60dp"
+        android:text="Next"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="504dp"
+        android:layout_height="552dp"
+        android:layout_marginStart="-121dp"
+        android:layout_marginTop="81dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button_prev" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/targetmuscle_front" />
+
+    <ImageView
+        android:id="@+id/imageView11"
+        android:layout_width="504dp"
+        android:layout_height="552dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="-121dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/targetmuscle_back" />
+
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="112dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView10"
+        app:srcCompat="@drawable/arrow_targetmuscle" />
+
+    <ImageView
+        android:id="@+id/imageView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="260dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView10"
+        app:srcCompat="@drawable/arrow_targetmuscle" />
+
+    <ImageView
+        android:id="@+id/imageView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="160dp"
+        android:layout_marginEnd="-25dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView10"
+        app:layout_constraintTop_toTopOf="@+id/imageView11"
+        app:srcCompat="@drawable/arrow_left" />
+
+    <ImageView
+        android:id="@+id/imageView17"
+        android:layout_width="85dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="123dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView10"
+        app:layout_constraintTop_toTopOf="@+id/imageView11"
+        app:srcCompat="@drawable/arrow_left" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:fontFamily="sans-serif-black"
+
+
+        android:paddingTop="2dp"
+
+        android:paddingLeft="29dp"
+        android:paddingBottom="2dp"
+        android:text="Select your target muscle group"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
