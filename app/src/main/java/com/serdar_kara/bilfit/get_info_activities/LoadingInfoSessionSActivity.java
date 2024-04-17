@@ -69,8 +69,8 @@ public class LoadingInfoSessionSActivity extends AppCompatActivity {
 
 
 
-        //Intent intent1 = new Intent(LoadingInfoSessionSActivity.this, MainActivity.class);
-        //startActivity(intent1);
+        Intent intent1 = new Intent(LoadingInfoSessionSActivity.this, MainActivity.class);
+        startActivity(intent1);
     }
     public void saveCompletedExercisesToThePhone(Context context) {
         String PREF_NAME = "CompletedExerciseDays";

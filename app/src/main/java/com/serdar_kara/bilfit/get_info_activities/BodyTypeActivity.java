@@ -28,7 +28,7 @@ public class BodyTypeActivity extends AppCompatActivity {
 
         binding.buttonNextBodyType.setOnClickListener(view -> {
 
-            RadioGroup radioGroup = binding.radioGroup2;
+            RadioGroup radioGroup = binding.radioGroupType;
             int selectedId = radioGroup.getCheckedRadioButtonId();
 
             if(selectedId == -1){
