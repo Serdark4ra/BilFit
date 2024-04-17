@@ -2,6 +2,8 @@ package com.serdar_kara.bilfit.get_info_activities;
 
 import static android.content.ContentValues.TAG;
 
+import static java.lang.Thread.sleep;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -62,16 +64,32 @@ public class LoadingInfoSessionSActivity extends AppCompatActivity {
         saveCompletedExercisesToThePhone(this);
 
 
-        int completionPercentage = 56;
+        int completionPercentage = 20;
         progressBar.setProgress(completionPercentage);
         loadingPercentage.setText(completionPercentage + "%");
 
+        try {
+            sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
+        completionPercentage = 56;
+        progressBar.setProgress(completionPercentage);
+        loadingPercentage.setText(completionPercentage + "%");
+
+        try {
+            sleep(1500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
 
         Intent intent1 = new Intent(LoadingInfoSessionSActivity.this, MainActivity.class);
         startActivity(intent1);
     }
+
+
     public void saveCompletedExercisesToThePhone(Context context) {
         String PREF_NAME = "CompletedExerciseDays";
         String KEY_PREFIX = "day_";
