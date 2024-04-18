@@ -13,6 +13,12 @@
         android:theme="@style/Theme.BilFit"
         tools:targetApi="31">
         <activity
+            android:name=".NotificiationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ReportActivity"
             android:exported="false" />
         <activity
@@ -23,9 +29,7 @@
             android:exported="false" />
         <activity
             android:name=".get_info_activities.LoadingInfoSessionSActivity"
-            android:exported="true" >
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".get_info_activities.GetPushupActivity"
             android:exported="false" />
@@ -46,10 +50,7 @@
             android:exported="false" />
         <activity
             android:name=".get_info_activities.GenderActivity"
-            android:exported="true" >
-
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".login_activities.ForgotPasswordActivity"
             android:exported="false" />
@@ -58,20 +59,16 @@
             android:exported="false" />
         <activity
             android:name=".login_activities.SignUpActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>

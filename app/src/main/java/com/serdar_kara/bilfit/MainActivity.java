@@ -68,7 +68,11 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("CompletedExerciseDays", Context.MODE_PRIVATE);
         Boolean isCompleted = sharedPreferences.getBoolean("day_" + (LocalDate.now().getDayOfWeek().getValue() - 1), false);
-        if (isCompleted){
+        SharedPreferences sharedPreferences1 = getSharedPreferences("ExerciseDays", Context.MODE_PRIVATE);
+        Boolean isCompleted1 = sharedPreferences1.getBoolean("day_" + (LocalDate.now().getDayOfWeek().getValue() - 1), false);
+        if (!isCompleted && isCompleted1){
+            completedButton.setVisibility(Button.VISIBLE);
+        }else{
             completedButton.setVisibility(Button.INVISIBLE);
         }
 
