@@ -85,6 +85,11 @@ public class MainActivity extends AppCompatActivity {
             completedButton.setVisibility(Button.INVISIBLE);
         });
 
+        activityMainBinding.settingsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        });
+
         activityMainBinding.Navi.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.navigation_leaderBoard) {
                 Intent intent = new Intent(MainActivity.this, MainActivity.class);
