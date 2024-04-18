@@ -295,7 +295,8 @@ public class UserInfoHolder implements Serializable {
         else if (this.purpose.equals("maintainForm"))
         {
             this.program = w.getMixedPrograms()[numberGoingGym - 2];
-            //buraya da karısık programın metodu gelecek...
+            Tester.generateMuscleProgram(this.program, this.power, true);
+            Tester.generateCardioWorkoutProgram(this.program, this.power, true);
         }
 
         if(chest)

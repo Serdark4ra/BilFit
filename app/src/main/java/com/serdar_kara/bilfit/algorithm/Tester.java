@@ -72,11 +72,15 @@ public class Tester {
         for (int i = 0; i < program.size(); i++)
         {
             shuffleCardioExercises();
-
+            int j = 0;
             // Similar to line 21           
-            int generationCount = generateHalf ? program.get(i).size() / 2 : program.get(i).size(); 
-
-            for (int j = 0; j < generationCount; j++)
+            //int generationCount = generateHalf ? program.get(i).size() / 2 : program.get(i).size();
+            int generationCount = program.get(i).size();
+            if(generateHalf)
+            {
+                j = 2;
+            }
+            for (; j < generationCount; j++)
             {
                 for (int k = 0; k < cardioExercises.size(); k++)
                 {
