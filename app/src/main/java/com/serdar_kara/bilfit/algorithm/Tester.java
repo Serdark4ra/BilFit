@@ -72,11 +72,15 @@ public class Tester {
         for (int i = 0; i < program.size(); i++)
         {
             shuffleCardioExercises();
-
+            int j = 0;
             // Similar to line 21           
-            int generationCount = generateHalf ? program.get(i).size() / 2 : program.get(i).size(); 
-
-            for (int j = 0; j < generationCount; j++)
+            //int generationCount = generateHalf ? program.get(i).size() / 2 : program.get(i).size();
+            int generationCount = program.get(i).size();
+            if(generateHalf)
+            {
+                j = 2;
+            }
+            for (; j < generationCount; j++)
             {
                 for (int k = 0; k < cardioExercises.size(); k++)
                 {
@@ -143,6 +147,78 @@ public class Tester {
 
         ChestExercises e = new ChestExercises(0, "0");
         shuffleExercises();
+
+        for (int i = 0; i < program.size(); i++)
+        {
+            boolean isAddable = false;
+
+            for (int j = 0; j < program.get(i).size(); j++)
+            {
+                if (program.get(i).get(j).getClass() == e.getClass())
+                {
+                    isAddable = true;
+                }
+            }
+            if (isAddable)
+            {
+                for (int j = 0; j < exercisesList.size(); j++) {
+                    if (exercisesList.get(j).getClass() == e.getClass() && !isProgramContains(program.get(i), exercisesList.get(j)) && power > exercisesList.get(j).getZorluk()) {
+                        program.get(i).add(exercisesList.get(j));
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public static void addLegTargetExercises(ArrayList<ArrayList<Exercises>> program, double power)
+    {
+
+        LegExercises e = new LegExercises(0, "0");
+        shuffleExercises();
+
+        for (int i = 0; i < program.size(); i++)
+        {
+            boolean isAddable = false;
+
+            for (int j = 0; j < program.get(i).size(); j++)
+            {
+                if (program.get(i).get(j).getClass() == e.getClass())
+                {
+                    isAddable = true;
+                }
+            }
+            if (isAddable)
+            {
+                for (int j = 0; j < exercisesList.size(); j++) {
+                    if (exercisesList.get(j).getClass() == e.getClass() && !isProgramContains(program.get(i), exercisesList.get(j)) && power > exercisesList.get(j).getZorluk()) {
+                        program.get(i).add(exercisesList.get(j));
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    public static void addArmTargetExercises(ArrayList<ArrayList<Exercises>> program, double power)
+    {
+        shuffleExercises();
+
+        double rnd = Math.random();
+
+        Exercises e;
+
+        if(rnd <= 0.33) // Randomly chooses a arm exercise to add
+        {
+            e = new BicepsExercises(0, "");
+        }
+        else if (rnd >=0.66)
+        {
+            e = new TricepsExercises(0, "");
+        }
+        else
+        {
+            e = new ShoulderExercises(0, "");
+        }
 
         for (int i = 0; i < program.size(); i++)
         {
