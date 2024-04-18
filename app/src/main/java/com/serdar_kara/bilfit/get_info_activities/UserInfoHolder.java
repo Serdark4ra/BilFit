@@ -373,6 +373,11 @@ public class UserInfoHolder implements Serializable {
         return program;
     }
 
+    public void regenerateWorkoutProgram() // when the user clicks "regenerate program" in settings
+    {
+        this.program.clear();
+        generateProgram();
+    }
 
 }
 
