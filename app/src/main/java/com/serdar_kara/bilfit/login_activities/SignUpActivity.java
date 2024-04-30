@@ -79,6 +79,8 @@ public class SignUpActivity extends AppCompatActivity {
                             HashMap userInfo = new HashMap();
                             userInfo.put("name_surname",name_surname);
                             userInfo.put("email",email);
+                            userInfo.put("friends", new HashMap<>());
+                            userInfo.put("friendRequests", new HashMap<>());
 
                             if (currentUser != null){
                                 documentReference.set(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
