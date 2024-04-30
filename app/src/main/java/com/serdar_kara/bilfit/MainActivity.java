@@ -1,7 +1,6 @@
 package com.serdar_kara.bilfit;
 
 import static android.content.ContentValues.TAG;
-import static java.security.AccessController.getContext;
 
 import android.content.Context;
 import android.content.Intent;
