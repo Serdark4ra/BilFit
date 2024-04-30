@@ -2,6 +2,8 @@ package com.serdar_kara.bilfit;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -12,9 +14,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -25,7 +29,9 @@ import com.serdar_kara.bilfit.exercises.ExerciseAdapter;
 import com.serdar_kara.bilfit.exercises.ExerciseEditAdapter;
 import com.serdar_kara.bilfit.exercises.ExerciseModel;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ProgramActivity extends AppCompatActivity {
@@ -45,17 +51,38 @@ public class ProgramActivity extends AppCompatActivity {
         binding = ActivityProgramBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        exerciseList = new ArrayList<>();
-        exerciseAdapter = new ExerciseEditAdapter(exerciseList);
+        //exerciseList = new ArrayList<>();
+        //exerciseAdapter = new ExerciseEditAdapter(exerciseList);
+        //binding.recyclerViewExerciseListEdit.setLayoutManager(new LinearLayoutManager(this));
+        //retrieveProgramFromDatabase();
+        //binding.recyclerViewExerciseListEdit.setAdapter(exerciseAdapter);
+
+        TabLayout tabLayout = binding.tabLayoutDays;
+        ViewPager2 viewPager = binding.viewPagerDaySchedule;
+
+        List<String> daysList = getUserSpecificDays();
 
 
 
-        binding.recyclerViewExerciseListEdit.setLayoutManager(new LinearLayoutManager(this));
-
-        retrieveProgramFromDatabase();
-        binding.recyclerViewExerciseListEdit.setAdapter(exerciseAdapter);
 
 
+    }
+
+    private List<String> getUserSpecificDays() {
+        boolean[] exerciseDays = getExerciseDays();
+        LocalDate today = LocalDate.now();
+        int dayOfWeek = today.getDayOfWeek().getValue();
+
+
+    }
+
+    public boolean[] getExerciseDays(){
+        SharedPreferences sharedPreferences = getSharedPreferences("ExerciseDays", Context.MODE_PRIVATE);
+        boolean[] days = new boolean[7];
+        for (int i = 0; i < 7; i++) {
+            days[i] = sharedPreferences.getBoolean("day_" + i, false);
+        }
+        return days;
     }
 
     private void retrieveProgramFromDatabase() {
