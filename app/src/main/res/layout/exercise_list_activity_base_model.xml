@@ -11,7 +11,7 @@
 
     <RelativeLayout
         android:id="@+id/user_relative"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical">
 
@@ -23,9 +23,9 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="15dp"
             android:maxWidth="140dp"
+            android:text="Pull Over"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:text="Pull Over" />
+            android:textStyle="bold" />
 
         <!-- Edit symbol -->
         <ImageView
@@ -34,18 +34,18 @@
             android:layout_height="33dp"
             android:layout_alignTop="@id/text_exercise_name"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/baseline_edit_24"
-            android:layout_marginEnd="20dp"
+            android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
-            android:layout_centerVertical= "true"/>
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/baseline_edit_24" />
 
         <ImageView
             android:id="@+id/image_exercise"
             android:layout_width="66dp"
             android:layout_height="66dp"
-            android:layout_toStartOf="@id/image_edit"
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/image_edit"
             android:src="@mipmap/ic_launcher" />
 
         <TextView
@@ -53,16 +53,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_exercise_name"
+            android:layout_centerVertical="true"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_toStartOf="@id/image_exercise"
             android:layout_toEndOf="@id/text_exercise_name"
             android:gravity="center"
-            android:layout_centerVertical="true"
             android:maxLength="20"
+            android:text="3x4"
             android:textSize="14sp"
-            android:textStyle="bold"
-            android:text="3x4" />
+            android:textStyle="bold" />
 
     </RelativeLayout>
 

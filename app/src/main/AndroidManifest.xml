@@ -25,7 +25,7 @@
             android:name=".ProgramActivity"
             android:exported="false" />
         <activity
-            android:name=".FriendsActivity"
+            android:name=".friends.FriendsActivity"
             android:exported="false" />
         <activity
             android:name=".get_info_activities.LoadingInfoSessionSActivity"

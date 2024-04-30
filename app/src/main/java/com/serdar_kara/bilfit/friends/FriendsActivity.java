@@ -1,4 +1,4 @@
-package com.serdar_kara.bilfit;
+package com.serdar_kara.bilfit.friends;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,13 +15,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.serdar_kara.bilfit.MainActivity;
+import com.serdar_kara.bilfit.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +37,7 @@ public class FriendsActivity extends AppCompatActivity {
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             Context context = parent.getContext();
+            View view = LayoutInflater.from(context).inflate(R.layout.item_friend, parent, false);
             View view = LayoutInflater.from(context).inflate(R.layout.item_friend, parent, false);
             return new ViewHolder(view);
         }
