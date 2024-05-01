@@ -31,6 +31,7 @@ import com.serdar_kara.bilfit.exercises.ExerciseModel;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +43,6 @@ public class ProgramActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
     private DocumentReference documentReference;
-    private ArrayList<ExerciseModel> exerciseList;
     private ExerciseEditAdapter exerciseAdapter;
 
     @Override
@@ -62,18 +62,60 @@ public class ProgramActivity extends AppCompatActivity {
 
         List<String> daysList = getUserSpecificDays();
 
+        Map<String, List<ExerciseModel>> exercisesByDay = getExercisesByDay();
 
 
 
 
     }
 
-    private List<String> getUserSpecificDays() {
-        boolean[] exerciseDays = getExerciseDays();
-        LocalDate today = LocalDate.now();
-        int dayOfWeek = today.getDayOfWeek().getValue();
+    private Map<String, List<ExerciseModel>> getExercisesByDay() {
+        Map<String, List<ExerciseModel>> map = new HashMap<>();
+        ArrayList<String> days = getUserSpecificDays();
 
+<<<<<<< Updated upstream
         return null;
+=======
+        for (String day : days) {
+            map.put(day,  retrieveProgramFromDatabase(day));
+        }
+
+        return map;
+    }
+
+    private ArrayList<String> getUserSpecificDays() {
+        boolean[] exerciseDays = getExerciseDays();
+
+        ArrayList<String> daysList = new ArrayList<>();
+        for (int i = 0; i < exerciseDays.length; i++) {
+            if (exerciseDays[i]) {
+                switch (i) {
+                    case 0:
+                        daysList.add("Monday");
+                        break;
+                    case 1:
+                        daysList.add("Tuesday");
+                        break;
+                    case 2:
+                        daysList.add("Wednesday");
+                        break;
+                    case 3:
+                        daysList.add("Thursday");
+                        break;
+                    case 4:
+                        daysList.add("Friday");
+                        break;
+                    case 5:
+                        daysList.add("Saturday");
+                        break;
+                    case 6:
+                        daysList.add("Sunday");
+                        break;
+                }
+            }
+        }
+        return daysList;
+>>>>>>> Stashed changes
     }
 
     public boolean[] getExerciseDays(){
@@ -85,11 +127,13 @@ public class ProgramActivity extends AppCompatActivity {
         return days;
     }
 
-    private void retrieveProgramFromDatabase() {
+    private ArrayList<ExerciseModel> retrieveProgramFromDatabase(String day) {
         db = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
         documentReference = db.collection("Users").document(currentUser.getUid());
+
+         ArrayList<ExerciseModel> exerciseList = new ArrayList<>();
 
         documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
 
@@ -99,7 +143,7 @@ public class ProgramActivity extends AppCompatActivity {
                     Map<String, Object> programData = (Map<String, Object>) documentSnapshot.get("program");
                     if (programData != null) {
                         // Get the program for the current day
-                        ArrayList<String> program = (ArrayList<String>) programData.get("tuesday");
+                        ArrayList<String> program = (ArrayList<String>) programData.get(day);
                         if (program != null) {
                             // Clear the exerciseList before adding new exercises
                             exerciseList.clear();
@@ -124,5 +168,7 @@ public class ProgramActivity extends AppCompatActivity {
                 Log.w(TAG, "Error retrieving program data", e);
             }
         });
+
+        return exerciseList;
     }
 }
