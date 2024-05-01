@@ -72,8 +72,8 @@ public class ProgramActivity extends AppCompatActivity {
         boolean[] exerciseDays = getExerciseDays();
         LocalDate today = LocalDate.now();
         int dayOfWeek = today.getDayOfWeek().getValue();
-
-
+        
+        return null;
     }
 
     public boolean[] getExerciseDays(){

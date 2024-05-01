@@ -1,70 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="5dp"
+    app:cardCornerRadius="20dp"
+    app:contentPadding="8dp">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
+    <RelativeLayout
+        android:id="@+id/user_relative"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:gravity="center_vertical">
 
         <ImageView
-            android:id="@+id/imageRequest"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:id="@+id/imageViewRequest"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
             android:layout_gravity="center_vertical"
             android:background="@drawable/circle_background"
-            android:contentDescription="@string/profile_image"
-            android:src="@drawable/default_profile_image" />
+            android:src="@mipmap/ic_launcher" />
 
-        <LinearLayout
-            android:layout_width="0dp"
+
+        <TextView
+            android:id="@+id/textRequestName"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="9dp"
+            android:layout_toEndOf="@+id/imageFriend"
+            android:text="Friend's Name"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/textRequestName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:text="Request's Name"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textRequestUsername"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="username"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="14sp" />
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/textRequestUsername"
+            android:layout_width="85dp"
+            android:layout_height="17dp"
+            android:layout_below="@+id/textRequestName"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="113dp"
+            android:layout_marginBottom="7dp"
+            android:layout_toStartOf="@+id/buttonAccept"
+            android:layout_toEndOf="@+id/imageFriend"
+            android:text="username"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/buttonAccept"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:backgroundTint="@color/colorPrimaryDark"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignBottom="@+id/buttonDeny"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="0dp"
+            android:layout_toStartOf="@+id/buttonDeny"
+            android:layout_weight="1"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
             android:text="Accept"
-            android:textColor="@android:color/white" />
+            android:textAlignment="center"
+            android:textSize="8sp" />
 
         <Button
             android:id="@+id/buttonDeny"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimaryDark"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:paddingStart="0sp"
+            android:paddingEnd="0dp"
             android:text="Deny"
-            android:textColor="@android:color/white" />
+            android:textAlignment="center"
+            android:textSize="8sp" />
 
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

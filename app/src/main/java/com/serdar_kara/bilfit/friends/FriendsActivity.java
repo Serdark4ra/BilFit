@@ -6,12 +6,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,12 +21,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.serdar_kara.bilfit.MainActivity;
 import com.serdar_kara.bilfit.R;
+import com.serdar_kara.bilfit.databinding.ActivityFriendsBinding;
+import com.serdar_kara.bilfit.databinding.FriendRequestRowBinding;
+import com.serdar_kara.bilfit.databinding.FriendRowBinding;
 
 import java.util.ArrayList;
 import java.util.List;
+import androidx.appcompat.app.AlertDialog;
+import android.content.DialogInterface;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 public class FriendsActivity extends AppCompatActivity {
 
-    private class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder> {
+    private class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder> {
 
         private List<FirebaseUser> friendsList;
 
@@ -36,25 +43,37 @@ public class FriendsActivity extends AppCompatActivity {
 
         @NonNull
         @Override
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            Context context = parent.getContext();
-            View view = LayoutInflater.from(context).inflate(R.layout.friend_row, parent, false);
-            return new ViewHolder(view);
+        public FriendsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+            FriendRowBinding binding = FriendRowBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+            return new FriendsViewHolder(binding);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            FirebaseUser friend = friendsList.get(position);
-            holder.textViewName.setText(friend.getDisplayName());
+        public void onBindViewHolder(@NonNull FriendsViewHolder holder, int position) {
+            String friendUserId = String.valueOf(friendsList.get(position));
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("Users").document(friendUserId).get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            FirebaseUser friend = documentSnapshot.toObject(FirebaseUser.class);
+                            holder.binding.textFriendName.setText(friend.getDisplayName());
+                            holder.binding.textFriendUsername.setText(friend.getDisplayName());
+                            holder.binding.imageViewFriend.setImageResource(R.drawable.ic_launcher_background);
+                        } else {
+                            Toast.makeText(FriendsActivity.this, "Something went wrong. Please try again",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
-            holder.buttonGoTogether.setOnClickListener(new View.OnClickListener() {
+            holder.binding.buttonGoTogether.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // TODO
                 }
             });
 
-            holder.buttonCheckProfile.setOnClickListener(new View.OnClickListener() {
+            holder.binding.buttonCheckProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //TODO
@@ -67,22 +86,17 @@ public class FriendsActivity extends AppCompatActivity {
             return friendsList.size();
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            public View buttonGoTogether;
-            public View buttonCheckProfile;
-            TextView textViewName;
+        public class FriendsViewHolder extends RecyclerView.ViewHolder {
+            private FriendRowBinding binding;
+            public FriendsViewHolder(FriendRowBinding binding) {
+                super(binding.getRoot());
+                this.binding = binding;
 
-            public ViewHolder(@NonNull View itemView) {
-                super(itemView);
-                textViewName = itemView.findViewById(R.id.textFriendName);
-                textViewName = itemView.findViewById(R.id.textFriendName);
-                buttonGoTogether = itemView.findViewById(R.id.buttonGoTogether);
-                buttonCheckProfile = itemView.findViewById(R.id.buttonCheckProfile);
             }
         }
     }
 
-    private class FriendRequestsAdapter extends RecyclerView.Adapter<FriendRequestsAdapter.ViewHolder> {
+    private class FriendRequestsAdapter extends RecyclerView.Adapter<FriendRequestsAdapter.FriendRequestsViewHolder> {
         private List<FirebaseUser> friendRequestsList;
 
         public FriendRequestsAdapter(List<FirebaseUser> friendRequestsList) {
@@ -91,25 +105,36 @@ public class FriendsActivity extends AppCompatActivity {
 
         @NonNull
         @Override
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            Context context = parent.getContext();
-            View view = LayoutInflater.from(context).inflate(R.layout.friend_request_row, parent, false);
-            return new ViewHolder(view);
+        public FriendRequestsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            FriendRequestRowBinding binding = FriendRequestRowBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+            return new FriendRequestsViewHolder(binding);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            FirebaseUser friendRequest = friendRequestsList.get(position);
-            holder.textViewName.setText(friendRequest.getDisplayName());
+        public void onBindViewHolder(@NonNull FriendRequestsViewHolder holder, int position) {
+            String friendUserId = String.valueOf(friendsList.get(position));
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("Users").document(friendUserId).get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            FirebaseUser friend = documentSnapshot.toObject(FirebaseUser.class);
+                            holder.binding.textRequestName.setText(friend.getDisplayName());
+                            holder.binding.textRequestUsername.setText(friend.getDisplayName());
+                            holder.binding.imageViewRequest.setImageResource(R.drawable.ic_launcher_background);
+                        } else {
+                            Toast.makeText(FriendsActivity.this, "Something went wrong. Please try again",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
-            holder.buttonAccept.setOnClickListener(new View.OnClickListener() {
+            holder.binding.buttonAccept.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //TODO
                 }
             });
 
-            holder.buttonDeny.setOnClickListener(new View.OnClickListener() {
+            holder.binding.buttonDeny.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //TODO
@@ -122,16 +147,11 @@ public class FriendsActivity extends AppCompatActivity {
             return friendRequestsList.size();
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            public View buttonAccept;
-            public View buttonDeny;
-            TextView textViewName;
-
-            public ViewHolder(@NonNull View itemView) {
-                super(itemView);
-                textViewName = itemView.findViewById(R.id.textRequestName);
-                buttonAccept = itemView.findViewById(R.id.buttonAccept);
-                buttonDeny = itemView.findViewById(R.id.buttonDeny);
+        public class FriendRequestsViewHolder extends RecyclerView.ViewHolder {
+            private FriendRequestRowBinding binding;
+            public FriendRequestsViewHolder(FriendRequestRowBinding binding) {
+                super(binding.getRoot());
+                this.binding = binding;
             }
         }
     }
@@ -145,10 +165,16 @@ public class FriendsActivity extends AppCompatActivity {
     private ArrayList<FirebaseUser> friendRequestsList;
     private FirebaseFirestore db;
 
+    private ActivityFriendsBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
+        binding = ActivityFriendsBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+
 
         Toolbar toolbar = findViewById(R.id.toolbarFriend);
         setSupportActionBar(toolbar);
@@ -205,15 +231,61 @@ public class FriendsActivity extends AppCompatActivity {
                         Toast.makeText(FriendsActivity.this, "Error fetching friend requests: " + task.getException(), Toast.LENGTH_SHORT).show();
                     }
                 });
+
+        binding.addFriendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Call the method to show the add friend dialog
+                showAddFriendDialog();
+            }
+        });
     }
     private String getCurrentUserId() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             return user.getUid();
         } else {
-            // Handle the case where the user is not logged in
-            // For now, return a default value or handle it as needed
-            return "000000";
+            Toast.makeText(FriendsActivity.this, "Something went wrong. Please try again",
+                    Toast.LENGTH_SHORT).show();
+            return "0000";
         }
+    }
+    private void showAddFriendDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add Friend");
+
+        // Set up the layout for the dialog
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(16, 0, 16, 0);
+
+        EditText editTextUsername = new EditText(this);
+        editTextUsername.setHint("Enter Username");
+        layout.addView(editTextUsername, params);
+
+        builder.setView(layout);
+
+        // Set up the buttons
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String username = editTextUsername.getText().toString().trim();
+                // Perform add friend operation using the entered username
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        // Create and show the dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
