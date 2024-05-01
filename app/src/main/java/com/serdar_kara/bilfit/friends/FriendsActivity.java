@@ -6,8 +6,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +54,7 @@ public class FriendsActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull FriendsViewHolder holder, int position) {
+            System.out.println("Here");
             String friendUserId = String.valueOf(friendsList.get(position));
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             db.collection("Users").document(friendUserId).get()
@@ -168,8 +171,10 @@ public class FriendsActivity extends AppCompatActivity {
 
     private ActivityFriendsBinding binding;
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("Friends", "A");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
         binding = ActivityFriendsBinding.inflate(getLayoutInflater());
@@ -193,12 +198,13 @@ public class FriendsActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("Friends", "B");
                 Intent intent = new Intent(FriendsActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }
         });
-
+        Log.d("Friends", "C");
         friendsList = new ArrayList<>();
         db.collection("Users").document(currentUserId).collection("friends")
                 .get()
@@ -211,6 +217,8 @@ public class FriendsActivity extends AppCompatActivity {
                         // Initialize and set adapter for friends RecyclerView
                         friendsAdapter = new FriendsAdapter(friendsList);
                         recyclerViewFriends.setAdapter(friendsAdapter);
+                        Log.d("Friends", "AAA");
+
                     } else {
                         Toast.makeText(FriendsActivity.this, "Error fetching friends: " + task.getException(), Toast.LENGTH_SHORT).show();
                     }
@@ -228,6 +236,7 @@ public class FriendsActivity extends AppCompatActivity {
                         // Initialize and set adapter for friend requests RecyclerView
                         friendRequestsAdapter = new FriendRequestsAdapter(friendRequestsList);
                         recyclerViewFriendRequests.setAdapter(friendRequestsAdapter);
+                        Log.d("Friends", "BBB");
                     } else {
                         Toast.makeText(FriendsActivity.this, "Error fetching friend requests: " + task.getException(), Toast.LENGTH_SHORT).show();
                     }
@@ -236,7 +245,6 @@ public class FriendsActivity extends AppCompatActivity {
         binding.addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Call the method to show the add friend dialog
                 showAddFriendDialog();
             }
         });
@@ -278,7 +286,7 @@ public class FriendsActivity extends AppCompatActivity {
 
                 // Find the user
                 db.collection("Users")
-                        .whereEqualTo("username", username)
+                        .whereEqualTo("name_surname", username)
                         .get()
                         .addOnSuccessListener(queryDocumentSnapshots -> {
                             if (!queryDocumentSnapshots.isEmpty()) {
