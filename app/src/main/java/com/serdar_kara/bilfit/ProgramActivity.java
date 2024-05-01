@@ -19,6 +19,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -45,6 +46,8 @@ public class ProgramActivity extends AppCompatActivity {
     private DocumentReference documentReference;
     private ExerciseEditAdapter exerciseAdapter;
 
+    private DaysPagerAdapter daysPagerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,9 +64,15 @@ public class ProgramActivity extends AppCompatActivity {
         ViewPager2 viewPager = binding.viewPagerDaySchedule;
 
         List<String> daysList = getUserSpecificDays();
-
         Map<String, List<ExerciseModel>> exercisesByDay = getExercisesByDay();
 
+        daysPagerAdapter = new DaysPagerAdapter(getSupportFragmentManager(), getLifecycle(),daysList, exercisesByDay);
+        viewPager.setAdapter(daysPagerAdapter);
+
+
+        new TabLayoutMediator(tabLayout, viewPager,
+                (tab, position) -> tab.setText(daysList.get(position))
+        ).attach();
 
 
 
@@ -73,13 +82,9 @@ public class ProgramActivity extends AppCompatActivity {
         Map<String, List<ExerciseModel>> map = new HashMap<>();
         ArrayList<String> days = getUserSpecificDays();
 
-<<<<<<< Updated upstream
-        return null;
-=======
         for (String day : days) {
             map.put(day,  retrieveProgramFromDatabase(day));
         }
-
         return map;
     }
 
@@ -115,7 +120,7 @@ public class ProgramActivity extends AppCompatActivity {
             }
         }
         return daysList;
->>>>>>> Stashed changes
+
     }
 
     public boolean[] getExerciseDays(){
