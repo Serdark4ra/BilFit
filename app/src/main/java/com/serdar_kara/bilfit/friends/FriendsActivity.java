@@ -17,9 +17,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.serdar_kara.bilfit.MainActivity;
@@ -38,9 +40,10 @@ public class FriendsActivity extends AppCompatActivity {
 
     private class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder> {
 
-        private List<FirebaseUser> friendsList;
+        private List<String> friendsList;
 
-        public FriendsAdapter(List<FirebaseUser> friendsList) {
+        public FriendsAdapter(List<String> friendsList) {
+            Log.d("Item",friendsList.size() + "");
             this.friendsList = friendsList;
         }
 
@@ -60,15 +63,19 @@ public class FriendsActivity extends AppCompatActivity {
             db.collection("Users").document(friendUserId).get()
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
-                            FirebaseUser friend = documentSnapshot.toObject(FirebaseUser.class);
-                            holder.binding.textFriendName.setText(friend.getDisplayName());
-                            holder.binding.textFriendUsername.setText(friend.getDisplayName());
+                            //FirebaseUser friend = documentSnapshot.toObject(FirebaseUser.class);
+                            holder.binding.textFriendName.setText(documentSnapshot.getString("name_surname"));
+                            holder.binding.textFriendUsername.setText(documentSnapshot.getString("name_surname"));
                             holder.binding.imageViewFriend.setImageResource(R.drawable.ic_launcher_background);
+                            Log.d("Friends", friendUserId +"");
                         } else {
                             Toast.makeText(FriendsActivity.this, "Something went wrong. Please try again",
                                     Toast.LENGTH_SHORT).show();
                         }
-                    });
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.d("Friends", "Fail");
+                    });;
 
             holder.binding.buttonGoTogether.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -148,6 +155,7 @@ public class FriendsActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
+
             return friendRequestsList.size();
         }
 
@@ -165,7 +173,7 @@ public class FriendsActivity extends AppCompatActivity {
     private RecyclerView recyclerViewFriendRequests;
     private FriendsAdapter friendsAdapter;
     private FriendRequestsAdapter friendRequestsAdapter;
-    private ArrayList<FirebaseUser> friendsList;
+    private ArrayList<String> friendsList;
     private ArrayList<FirebaseUser> friendRequestsList;
     private FirebaseFirestore db;
 
@@ -205,23 +213,15 @@ public class FriendsActivity extends AppCompatActivity {
             }
         });
         Log.d("Friends", "C");
-        friendsList = new ArrayList<>();
-        db.collection("Users").document(currentUserId).collection("friends")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            FirebaseUser friend = document.toObject(FirebaseUser.class);
-                            friendsList.add(friend);
-                        }
-                        // Initialize and set adapter for friends RecyclerView
-                        friendsAdapter = new FriendsAdapter(friendsList);
-                        recyclerViewFriends.setAdapter(friendsAdapter);
-                        Log.d("Friends", "AAA");
 
-                    } else {
-                        Toast.makeText(FriendsActivity.this, "Error fetching friends: " + task.getException(), Toast.LENGTH_SHORT).show();
+        friendsList = new ArrayList<>();
+        db.collection("Users").document(currentUserId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        friendsList = (ArrayList<String>) documentSnapshot.get("friends");
                     }
+                    friendsAdapter = new FriendsAdapter(friendsList);
+                    recyclerViewFriends.setAdapter(friendsAdapter);
                 });
 
         friendRequestsList = new ArrayList<>();
