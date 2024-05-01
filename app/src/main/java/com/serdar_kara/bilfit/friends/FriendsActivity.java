@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.serdar_kara.bilfit.MainActivity;
@@ -274,7 +275,36 @@ public class FriendsActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String username = editTextUsername.getText().toString().trim();
-                // Perform add friend operation using the entered username
+
+                // Find the user
+                db.collection("Users")
+                        .whereEqualTo("username", username)
+                        .get()
+                        .addOnSuccessListener(queryDocumentSnapshots -> {
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                QueryDocumentSnapshot documentSnapshot = (QueryDocumentSnapshot) queryDocumentSnapshots.getDocuments().get(0); // Get the first document
+                                String userId = documentSnapshot.getId();
+
+                                // Add friend to the request list of the target user
+                                DocumentReference targetUserRef = db.collection("Users").document(userId);
+                                targetUserRef.update("friendRequests." + FirebaseAuth.getInstance().getCurrentUser().getUid(), true)
+                                        .addOnSuccessListener(aVoid -> {
+                                            // Successful
+                                            Toast.makeText(FriendsActivity.this, "Friend request sent to user: " + userId, Toast.LENGTH_SHORT).show();
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            // Error
+                                            Toast.makeText(FriendsActivity.this, "Failed to send friend request. Please try again.", Toast.LENGTH_SHORT).show();
+                                        });
+                            } else {
+                                // No user
+                                Toast.makeText(FriendsActivity.this, "User not found with username: " + username, Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(e -> {
+                            // Handle any errors
+                            Toast.makeText(FriendsActivity.this, "Error searching for user. Please try again.", Toast.LENGTH_SHORT).show();
+                        });
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
