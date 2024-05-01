@@ -27,6 +27,7 @@ import java.util.List;
 public class FriendsActivity extends AppCompatActivity {
 
     private class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder> {
+
         private List<FirebaseUser> friendsList;
 
         public FriendsAdapter(List<FirebaseUser> friendsList) {
@@ -37,8 +38,7 @@ public class FriendsActivity extends AppCompatActivity {
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             Context context = parent.getContext();
-            View view = LayoutInflater.from(context).inflate(R.layout.item_friend, parent, false);
-            View view = LayoutInflater.from(context).inflate(R.layout.item_friend, parent, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.friend_row, parent, false);
             return new ViewHolder(view);
         }
 
@@ -46,6 +46,20 @@ public class FriendsActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             FirebaseUser friend = friendsList.get(position);
             holder.textViewName.setText(friend.getDisplayName());
+
+            holder.buttonGoTogether.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO
+                }
+            });
+
+            holder.buttonCheckProfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO
+                }
+            });
         }
 
         @Override
@@ -54,11 +68,16 @@ public class FriendsActivity extends AppCompatActivity {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
+            public View buttonGoTogether;
+            public View buttonCheckProfile;
             TextView textViewName;
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
-                textViewName = itemView.findViewById(R.id.textViewFriendName);
+                textViewName = itemView.findViewById(R.id.textFriendName);
+                textViewName = itemView.findViewById(R.id.textFriendName);
+                buttonGoTogether = itemView.findViewById(R.id.buttonGoTogether);
+                buttonCheckProfile = itemView.findViewById(R.id.buttonCheckProfile);
             }
         }
     }
@@ -74,7 +93,7 @@ public class FriendsActivity extends AppCompatActivity {
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             Context context = parent.getContext();
-            View view = LayoutInflater.from(context).inflate(R.layout.item_friend_request, parent, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.friend_request_row, parent, false);
             return new ViewHolder(view);
         }
 
@@ -82,6 +101,20 @@ public class FriendsActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             FirebaseUser friendRequest = friendRequestsList.get(position);
             holder.textViewName.setText(friendRequest.getDisplayName());
+
+            holder.buttonAccept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO
+                }
+            });
+
+            holder.buttonDeny.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO
+                }
+            });
         }
 
         @Override
@@ -90,11 +123,15 @@ public class FriendsActivity extends AppCompatActivity {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
+            public View buttonAccept;
+            public View buttonDeny;
             TextView textViewName;
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
-                textViewName = itemView.findViewById(R.id.textViewFriendRequestName);
+                textViewName = itemView.findViewById(R.id.textRequestName);
+                buttonAccept = itemView.findViewById(R.id.buttonAccept);
+                buttonDeny = itemView.findViewById(R.id.buttonDeny);
             }
         }
     }
@@ -152,7 +189,6 @@ public class FriendsActivity extends AppCompatActivity {
                     }
                 });
 
-        // Fetch friend requests
         friendRequestsList = new ArrayList<>();
         db.collection("Users").document(currentUserId).collection("friendRequests")
                 .get()
@@ -169,16 +205,15 @@ public class FriendsActivity extends AppCompatActivity {
                         Toast.makeText(FriendsActivity.this, "Error fetching friend requests: " + task.getException(), Toast.LENGTH_SHORT).show();
                     }
                 });
-        }
-        private String getCurrentUserId() {
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            if (user != null) {
-                return user.getUid();
-            } else {
-                // Handle the case where the user is not logged in
-                // For now, return a default value or handle it as needed
-                return "000000";
-            }
+    }
+    private String getCurrentUserId() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            return user.getUid();
+        } else {
+            // Handle the case where the user is not logged in
+            // For now, return a default value or handle it as needed
+            return "000000";
         }
     }
 }

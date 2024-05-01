@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageFriend"
+            android:id="@+id/imageRequest"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
@@ -31,16 +31,16 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textFriendName"
+                android:id="@+id/textRequestName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
-                android:text="Friend's Name"
+                android:text="Request's Name"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textFriendUsername"
+                android:id="@+id/textRequestUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="username"
@@ -50,20 +50,20 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/buttonGoTogether"
+            android:id="@+id/buttonAccept"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:backgroundTint="@color/colorPrimaryDark"
-            android:text="Go together!"
+            android:text="Accept"
             android:textColor="@android:color/white" />
 
         <Button
-            android:id="@+id/buttonCheckProfile"
+            android:id="@+id/buttonDeny"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimaryDark"
-            android:text="Check profile"
+            android:text="Deny"
             android:textColor="@android:color/white" />
 
     </LinearLayout>
