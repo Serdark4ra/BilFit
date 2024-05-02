@@ -3,6 +3,7 @@ package com.serdar_kara.bilfit.get_info_activities;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.serdar_kara.bilfit.algorithm.BackExercises;
 import com.serdar_kara.bilfit.algorithm.Exercises;
 import com.serdar_kara.bilfit.algorithm.Tester;
 import com.serdar_kara.bilfit.algorithm.WorkoutPrograms;
@@ -340,6 +341,15 @@ public class UserInfoHolder implements Serializable {
             {
                 System.out.println(program.get(i).get(j));
             }
+        }
+
+        System.out.println("-------------------ONEMLI TEST--------------------");
+        System.out.println("**************************************************");
+
+        ArrayList<BackExercises> a = Tester.returnBackExercises("Pull-up");
+        for (int i = 0; i < a.size(); i++)
+        {
+            System.out.println(a.get(i).getIsim());
         }
     }
 

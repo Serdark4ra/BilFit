@@ -9,8 +9,10 @@ public class Tester {
     static ArrayList<Exercises> exercisesList;
     static ArrayList<Exercises> cardioExercises;
 
-    public static void main(String[] args){
+    public static void main(String[] args)
+    {
         Tester tester = new Tester();
+
     }
 
     public static void generateMuscleProgram (ArrayList<ArrayList<Exercises>> program, double power, boolean generateHalf)
@@ -368,6 +370,36 @@ public class Tester {
         }
     }
 
+    public static ArrayList<BackExercises> returnBackExercises(String backExerciseName)
+    {
+        ArrayList<BackExercises> a = new ArrayList<BackExercises>();
+        BackExercises b = new BackExercises(0, "");
+        for (int i = 0; i < exercisesList.size(); i++)
+        {
+            if (exercisesList.get(i).getClass().equals(b.getClass()) && !backExerciseName.equals(exercisesList.get(i).getIsim()))
+            {
+                a.add((BackExercises) exercisesList.get(i));
+            }
+        }
+        System.out.println("dondurulen arayin boyutu: " + a.size());
+        return a;
+    }
+
+    public static ArrayList<BicepsExercises> returnBicepsExercises(String bicepsExerciseName)
+    {
+        ArrayList<BicepsExercises> a = new ArrayList<BicepsExercises>();
+        BicepsExercises b = new BicepsExercises(0, "");
+        for (int i = 0; i < exercisesList.size(); i++)
+        {
+            if (exercisesList.get(i).getClass().equals(b.getClass()) && !bicepsExerciseName.equals(exercisesList.get(i).getIsim()))
+            {
+                a.add((BicepsExercises) exercisesList.get(i));
+            }
+        }
+        System.out.println("dondurulen arayin boyutu: " + a.size());
+        return a;
+    }
+
     public Tester()
     {
         exercisesList = new ArrayList<Exercises>();
@@ -489,8 +521,5 @@ public class Tester {
 
         exercisesList.sort(null);
         shuffleExercises();
-
     }
-
-
 }
