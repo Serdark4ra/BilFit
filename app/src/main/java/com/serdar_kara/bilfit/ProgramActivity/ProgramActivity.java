@@ -1,4 +1,4 @@
-package com.serdar_kara.bilfit;
+package com.serdar_kara.bilfit.ProgramActivity;
 
 import static android.content.ContentValues.TAG;
 
@@ -7,12 +7,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -26,12 +22,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.serdar_kara.bilfit.databinding.ActivityProgramBinding;
-import com.serdar_kara.bilfit.exercises.ExerciseAdapter;
 import com.serdar_kara.bilfit.exercises.ExerciseEditAdapter;
 import com.serdar_kara.bilfit.exercises.ExerciseModel;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,27 +49,23 @@ public class ProgramActivity extends AppCompatActivity {
         binding = ActivityProgramBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //exerciseList = new ArrayList<>();
-        //exerciseAdapter = new ExerciseEditAdapter(exerciseList);
-        //binding.recyclerViewExerciseListEdit.setLayoutManager(new LinearLayoutManager(this));
-        //retrieveProgramFromDatabase();
-        //binding.recyclerViewExerciseListEdit.setAdapter(exerciseAdapter);
-
         TabLayout tabLayout = binding.tabLayoutDays;
         ViewPager2 viewPager = binding.viewPagerDaySchedule;
 
         List<String> daysList = getUserSpecificDays();
         Map<String, List<ExerciseModel>> exercisesByDay = getExercisesByDay();
 
+
+
+        ArrayList<ExerciseModel> exerciseList = new ArrayList<>();
+        exerciseAdapter = new ExerciseEditAdapter(exerciseList);
+
         daysPagerAdapter = new DaysPagerAdapter(getSupportFragmentManager(), getLifecycle(),daysList, exercisesByDay);
         viewPager.setAdapter(daysPagerAdapter);
-
 
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> tab.setText(daysList.get(position))
         ).attach();
-
-
 
     }
 
@@ -82,8 +73,10 @@ public class ProgramActivity extends AppCompatActivity {
         Map<String, List<ExerciseModel>> map = new HashMap<>();
         ArrayList<String> days = getUserSpecificDays();
 
+
         for (String day : days) {
-            map.put(day,  retrieveProgramFromDatabase(day));
+            map.put(day, retrieveProgramFromDatabase(day));
+            Log.d("program for " + day, map.get(day).toString());
         }
         return map;
     }
@@ -133,47 +126,37 @@ public class ProgramActivity extends AppCompatActivity {
     }
 
     private ArrayList<ExerciseModel> retrieveProgramFromDatabase(String day) {
+        Log.d(TAG, "Fetching program for: " + day);  // Log which day is being processed
         db = FirebaseFirestore.getInstance();
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        currentUser = auth.getCurrentUser();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
         documentReference = db.collection("Users").document(currentUser.getUid());
 
-         ArrayList<ExerciseModel> exerciseList = new ArrayList<>();
+        ArrayList<ExerciseModel> exerciseList = new ArrayList<>();
 
-        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()) {
-                    Map<String, Object> programData = (Map<String, Object>) documentSnapshot.get("program");
-                    if (programData != null) {
-                        // Get the program for the current day
-                        ArrayList<String> program = (ArrayList<String>) programData.get(day);
-                        if (program != null) {
-                            // Clear the exerciseList before adding new exercises
-                            exerciseList.clear();
-                            for (String exercise : program) {
-                                exerciseList.add(new ExerciseModel(exercise));
-                            }
-                            // Notify the adapter that the data set has changed
-                            exerciseAdapter.notifyDataSetChanged();
-                        } else {
-                            Log.d("Error", "No program data for the current day: " + "tuesday");
+        documentReference.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                Map<String, Object> programData = (Map<String, Object>) documentSnapshot.get("program");
+                if (programData != null && programData.containsKey(day)) {
+                    ArrayList<String> program = (ArrayList<String>) programData.get(day);
+                    if (program != null) {
+                        exerciseList.clear();
+                        for (String exercise : program) {
+                            exerciseList.add(new ExerciseModel(exercise));
+                            Log.d(TAG, "Adding exercise for " + day + ": " + exercise); // Log each exercise added
                         }
+                        exerciseAdapter.notifyDataSetChanged();
                     } else {
-                        Log.d("Error", "No program data for the current user id: " + currentUser.getUid());
+                        Log.d("Error", "No program data for the current day: " + day);
                     }
                 } else {
-                    Log.d("Error", "No such document with the current user id: " + currentUser.getUid());
+                    Log.d("Error", "No program data or missing day key for: " + day);
                 }
+            } else {
+                Log.d("Error", "No such document with the current user id: " + currentUser.getUid());
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(TAG, "Error retrieving program data", e);
-            }
-        });
-
+        }).addOnFailureListener(e -> Log.w(TAG, "Error retrieving program data", e));
         return exerciseList;
     }
+
+
 }

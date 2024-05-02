@@ -22,7 +22,7 @@
             android:name=".ReportActivity"
             android:exported="false" />
         <activity
-            android:name=".ProgramActivity"
+            android:name=".ProgramActivity.ProgramActivity"
             android:exported="false" />
         <activity
             android:name=".friends.FriendsActivity"

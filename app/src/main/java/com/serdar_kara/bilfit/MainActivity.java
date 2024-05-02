@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.serdar_kara.bilfit.ProgramActivity.ProgramActivity;
 import com.serdar_kara.bilfit.databinding.ActivityMainBinding;
 import com.serdar_kara.bilfit.exercises.ExerciseAdapter;
 import com.serdar_kara.bilfit.exercises.ExerciseModel;
@@ -192,25 +193,25 @@ public class MainActivity extends AppCompatActivity {
         String day = "";
         switch (currentDay){
             case 1:
-                day = "monday";
+                day = "Monday";
                 break;
             case 2:
-                day = "tuesday";
+                day = "Tuesday";
                 break;
             case 3:
-                day = "wednesday";
+                day = "Wednesday";
                 break;
             case 4:
-                day = "thursday";
+                day = "Thursday";
                 break;
             case 5:
-                day = "friday";
+                day = "Friday";
                 break;
             case 6:
-                day = "saturday";
+                day = "Saturday";
                 break;
             case 7:
-                day = "sunday";
+                day = "Sunday";
                 break;
         }
         return day;

@@ -131,7 +131,7 @@ public class LoadingInfoSessionSActivity extends AppCompatActivity {
     // Method to convert the program ArrayList<ArrayList<Exercises>> to a HashMap
     private HashMap<String, Object> convertProgramToHashMap(ArrayList<ArrayList<Exercises>> program, boolean[] days) {
         HashMap<String, Object> programData = new HashMap<>();
-        String[] gunler = {"monday" , "tuesday", "wednesday", "thursday" ,"friday" , "saturday", "sunday"};
+        String[] gunler = {"Monday" , "Tuesday", "Wednesday", "Thursday" ,"Friday" , "Saturday", "Sunday"};
         int k = 0;
         for (int i = 0; i < program.size(); i++) {
             boolean gunBulundu = true;

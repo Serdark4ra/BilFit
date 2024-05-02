@@ -1,4 +1,4 @@
-package com.serdar_kara.bilfit;
+package com.serdar_kara.bilfit.ProgramActivity;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

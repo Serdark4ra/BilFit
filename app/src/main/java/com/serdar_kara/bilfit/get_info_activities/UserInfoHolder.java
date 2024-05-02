@@ -19,7 +19,6 @@ public class UserInfoHolder implements Serializable {
     private boolean back;
     private boolean arm;
     private boolean leg;
-
     private int age;
     private int weight;
     private int height;
@@ -324,7 +323,7 @@ public class UserInfoHolder implements Serializable {
     public void programiYazdir()
     {
         int k = 0;
-        String[] gunler = {"monday" , "tuesday", "wedn", "thurs" ,"friday" , "saturday", "sunday"};
+        String[] gunler = {"Monday" , "Tuesday", "Wednesday", "Thursday" ,"Friday" , "Saturday", "Sunday"};
         for (int i = 0; i < program.size(); i++)
         {
             System.out.print("--------- " + (i + 1) + ". Day ---------" + "Gunlerden ");

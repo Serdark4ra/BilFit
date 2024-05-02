@@ -1,6 +1,7 @@
-package com.serdar_kara.bilfit;
+package com.serdar_kara.bilfit.ProgramActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.serdar_kara.bilfit.R;
 import com.serdar_kara.bilfit.exercises.ExerciseAdapter;
+import com.serdar_kara.bilfit.exercises.ExerciseEditAdapter;
 import com.serdar_kara.bilfit.exercises.ExerciseModel;
 
 import java.util.ArrayList;
@@ -34,6 +36,8 @@ public class DaysFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             exercises = (ArrayList<ExerciseModel>) getArguments().getSerializable("exercises");
+        }else{
+            Log.d("DaysFragment", "No exercises found");
         }
     }
 
@@ -48,6 +52,6 @@ public class DaysFragment extends Fragment {
 
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new ExerciseAdapter(exercises));
+        recyclerView.setAdapter(new ExerciseEditAdapter(exercises));
     }
 }
