@@ -87,13 +87,12 @@
         android:id="@+id/button_change_program"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView9"
         android:layout_marginHorizontal="30dp"
-        android:text="Change Password"
         android:layout_marginTop="20dp"
-        />
+        android:text="Change Program"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView9" />
 
     <Button
         android:id="@+id/button_regenerate"

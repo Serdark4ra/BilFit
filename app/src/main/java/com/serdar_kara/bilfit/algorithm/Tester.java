@@ -401,8 +401,8 @@ public class Tester {
         exercisesList.add(new LegExercises(3, "Leg curl"));
         exercisesList.add(new LegExercises(2, "Leg Extension"));
         exercisesList.add(new LegExercises(1, "Dumbell Step up"));
-        exercisesList.add(new LegExercises(3, "Yogun tempo kosu"));
-        exercisesList.add(new LegExercises(1, "Hafif tempo kosu"));
+        exercisesList.add(new LegExercises(3, "Running (High tempo)"));
+        exercisesList.add(new LegExercises(1, "Running (Low tempo)"));
         exercisesList.add(new LegExercises(4, "Lunges"));
         exercisesList.add(new LegExercises(3, "Bulgarian Split Squat"));
         exercisesList.add(new LegExercises(4, "Hack Squat"));
@@ -440,13 +440,13 @@ public class Tester {
         exercisesList.add(new BicepsExercises(4, "Zottman Curl"));
 
         // Triceps Hareketleri
-        exercisesList.add(new TricepsExercises(5, "Tricep Dip"));
+        exercisesList.add(new TricepsExercises(5, "Triceps Dips"));
         exercisesList.add(new TricepsExercises(4, "Skull Crusher"));
-        exercisesList.add(new TricepsExercises(3, "Tricep Pushdown"));
+        exercisesList.add(new TricepsExercises(3, "Triceps Pushdown"));
         exercisesList.add(new TricepsExercises(5, "Overhead Tricep Extension"));
-        exercisesList.add(new TricepsExercises(1, "Tricep Kickback"));
-        exercisesList.add(new TricepsExercises(1, "Tricep Rope Pushdown"));
-        exercisesList.add(new TricepsExercises(2, "Tricep Bench Dip"));
+        exercisesList.add(new TricepsExercises(1, "Triceps Kickback"));
+        exercisesList.add(new TricepsExercises(1, "Triceps Rope Pushdown"));
+        exercisesList.add(new TricepsExercises(2, "Triceps Bench Dip"));
         exercisesList.add(new TricepsExercises(3, "Overhead Dumbbell Tricep Press"));
         exercisesList.add(new TricepsExercises(2, "Triceps Cable Kickback"));
         exercisesList.add(new TricepsExercises(5, "Dumbbell Triceps Extension"));
@@ -461,7 +461,7 @@ public class Tester {
         exercisesList.add(new ShoulderExercises(3, "Shrugs"));
         exercisesList.add(new ShoulderExercises(4, "Upright Row"));
         exercisesList.add(new ShoulderExercises(2, "Face Pull"));
-        exercisesList.add(new ShoulderExercises(1, "Makinede Lateral"));
+        exercisesList.add(new ShoulderExercises(1, "Lateral (In machine)"));
         exercisesList.add(new ShoulderExercises(3, "Seated Dumbbell Press"));
         exercisesList.add(new ShoulderExercises(4, "High Pulls"));
         exercisesList.add(new ShoulderExercises(5, "Push Press"));
@@ -480,7 +480,7 @@ public class Tester {
         exercisesList.add(new ChestExercises(4, "Decline Bench Press"));
         exercisesList.add(new ChestExercises(1, "Machine Chest Press"));
         exercisesList.add(new ChestExercises(5, "Incline Dumbbell Press"));
-        exercisesList.add(new ChestExercises(5, "Makinede Fly"));
+        exercisesList.add(new ChestExercises(5, "Machine Fly"));
         exercisesList.add(new ChestExercises(4, "Dumbbell Bench Press"));
         exercisesList.add(new ChestExercises(3, "Barbell Pullover"));
         exercisesList.add(new ChestExercises(4, "Dumbbell Pullover"));

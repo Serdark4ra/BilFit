@@ -308,11 +308,11 @@ public class UserInfoHolder implements Serializable {
         }
         if(arm)
         {
-
+            Tester.addArmTargetExercises(this.program, this.power);
         }
         if(leg)
         {
-
+            Tester.addLegTargetExercises(this.program, this.power);
         }
 
 
