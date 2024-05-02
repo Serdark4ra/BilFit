@@ -370,34 +370,49 @@ public class Tester {
         }
     }
 
-    public static ArrayList<BackExercises> returnBackExercises(String backExerciseName)
+    public static ArrayList<String> returnBackExercises(String backExerciseName)
     {
-        ArrayList<BackExercises> a = new ArrayList<BackExercises>();
+        boolean flag = false;
+        ArrayList<String> a = new ArrayList<>();
         BackExercises b = new BackExercises(0, "");
-        for (int i = 0; i < exercisesList.size(); i++)
-        {
-            if (exercisesList.get(i).getClass().equals(b.getClass()) && !backExerciseName.equals(exercisesList.get(i).getIsim()))
-            {
-                a.add((BackExercises) exercisesList.get(i));
+        for (int i = 0; i < exercisesList.size(); i++) {
+            if (exercisesList.get(i).getClass().equals(b.getClass())) {
+                if (backExerciseName.equals(exercisesList.get(i).getIsim())){
+                    a.add(exercisesList.get(i).getName());
+                    flag = true;
+                }else {
+                    a.add(exercisesList.get(i).getName());
+                }
             }
         }
-        System.out.println("dondurulen arayin boyutu: " + a.size());
-        return a;
+        if (flag) {
+            return a;
+        }
+        return null;
+
     }
 
-    public static ArrayList<BicepsExercises> returnBicepsExercises(String bicepsExerciseName)
+    public static ArrayList<String> returnBicepsExercises(String bicepsExerciseName)
     {
-        ArrayList<BicepsExercises> a = new ArrayList<BicepsExercises>();
+        boolean flag = false;
+        ArrayList<String> a = new ArrayList<>();
         BicepsExercises b = new BicepsExercises(0, "");
         for (int i = 0; i < exercisesList.size(); i++)
         {
-            if (exercisesList.get(i).getClass().equals(b.getClass()) && !bicepsExerciseName.equals(exercisesList.get(i).getIsim()))
+            if (exercisesList.get(i).getClass().equals(b.getClass()))
             {
-                a.add((BicepsExercises) exercisesList.get(i));
+                if(bicepsExerciseName.equals(exercisesList.get(i).getIsim())){
+                    a.add(exercisesList.get(i).getName());
+                    flag = true;
+                }else {
+                    a.add(exercisesList.get(i).getName());
+                }
             }
         }
-        System.out.println("dondurulen arayin boyutu: " + a.size());
-        return a;
+        if (flag) {
+            return a;
+        }
+        return null;
     }
 
     public Tester()

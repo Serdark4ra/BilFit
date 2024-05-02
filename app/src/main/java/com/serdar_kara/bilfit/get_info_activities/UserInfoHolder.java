@@ -343,14 +343,15 @@ public class UserInfoHolder implements Serializable {
             }
         }
 
-        System.out.println("-------------------ONEMLI TEST--------------------");
+        // kapatıyorum String olarak dondurudum returnbacki
+        /*System.out.println("-------------------ONEMLI TEST--------------------");
         System.out.println("**************************************************");
 
         ArrayList<BackExercises> a = Tester.returnBackExercises("Pull-up");
         for (int i = 0; i < a.size(); i++)
         {
             System.out.println(a.get(i).getIsim());
-        }
+        }*/
     }
 
     public void setMondayEligible(boolean mondayEligible) {

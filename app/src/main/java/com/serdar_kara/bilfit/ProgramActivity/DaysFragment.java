@@ -52,6 +52,6 @@ public class DaysFragment extends Fragment {
 
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new ExerciseEditAdapter(exercises));
+        recyclerView.setAdapter(new ExerciseEditAdapter(exercises, getActivity()));
     }
 }
