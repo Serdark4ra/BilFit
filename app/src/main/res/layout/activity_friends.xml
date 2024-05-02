@@ -24,22 +24,25 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewFriends"
         android:layout_width="0dp"
-        android:layout_height="550dp"
+        android:layout_height="460dp"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recyclerViewFriendRequests"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.417"
         tools:listitem="@layout/friend_row" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewFriendRequests"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="183dp"
+        android:layout_marginTop="36dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarFriend" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarFriend"
+        tools:listitem="@layout/friend_request_row" />
 
     <LinearLayout
         android:id="@+id/constraintLayout2"

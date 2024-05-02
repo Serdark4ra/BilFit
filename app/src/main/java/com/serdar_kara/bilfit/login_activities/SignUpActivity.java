@@ -21,6 +21,7 @@ import com.serdar_kara.bilfit.MainActivity;
 import com.serdar_kara.bilfit.databinding.ActivitySignUpBinding;
 import com.serdar_kara.bilfit.get_info_activities.GenderActivity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -79,8 +80,8 @@ public class SignUpActivity extends AppCompatActivity {
                             HashMap userInfo = new HashMap();
                             userInfo.put("name_surname",name_surname);
                             userInfo.put("email",email);
-                            userInfo.put("friends", new HashMap<>());
-                            userInfo.put("friendRequests", new HashMap<>());
+                            userInfo.put("friends", new ArrayList<String>());
+                            userInfo.put("friendRequests", new ArrayList<String>());
 
                             if (currentUser != null){
                                 documentReference.set(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {

@@ -1,11 +1,5 @@
 package com.serdar_kara.bilfit.friends;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,15 +7,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.serdar_kara.bilfit.MainActivity;
@@ -32,10 +31,6 @@ import com.serdar_kara.bilfit.databinding.FriendRowBinding;
 
 import java.util.ArrayList;
 import java.util.List;
-import androidx.appcompat.app.AlertDialog;
-import android.content.DialogInterface;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 public class FriendsActivity extends AppCompatActivity {
 
     private class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder> {
@@ -43,7 +38,7 @@ public class FriendsActivity extends AppCompatActivity {
         private List<String> friendsList;
 
         public FriendsAdapter(List<String> friendsList) {
-            Log.d("Item",friendsList.size() + "");
+            Log.d("Item", String.valueOf(friendsList.size()));
             this.friendsList = friendsList;
         }
 
@@ -67,28 +62,20 @@ public class FriendsActivity extends AppCompatActivity {
                             holder.binding.textFriendName.setText(documentSnapshot.getString("name_surname"));
                             holder.binding.textFriendUsername.setText(documentSnapshot.getString("name_surname"));
                             holder.binding.imageViewFriend.setImageResource(R.drawable.ic_launcher_background);
-                            Log.d("Friends", friendUserId +"");
+                            Log.d("Friends", friendUserId);
                         } else {
                             Toast.makeText(FriendsActivity.this, "Something went wrong. Please try again",
                                     Toast.LENGTH_SHORT).show();
                         }
                     })
-                    .addOnFailureListener(e -> {
-                        Log.d("Friends", "Fail");
-                    });;
+                    .addOnFailureListener(e -> Log.d("Friends", "Fail"));
 
-            holder.binding.buttonGoTogether.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // TODO
-                }
+            holder.binding.buttonGoTogether.setOnClickListener(v -> {
+                // TODO
             });
 
-            holder.binding.buttonCheckProfile.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //TODO
-                }
+            holder.binding.buttonCheckProfile.setOnClickListener(v -> {
+                //TODO
             });
         }
 
@@ -108,9 +95,9 @@ public class FriendsActivity extends AppCompatActivity {
     }
 
     private class FriendRequestsAdapter extends RecyclerView.Adapter<FriendRequestsAdapter.FriendRequestsViewHolder> {
-        private List<FirebaseUser> friendRequestsList;
+        private List<String> friendRequestsList;
 
-        public FriendRequestsAdapter(List<FirebaseUser> friendRequestsList) {
+        public FriendRequestsAdapter(List<String> friendRequestsList) {
             this.friendRequestsList = friendRequestsList;
         }
 
@@ -138,18 +125,12 @@ public class FriendsActivity extends AppCompatActivity {
                         }
                     });
 
-            holder.binding.buttonAccept.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //TODO
-                }
+            holder.binding.buttonAccept.setOnClickListener(v -> {
+                //TODO
             });
 
-            holder.binding.buttonDeny.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //TODO
-                }
+            holder.binding.buttonDeny.setOnClickListener(v -> {
+                //TODO
             });
         }
 
@@ -168,16 +149,13 @@ public class FriendsActivity extends AppCompatActivity {
         }
     }
 
-    private String currentUserId;
     private RecyclerView recyclerViewFriends;
     private RecyclerView recyclerViewFriendRequests;
     private FriendsAdapter friendsAdapter;
     private FriendRequestsAdapter friendRequestsAdapter;
     private ArrayList<String> friendsList;
-    private ArrayList<FirebaseUser> friendRequestsList;
+    private ArrayList<String> friendRequestsList;
     private FirebaseFirestore db;
-
-    private ActivityFriendsBinding binding;
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -185,7 +163,7 @@ public class FriendsActivity extends AppCompatActivity {
         Log.d("Friends", "A");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
-        binding = ActivityFriendsBinding.inflate(getLayoutInflater());
+        com.serdar_kara.bilfit.databinding.ActivityFriendsBinding binding = ActivityFriendsBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 
@@ -200,17 +178,14 @@ public class FriendsActivity extends AppCompatActivity {
         recyclerViewFriendRequests.setLayoutManager(new LinearLayoutManager(this));
 
         db = FirebaseFirestore.getInstance();
-        currentUserId = getCurrentUserId();
+        String currentUserId = getCurrentUserId();
 
         // Add an onClickListener to the navigation icon
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("Friends", "B");
-                Intent intent = new Intent(FriendsActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        toolbar.setNavigationOnClickListener(v -> {
+            Log.d("Friends", "B");
+            Intent intent = new Intent(FriendsActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
         });
         Log.d("Friends", "C");
 
@@ -225,29 +200,21 @@ public class FriendsActivity extends AppCompatActivity {
                 });
 
         friendRequestsList = new ArrayList<>();
-        db.collection("Users").document(currentUserId).collection("friendRequests")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            FirebaseUser friendRequest = document.toObject(FirebaseUser.class);
-                            friendRequestsList.add(friendRequest);
-                        }
+        db.collection("Users").document(currentUserId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        friendsList = (ArrayList<String>) documentSnapshot.get("friendRequests");
+
                         // Initialize and set adapter for friend requests RecyclerView
                         friendRequestsAdapter = new FriendRequestsAdapter(friendRequestsList);
                         recyclerViewFriendRequests.setAdapter(friendRequestsAdapter);
                         Log.d("Friends", "BBB");
                     } else {
-                        Toast.makeText(FriendsActivity.this, "Error fetching friend requests: " + task.getException(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FriendsActivity.this, "Error in showing requests", Toast.LENGTH_SHORT).show();
                     }
                 });
 
-        binding.addFriendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showAddFriendDialog();
-            }
-        });
+        binding.addFriendButton.setOnClickListener(v -> showAddFriendDialog());
     }
     private String getCurrentUserId() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -279,48 +246,41 @@ public class FriendsActivity extends AppCompatActivity {
         builder.setView(layout);
 
         // Set up the buttons
-        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String username = editTextUsername.getText().toString().trim();
+        builder.setPositiveButton("Add", (dialog, which) -> {
+            String username = editTextUsername.getText().toString().trim();
 
-                // Find the user
-                db.collection("Users")
-                        .whereEqualTo("name_surname", username)
-                        .get()
-                        .addOnSuccessListener(queryDocumentSnapshots -> {
-                            if (!queryDocumentSnapshots.isEmpty()) {
-                                QueryDocumentSnapshot documentSnapshot = (QueryDocumentSnapshot) queryDocumentSnapshots.getDocuments().get(0); // Get the first document
-                                String userId = documentSnapshot.getId();
+            // Find the user
+            db.collection("Users")
+                    .whereEqualTo("name_surname", username)
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            QueryDocumentSnapshot documentSnapshot = (QueryDocumentSnapshot) queryDocumentSnapshots.getDocuments().get(0); // Get the first document
+                            String userId = documentSnapshot.getId();
 
-                                // Add friend to the request list of the target user
-                                DocumentReference targetUserRef = db.collection("Users").document(userId);
-                                targetUserRef.update("friendRequests." + FirebaseAuth.getInstance().getCurrentUser().getUid(), true)
-                                        .addOnSuccessListener(aVoid -> {
-                                            // Successful
-                                            Toast.makeText(FriendsActivity.this, "Friend request sent to user: " + userId, Toast.LENGTH_SHORT).show();
-                                        })
-                                        .addOnFailureListener(e -> {
-                                            // Error
-                                            Toast.makeText(FriendsActivity.this, "Failed to send friend request. Please try again.", Toast.LENGTH_SHORT).show();
-                                        });
-                            } else {
-                                // No user
-                                Toast.makeText(FriendsActivity.this, "User not found with username: " + username, Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnFailureListener(e -> {
-                            // Handle any errors
-                            Toast.makeText(FriendsActivity.this, "Error searching for user. Please try again.", Toast.LENGTH_SHORT).show();
-                        });
-            }
+                            // Add friend to the request list of the target user
+                            DocumentReference targetUserRef = db.collection("Users").document(userId);
+                            
+                            targetUserRef.update("friendRequests." + FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .addOnSuccessListener(aVoid -> {
+                                        // Successful
+                                        Toast.makeText(FriendsActivity.this, "Friend request sent to user: " + userId, Toast.LENGTH_SHORT).show();
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        // Error
+                                        Toast.makeText(FriendsActivity.this, "Failed to send friend request. Please try again.", Toast.LENGTH_SHORT).show();
+                                    });
+                        } else {
+                            // No user
+                            Toast.makeText(FriendsActivity.this, "User not found with username: " + username, Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        // Handle any errors
+                        Toast.makeText(FriendsActivity.this, "Error searching for user. Please try again.", Toast.LENGTH_SHORT).show();
+                    });
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
 
         // Create and show the dialog
         AlertDialog dialog = builder.create();
