@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.serdar_kara.bilfit.MainActivity;
@@ -261,7 +262,7 @@ public class FriendsActivity extends AppCompatActivity {
                             // Add friend to the request list of the target user
                             DocumentReference targetUserRef = db.collection("Users").document(userId);
                             
-                            targetUserRef.update("friendRequests." + FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            targetUserRef.update("friendRequests", FieldValue.arrayUnion(getCurrentUserId()))
                                     .addOnSuccessListener(aVoid -> {
                                         // Successful
                                         Toast.makeText(FriendsActivity.this, "Friend request sent to user: " + userId, Toast.LENGTH_SHORT).show();
