@@ -7,15 +7,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -24,9 +20,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.serdar_kara.bilfit.databinding.ActivityProgramBinding;
 import com.serdar_kara.bilfit.exercises.ExerciseEditAdapter;
 import com.serdar_kara.bilfit.exercises.ExerciseModel;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +36,6 @@ public class ProgramActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
     private DocumentReference documentReference;
-    private ExerciseEditAdapter exerciseAdapter;
 
     private DaysPagerAdapter daysPagerAdapter;
 
@@ -49,114 +45,82 @@ public class ProgramActivity extends AppCompatActivity {
         binding = ActivityProgramBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        TabLayout tabLayout = binding.tabLayoutDays;
-        ViewPager2 viewPager = binding.viewPagerDaySchedule;
-
-        List<String> daysList = getUserSpecificDays();
-        Map<String, List<ExerciseModel>> exercisesByDay = getExercisesByDay();
-
-
-
-        ArrayList<ExerciseModel> exerciseList = new ArrayList<>();
-        exerciseAdapter = new ExerciseEditAdapter(exerciseList);
-
-        daysPagerAdapter = new DaysPagerAdapter(getSupportFragmentManager(), getLifecycle(),daysList, exercisesByDay);
-        viewPager.setAdapter(daysPagerAdapter);
-
-        new TabLayoutMediator(tabLayout, viewPager,
-                (tab, position) -> tab.setText(daysList.get(position))
-        ).attach();
-
-    }
-
-    private Map<String, List<ExerciseModel>> getExercisesByDay() {
-        Map<String, List<ExerciseModel>> map = new HashMap<>();
-        ArrayList<String> days = getUserSpecificDays();
-
-
-        for (String day : days) {
-            map.put(day, retrieveProgramFromDatabase(day));
-            Log.d("program for " + day, map.get(day).toString());
-        }
-        return map;
-    }
-
-    private ArrayList<String> getUserSpecificDays() {
-        boolean[] exerciseDays = getExerciseDays();
-
-        ArrayList<String> daysList = new ArrayList<>();
-        for (int i = 0; i < exerciseDays.length; i++) {
-            if (exerciseDays[i]) {
-                switch (i) {
-                    case 0:
-                        daysList.add("Monday");
-                        break;
-                    case 1:
-                        daysList.add("Tuesday");
-                        break;
-                    case 2:
-                        daysList.add("Wednesday");
-                        break;
-                    case 3:
-                        daysList.add("Thursday");
-                        break;
-                    case 4:
-                        daysList.add("Friday");
-                        break;
-                    case 5:
-                        daysList.add("Saturday");
-                        break;
-                    case 6:
-                        daysList.add("Sunday");
-                        break;
-                }
-            }
-        }
-        return daysList;
-
-    }
-
-    public boolean[] getExerciseDays(){
-        SharedPreferences sharedPreferences = getSharedPreferences("ExerciseDays", Context.MODE_PRIVATE);
-        boolean[] days = new boolean[7];
-        for (int i = 0; i < 7; i++) {
-            days[i] = sharedPreferences.getBoolean("day_" + i, false);
-        }
-        return days;
-    }
-
-    private ArrayList<ExerciseModel> retrieveProgramFromDatabase(String day) {
-        Log.d(TAG, "Fetching program for: " + day);  // Log which day is being processed
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        documentReference = db.collection("Users").document(currentUser.getUid());
 
-        ArrayList<ExerciseModel> exerciseList = new ArrayList<>();
+        if (currentUser != null) {
+            fetchExercisesAndSetupUI();
+        }
+    }
+
+    private void fetchExercisesAndSetupUI() {
+        List<String> daysList = getUserSpecificDays();
+        Map<String, List<ExerciseModel>> exercisesByDay = new HashMap<>();
+
+        if (daysList.isEmpty()) {
+            Log.d(TAG, "No exercise days set in SharedPreferences.");
+            return; // Exit if no days are selected
+        }
+
+        documentReference = db.collection("Users").document(currentUser.getUid());
 
         documentReference.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
-                Map<String, Object> programData = (Map<String, Object>) documentSnapshot.get("program");
-                if (programData != null && programData.containsKey(day)) {
-                    ArrayList<String> program = (ArrayList<String>) programData.get(day);
-                    if (program != null) {
-                        exerciseList.clear();
-                        for (String exercise : program) {
-                            exerciseList.add(new ExerciseModel(exercise));
-                            Log.d(TAG, "Adding exercise for " + day + ": " + exercise); // Log each exercise added
+                Map<String, Object> program = (Map<String, Object>) documentSnapshot.get("program");
+                if (program != null) {
+                    for (String day : daysList) {
+                        List<String> exercises = (List<String>) program.get(day);
+                        ArrayList<ExerciseModel> exerciseModels = new ArrayList<>();
+                        if (exercises != null) {
+                            for (String exercise : exercises) {
+                                exerciseModels.add(new ExerciseModel(exercise));
+                            }
                         }
-                        exerciseAdapter.notifyDataSetChanged();
-                    } else {
-                        Log.d("Error", "No program data for the current day: " + day);
+                        exercisesByDay.put(day, exerciseModels);
                     }
+                    setupViewPagerAndTabs(daysList, exercisesByDay);
                 } else {
-                    Log.d("Error", "No program data or missing day key for: " + day);
+                    Log.d(TAG, "Program data is missing in user document");
                 }
             } else {
-                Log.d("Error", "No such document with the current user id: " + currentUser.getUid());
+                Log.d(TAG, "No user document exists for UID: " + currentUser.getUid());
             }
-        }).addOnFailureListener(e -> Log.w(TAG, "Error retrieving program data", e));
-        return exerciseList;
+        }).addOnFailureListener(e -> Log.w(TAG, "Error retrieving user document", e));
     }
 
+    private void setupViewPagerAndTabs(List<String> daysList, Map<String, List<ExerciseModel>> exercisesByDay) {
+        runOnUiThread(() -> {
+            daysPagerAdapter = new DaysPagerAdapter(getSupportFragmentManager(), getLifecycle(), daysList, exercisesByDay);
+            binding.viewPagerDaySchedule.setAdapter(daysPagerAdapter);
 
+            new TabLayoutMediator(binding.tabLayoutDays, binding.viewPagerDaySchedule,
+                    (tab, position) -> tab.setText(daysList.get(position))
+            ).attach();
+        });
+    }
+
+    private ArrayList<String> getUserSpecificDays() {
+        SharedPreferences sharedPreferences = getSharedPreferences("ExerciseDays", Context.MODE_PRIVATE);
+        ArrayList<String> daysList = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            if (sharedPreferences.getBoolean("day_" + i, false)) {
+                daysList.add(getDayName(i));
+            }
+        }
+        return daysList;
+    }
+
+    private String getDayName(int dayIndex) {
+        switch (dayIndex) {
+            case 0: return "Monday";
+            case 1: return "Tuesday";
+            case 2: return "Wednesday";
+            case 3: return "Thursday";
+            case 4: return "Friday";
+            case 5: return "Saturday";
+            case 6: return "Sunday";
+            default: return "";
+        }
+    }
 }
