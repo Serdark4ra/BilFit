@@ -2,6 +2,7 @@
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="5dp"
@@ -10,10 +11,10 @@
     app:cardCornerRadius="20dp"
     app:contentPadding="8dp">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/user_relative"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center_vertical">
 
         <ImageView
@@ -22,7 +23,10 @@
             android:layout_height="66dp"
             android:layout_gravity="center_vertical"
             android:background="@drawable/circle_background"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
@@ -30,26 +34,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="14dp"
-            android:layout_marginEnd="94dp"
             android:layout_toStartOf="@+id/buttonAccept"
             android:text="Friend's Name"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/textRequestUsername"
+            app:layout_constraintEnd_toStartOf="@+id/buttonAccept"
+            app:layout_constraintHorizontal_bias="0.076"
+            app:layout_constraintStart_toEndOf="@+id/imageViewRequest"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/textRequestUsername"
             android:layout_width="85dp"
             android:layout_height="17dp"
             android:layout_alignBottom="@+id/buttonAccept"
-            android:layout_marginStart="13dp"
-            android:layout_marginEnd="107dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="16dp"
             android:layout_toStartOf="@+id/buttonAccept"
-            android:layout_toEndOf="@+id/imageFriend"
             android:text="username"
             android:textColor="@android:color/darker_gray"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout_editor_absoluteX="75dp" />
 
         <Button
             android:id="@+id/buttonAccept"
@@ -57,16 +64,17 @@
             android:layout_height="50dp"
             android:layout_alignBottom="@+id/buttonDeny"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="11dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="0dp"
+            android:layout_marginEnd="12dp"
             android:layout_toStartOf="@+id/buttonDeny"
             android:layout_weight="1"
             android:paddingStart="0dp"
             android:paddingEnd="0dp"
             android:text="Accept"
             android:textAlignment="center"
-            android:textSize="8sp" />
+            android:textSize="8sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buttonDeny"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/buttonDeny"
@@ -74,14 +82,15 @@
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="11dp"
-            android:layout_marginEnd="10dp"
             android:layout_weight="1"
             android:paddingStart="0sp"
             android:paddingEnd="0dp"
             android:text="Deny"
             android:textAlignment="center"
-            android:textSize="8sp" />
+            android:textSize="8sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -209,6 +209,18 @@ public class FriendsActivity extends AppCompatActivity {
                         // Initialize and set adapter for friend requests RecyclerView
                         friendRequestsAdapter = new FriendRequestsAdapter(friendRequestsList);
                         recyclerViewFriendRequests.setAdapter(friendRequestsAdapter);
+                        if (friendRequestsList.isEmpty()) {
+                            // If empty, set the height of recyclerViewFriendRequests to wrap_content
+                            ViewGroup.LayoutParams params = recyclerViewFriendRequests.getLayoutParams();
+                            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                            recyclerViewFriendRequests.setLayoutParams(params);
+                        } else {
+                            // If not empty, set a fixed height for recyclerViewFriendRequests
+                            int desiredHeight = getResources().getDimensionPixelSize(recyclerViewFriendRequests.getHeight());
+                            ViewGroup.LayoutParams params = recyclerViewFriendRequests.getLayoutParams();
+                            params.height = desiredHeight;
+                            recyclerViewFriendRequests.setLayoutParams(params);
+                        }
                         Log.d("Friends", "BBB");
                     } else {
                         Toast.makeText(FriendsActivity.this, "Error in showing requests", Toast.LENGTH_SHORT).show();
