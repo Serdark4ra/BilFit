@@ -42,7 +42,7 @@ public class FeedbackActivity extends AppCompatActivity {
         });
 
         UserInfoHolder userInfoHolder = UserInfoManager.getInstance().getUserInfo();
-        double gender = userInfoHolder.getPower();
+       // double gender = userInfoHolder.getPower();
 
 
 
