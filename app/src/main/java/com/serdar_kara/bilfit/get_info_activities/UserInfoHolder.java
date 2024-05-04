@@ -148,6 +148,14 @@ public class UserInfoHolder implements Serializable {
         return purpose;
     }
 
+    public double getPower() {
+        return power;
+    }
+
+    public void setPower(double power) {
+        this.power = power;
+    }
+
     public String getBodyType() {
         return bodyType;
     }

@@ -50,6 +50,7 @@ public class LoadingInfoSessionSActivity extends AppCompatActivity {
 
         Intent comingIntent = getIntent();
         UserInfoHolder userInfoHolder = (UserInfoHolder) comingIntent.getSerializableExtra("userInfoHolder");
+        UserInfoManager.getInstance().setUserInfo(userInfoHolder);
 
         ProgressBar progressBar = binding.progressBar;
         TextView loadingPercentage = binding.textViewLoadingPercentage;
