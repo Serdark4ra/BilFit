@@ -26,6 +26,8 @@ import com.serdar_kara.bilfit.databinding.ActivityMainBinding;
 import com.serdar_kara.bilfit.exercises.ExerciseAdapter;
 import com.serdar_kara.bilfit.exercises.ExerciseModel;
 import com.serdar_kara.bilfit.friends.FriendsActivity;
+import com.serdar_kara.bilfit.get_info_activities.UserInfoHolder;
+import com.serdar_kara.bilfit.get_info_activities.UserInfoManager;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -89,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, FeedbackActivity.class);
             startActivity(intent);
             completedButton.setVisibility(Button.INVISIBLE);
+            updateUserPoints();
 
         });
 
@@ -119,10 +122,25 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void updateUserPoints() {
+        db = FirebaseFirestore.getInstance();
+        documentReference = db.collection("Users").document(currentUser.getUid());
+
+        documentReference.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                int points = documentSnapshot.getLong("points").intValue();
+                UserInfoHolder userInfoHolder = UserInfoManager.getInstance().getUserInfo();
+                points += 10 * userInfoHolder.getPower();
+                documentReference.update("points", points);
+            }else{
+                Log.d("Error", "No such document with the current user id: " + currentUser.getUid());
+            }
+        });
+    }
+
     private void retrieveProgramFromDatabase(String userId) {
         db = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        currentUser = auth.getCurrentUser();
         documentReference = db.collection("Users").document(userId);
 
         documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -146,10 +164,10 @@ public class MainActivity extends AppCompatActivity {
                             Log.d("Error", "No program data for the current day: " + determineDayToShowProgramInUpcoming());
                         }
                     } else {
-                        Log.d("Error", "No program data for the current user id: " + currentUser.getUid());
+                        Log.d("Error", "No program data for the current user id: " + userId);
                     }
                 } else {
-                    Log.d("Error", "No such document with the current user id: " + currentUser.getUid());
+                    Log.d("Error", "No such document with the current user id: " + userId);
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -170,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                 String name_surname = documentSnapshot.getString("name_surname");
                 activityMainBinding.textViewUserName.setText(name_surname);
             }else{
-                Log.d("Error", "No such document with the current user id: " + currentUser.getUid());
+                Log.d("Error", "No such document with the current user id: " + userId);
             }
         });
     }

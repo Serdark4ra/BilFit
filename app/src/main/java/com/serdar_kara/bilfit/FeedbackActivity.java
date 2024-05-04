@@ -45,7 +45,7 @@ public class FeedbackActivity extends AppCompatActivity {
         });
 
         UserInfoHolder userInfoHolder = UserInfoManager.getInstance().getUserInfo();
-        double gender = userInfoHolder.getPower();
+       // double gender = userInfoHolder.getPower();
 
         Button submitButton = findViewById(R.id.submitButton);
         submitButton.setOnClickListener(new View.OnClickListener() {
