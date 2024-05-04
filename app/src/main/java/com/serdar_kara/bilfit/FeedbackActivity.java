@@ -3,6 +3,9 @@ package com.serdar_kara.bilfit;
 import android.os.Bundle;
 import android.widget.RatingBar;
 import android.widget.Toast;
+import android.widget.Button;
+import android.view.View;
+import android.content.Intent;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,14 +47,23 @@ public class FeedbackActivity extends AppCompatActivity {
         UserInfoHolder userInfoHolder = UserInfoManager.getInstance().getUserInfo();
         double gender = userInfoHolder.getPower();
 
-
-
-        RatingBar ratingBar1 = findViewById(R.id.ratingBar1);
-        ratingBar1.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+        Button submitButton = findViewById(R.id.submitButton);
+        submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onRatingChanged(RatingBar ratingBar1, float rating, boolean fromUser) {
-                double gender = userInfoHolder.getPower();
+            public void onClick(View view) {
+                RatingBar ratingBar1 = findViewById(R.id.ratingBar1);
+                float rating = ratingBar1.getRating();
+                System.out.println("TEST 1, power before: " + userInfoHolder.getPower());
+                userInfoHolder.updatePower((rating - 3.0) / 100.0 * (-1.0));
+                System.out.println("TEST 2, power after: " + userInfoHolder.getPower());
+
+                // Return to the main menu here
+                Intent intent = new Intent(FeedbackActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish(); // Close the current activity
             }
         });
     }
+
+
 }

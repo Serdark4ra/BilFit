@@ -291,6 +291,10 @@ public class UserInfoHolder implements Serializable {
         this.generateProgram();
     }
 
+    public void updatePower(double change){
+        this.power += change;
+    }
+
     private void generateProgram()
     {
         WorkoutPrograms w = new WorkoutPrograms();
