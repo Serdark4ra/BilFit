@@ -455,7 +455,7 @@ public class Tester {
         cardioExercises.add(new CardioExercises(3, "Stair Climbing"));
         cardioExercises.add(new CardioExercises(5, "HIIT (High-Intensity Interval Training)"));
         cardioExercises.add(new CardioExercises(4, "Jumping Jacks"));
-        cardioExercises.add(new CardioExercises(2, "Burpees"));
+        cardioExercises.add(new CardioExercises(1, "Burpees"));
         cardioExercises.add(new CardioExercises(5, "Sprinting"));
         cardioExercises.add(new CardioExercises(3, "Mountain Climbers"));
         cardioExercises.add(new CardioExercises(4, "Jumping Rope"));
@@ -463,7 +463,7 @@ public class Tester {
         cardioExercises.add(new CardioExercises(1, "Circuit Training"));
         cardioExercises.add(new CardioExercises(3, "Plyometric Exercises"));
         cardioExercises.add(new CardioExercises(4, "Trail Running"));
-        cardioExercises.add(new CardioExercises(2, "Box Jumps"));
+        cardioExercises.add(new CardioExercises(1, "Box Jumps"));
 
         //bacak hareketleri
         exercisesList.add(new LegExercises(5, "Squat"));

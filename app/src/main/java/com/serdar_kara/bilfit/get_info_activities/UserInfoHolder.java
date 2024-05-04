@@ -274,7 +274,12 @@ public class UserInfoHolder implements Serializable {
         {
             this.power += 0.4;
         }
+        if (this.power < 1)
+        {
+            this.power = 1.1;
+        }
         System.out.println("*********FINAL " + this.power);
+
         this.generateProgram();
     }
 
