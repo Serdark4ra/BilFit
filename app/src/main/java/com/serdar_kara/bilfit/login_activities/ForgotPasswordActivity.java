@@ -26,7 +26,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         activityForgotPasswordBinding.passResetButton.setOnClickListener(view -> sendResetMail());
     }
 
-    private void sendResetMail() {
+    public void sendResetMail() {
         String email = activityForgotPasswordBinding.editTextEmailForgotPass.getText().toString();
 
         auth = FirebaseAuth.getInstance();

@@ -1,26 +1,32 @@
 package com.serdar_kara.bilfit.Settings;
-
 import android.os.Bundle;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.serdar_kara.bilfit.R;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import com.serdar_kara.bilfit.databinding.ActivityChangePasswordBinding;
 
 public class ChangePasswordActivity extends AppCompatActivity {
+
+    private ActivityChangePasswordBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_change_password);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        binding = ActivityChangePasswordBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        binding.okButton.setOnClickListener(v -> {
+            finish();
         });
     }
+
+
+
+
+
 }
