@@ -55,6 +55,10 @@ public class SettingsActivity extends AppCompatActivity {
             Intent intent = new Intent(SettingsActivity.this, SignUpActivity.class);
             startActivity(intent);
         });
+
+        binding.toolbarSettings.setNavigationOnClickListener(v -> {
+            finish();
+        });
     }
 
     private void sendResetMail() {
