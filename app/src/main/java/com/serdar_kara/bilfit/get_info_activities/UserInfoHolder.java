@@ -43,6 +43,8 @@ public class UserInfoHolder implements Serializable {
     private double userPoint;
     private double ibm;
 
+    private int icon;
+
     //We will not use this program "for now".
     /*private ArrayList<Exercises>[] program;*/
 
@@ -65,6 +67,7 @@ public class UserInfoHolder implements Serializable {
         this.userPoint = 2;
         this.numberGoingGym = 0;
         this.power = 2;
+        this.icon = 1;
         /*this.program = new ArrayList[7];*/
     }
 
@@ -82,6 +85,11 @@ public class UserInfoHolder implements Serializable {
         {
             this.numberGoingGym++;
         }
+    }
+
+    public void setIcon(int i)
+    {
+        this.icon = i;
     }
 
     public String getGender() {
