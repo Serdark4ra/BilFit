@@ -113,24 +113,61 @@ public class FriendsActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull FriendRequestsViewHolder holder, int position) {
             String friendUserId = String.valueOf(friendRequestsList.get(position));
             FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            // Load user data based on friendUserId
             db.collection("Users").document(friendUserId).get()
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
+                            // Set user data to views
                             holder.binding.textRequestName.setText(documentSnapshot.getString("name_surname"));
-                            holder.binding.textRequestUsername.setText(documentSnapshot.getString("name_surname"));
+                            holder.binding.textRequestUsername.setText(documentSnapshot.getString("username"));
                             holder.binding.imageViewRequest.setImageResource(R.drawable.ic_launcher_background);
                         } else {
-                            Toast.makeText(FriendsActivity.this, "Something went wrong. Please try again",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FriendsActivity.this, "User not found. Please try again.", Toast.LENGTH_SHORT).show();
                         }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(FriendsActivity.this, "Failed to load user data. Please try again.", Toast.LENGTH_SHORT).show();
                     });
 
+            // Accept button click listener
             holder.binding.buttonAccept.setOnClickListener(v -> {
-                //TODO
+                // Remove request from request list in Firestore
+                db.collection("Users").document(getCurrentUserId())
+                        .update("friendRequests", FieldValue.arrayRemove(friendUserId))
+                        .addOnSuccessListener(aVoid -> {
+                            // Add user to friend list in Firestore
+                            db.collection("Users").document(getCurrentUserId())
+                                    .update("friends", FieldValue.arrayUnion(friendUserId))
+                                    .addOnSuccessListener(aVoid1 -> {
+                                        // Remove item from RecyclerView and update UI
+                                        friendRequestsList.remove(position);
+                                        FriendsActivity.this.recreate();
+                                        Toast.makeText(FriendsActivity.this, "Friend request accepted.", Toast.LENGTH_SHORT).show();
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(FriendsActivity.this, "Failed to accept friend request. Please try again.", Toast.LENGTH_SHORT).show();
+                                    });
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(FriendsActivity.this, "Failed to accept friend request. Please try again.", Toast.LENGTH_SHORT).show();
+                        });
             });
 
+            // Deny button click listener
             holder.binding.buttonDeny.setOnClickListener(v -> {
-                //TODO
+                // Remove request from request list in Firestore
+                db.collection("Users").document(getCurrentUserId())
+                        .update("friendRequests", FieldValue.arrayRemove(friendUserId))
+                        .addOnSuccessListener(aVoid -> {
+                            // Remove item from RecyclerView and update UI
+                            friendRequestsList.remove(position);
+                            FriendsActivity.this.recreate();
+                            Toast.makeText(FriendsActivity.this, "Friend request denied.", Toast.LENGTH_SHORT).show();
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(FriendsActivity.this, "Failed to deny friend request. Please try again.", Toast.LENGTH_SHORT).show();
+                        });
             });
         }
 
@@ -206,7 +243,6 @@ public class FriendsActivity extends AppCompatActivity {
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         friendRequestsList = (ArrayList<String>) documentSnapshot.get("friendRequests");
-                        System.out.println(friendRequestsList.get(0));
                         Log.d("Friends", "Still good");
                         if (friendRequestsList.isEmpty()) {
                             // If empty, set the height of recyclerViewFriendRequests to wrap_content
