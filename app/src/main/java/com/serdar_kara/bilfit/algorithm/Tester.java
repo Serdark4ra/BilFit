@@ -415,6 +415,30 @@ public class Tester {
         return null;
     }
 
+    public static ArrayList<String> returnAssociatedList(String s)
+    {
+        String nameOfClass = "";
+
+        for (int i = 0; i < exercisesList.size(); i++)
+        {
+            if (s.equals(exercisesList.get(i).getName()))
+            {
+                nameOfClass = String.valueOf(exercisesList.get(i).getClass());
+            }
+        }
+
+        ArrayList<String> associatedExercises = new ArrayList<String>();
+        for (int i = 0; i < exercisesList.size(); i++)
+        {
+            if (String.valueOf(exercisesList.get(i).getClass()).equals(nameOfClass))
+            {
+                associatedExercises.add(exercisesList.get(i).getName());
+            }
+        }
+
+        return associatedExercises;
+    }
+
     public Tester()
     {
         exercisesList = new ArrayList<Exercises>();
