@@ -23,21 +23,24 @@ public class DaysFragment extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList<ExerciseModel> exercises;
 
-    public static DaysFragment newInstance(List<ExerciseModel> exercises) {
+    public static DaysFragment newInstance(List<ExerciseModel> exercises, String day) {
         DaysFragment fragment = new DaysFragment();
         Bundle args = new Bundle();
         args.putSerializable("exercises", new ArrayList<>(exercises));
+        args.putString("day", day);
         fragment.setArguments(args);
         return fragment;
     }
 
+    private String currentDay;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             exercises = (ArrayList<ExerciseModel>) getArguments().getSerializable("exercises");
-        }else{
-            Log.d("DaysFragment", "No exercises found");
+            currentDay = getArguments().getString("day", ""); // Default to an empty string if not found
+        } else {
+            Log.d("DaysFragment", "No exercises or day found");
         }
     }
 
@@ -52,6 +55,6 @@ public class DaysFragment extends Fragment {
 
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new ExerciseEditAdapter(exercises, getActivity()));
+        recyclerView.setAdapter(new ExerciseEditAdapter(exercises, getActivity(), currentDay));
     }
 }

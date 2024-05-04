@@ -26,7 +26,7 @@ public class DaysPagerAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         List<ExerciseModel> exercises = exercisesByDay.getOrDefault(daysList.get(position), new ArrayList<>());
-        return DaysFragment.newInstance(exercises);
+        return DaysFragment.newInstance(exercises, daysList.get(position));
     }
 
     @Override

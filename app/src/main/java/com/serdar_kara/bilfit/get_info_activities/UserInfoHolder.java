@@ -321,24 +321,19 @@ public class UserInfoHolder implements Serializable {
     }
 
     //sadece test amaçlı bir kod daha sonra sileriz...
-    public void programiYazdir()
-    {
+    public void programiYazdir() {
         int k = 0;
-        String[] gunler = {"Monday" , "Tuesday", "Wednesday", "Thursday" ,"Friday" , "Saturday", "Sunday"};
-        for (int i = 0; i < program.size(); i++)
-        {
+        String[] gunler = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+        for (int i = 0; i < program.size(); i++) {
             System.out.print("--------- " + (i + 1) + ". Day ---------" + "Gunlerden ");
             boolean gunBulundu = true;
-            for (;gunBulundu && k < 7; k++)
-            {
-                if (this.days[k])
-                {
+            for (; gunBulundu && k < 7; k++) {
+                if (this.days[k]) {
                     System.out.print(gunler[k] + "-------------------------\n");
                     gunBulundu = false;
                 }
             }
-            for (int j = 0; j < program.get(i).size(); j++)
-            {
+            for (int j = 0; j < program.get(i).size(); j++) {
                 System.out.println(program.get(i).get(j));
             }
         }
@@ -352,6 +347,26 @@ public class UserInfoHolder implements Serializable {
         {
             System.out.println(a.get(i).getIsim());
         }*/
+        System.out.println("-------------------ONEMLI TEST--------------------");
+        System.out.println("**************************************************");
+        ArrayList<String> s = Tester.returnAssociatedList("Pull-up");
+        ArrayList<String> s1 = Tester.returnAssociatedList("Dumbbell Curl");
+        ArrayList<String> s2 = Tester.returnAssociatedList("Triceps Dips");
+
+        for (int i = 0; i < s.size(); i++)
+        {
+            System.out.println(s.get(i));
+        }
+
+        for (int i = 0; i < s1.size(); i++)
+        {
+            System.out.println(s1.get(i));
+        }
+
+        for (int i = 0; i < s2.size(); i++)
+        {
+            System.out.println(s2.get(i));
+        }
     }
 
     public void setMondayEligible(boolean mondayEligible) {
