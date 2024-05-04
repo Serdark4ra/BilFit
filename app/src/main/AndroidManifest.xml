@@ -16,7 +16,7 @@
             android:name=".NotificiationActivity"
             android:exported="false" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".Settings.SettingsActivity"
             android:exported="false" />
         <activity
             android:name=".ReportActivity"

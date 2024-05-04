@@ -1,4 +1,4 @@
-package com.serdar_kara.bilfit;
+package com.serdar_kara.bilfit.Settings;
 
 import android.os.Bundle;
 

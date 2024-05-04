@@ -21,6 +21,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.serdar_kara.bilfit.ProgramActivity.ProgramActivity;
+import com.serdar_kara.bilfit.Settings.SettingsActivity;
 import com.serdar_kara.bilfit.databinding.ActivityMainBinding;
 import com.serdar_kara.bilfit.exercises.ExerciseAdapter;
 import com.serdar_kara.bilfit.exercises.ExerciseModel;
@@ -80,7 +81,10 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean("day_" + (dayOfWeek.getValue() - 1), true);
             editor.apply();
+            Intent intent = new Intent(MainActivity.this, FeedbackActivity.class);
+            startActivity(intent);
             completedButton.setVisibility(Button.INVISIBLE);
+
         });
 
         activityMainBinding.settingsButton.setOnClickListener(v -> {
@@ -124,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                     Map<String, Object> programData = (Map<String, Object>) documentSnapshot.get("program");
                     if (programData != null) {
                         // Get the program for the current day
-                        ArrayList<String> program = (ArrayList<String>) programData.get(determineDayToShowProgram());
+                        ArrayList<String> program = (ArrayList<String>) programData.get(determineDayToShowProgramInUpcoming());
                         if (program != null) {
                             // Clear the exerciseList before adding new exercises
                             exerciseList.clear();
@@ -134,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                             // Notify the adapter that the data set has changed
                             exerciseAdapter.notifyDataSetChanged();
                         } else {
-                            Log.d("Error", "No program data for the current day: " + determineDayToShowProgram());
+                            Log.d("Error", "No program data for the current day: " + determineDayToShowProgramInUpcoming());
                         }
                     } else {
                         Log.d("Error", "No program data for the current user id: " + currentUser.getUid());
@@ -178,43 +182,41 @@ public class MainActivity extends AppCompatActivity {
         return days;
     }
 
-    public String determineDayToShowProgram(){
+    public String determineDayToShowProgramInUpcoming() {
         LocalDate today = LocalDate.now();
         DayOfWeek dayOfWeek = today.getDayOfWeek();
 
         boolean[] exerciseDays = getExerciseDays();
 
-        int currentDay = dayOfWeek.getValue();
-        for (; currentDay < 7 ; currentDay++) {
-            if (exerciseDays[currentDay- 1]){
-                break;
+        int currentDayIndex = dayOfWeek.getValue(); // Day of week as 1 (Monday) to 7 (Sunday)
+
+        for (int i = 0; i < 7; i++) {
+            if (exerciseDays[(currentDayIndex + i) % 7]) {
+                return dayOfWeekFromIndex(currentDayIndex + i);
             }
         }
-        String day = "";
-        switch (currentDay){
+        return dayOfWeekFromIndex(currentDayIndex);
+    }
+
+    private String dayOfWeekFromIndex(int index) {
+        switch (index % 7 + 1) { // Modulo 7 and shift by 1 to match DayOfWeek values
             case 1:
-                day = "Monday";
-                break;
+                return "Monday";
             case 2:
-                day = "Tuesday";
-                break;
+                return "Tuesday";
             case 3:
-                day = "Wednesday";
-                break;
+                return "Wednesday";
             case 4:
-                day = "Thursday";
-                break;
+                return "Thursday";
             case 5:
-                day = "Friday";
-                break;
+                return "Friday";
             case 6:
-                day = "Saturday";
-                break;
+                return "Saturday";
             case 7:
-                day = "Sunday";
-                break;
+                return "Sunday";
+            default:
+                return "";
         }
-        return day;
     }
 
 
