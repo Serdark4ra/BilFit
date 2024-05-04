@@ -15,7 +15,9 @@
         android:id="@+id/user_relative"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        app:layout_constraintEnd_toEndOf="@+id/textFriendUsername"
+        app:layout_constraintStart_toEndOf="@+id/textFriendUsername">
 
 
         <ImageView
@@ -36,39 +38,39 @@
             android:id="@+id/textFriendName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="208dp"
-            android:layout_marginBottom="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="200dp"
             android:text="Friend's Name"
+            android:textAlignment="textStart"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/textFriendUsername"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.888"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/imageViewFriend"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textFriendUsername"
-            android:layout_width="85dp"
-            android:layout_height="25dp"
+            android:layout_width="109dp"
+            android:layout_height="23dp"
 
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="126dp"
+            android:layout_marginEnd="8dp"
             android:text="username"
+            android:textAlignment="textStart"
             android:textColor="@android:color/darker_gray"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/buttonCheckProfile"
+            app:layout_constraintHorizontal_bias="0.095"
             app:layout_constraintStart_toEndOf="@+id/imageViewFriend"
-            app:layout_constraintTop_toBottomOf="@+id/textFriendName" />
+            app:layout_constraintTop_toBottomOf="@+id/textFriendName"
+            app:layout_constraintVertical_bias="0.0" />
 
         <Button
             android:id="@+id/buttonGoTogether"
             android:layout_width="100dp"
             android:layout_height="30dp"
-            android:layout_marginStart="109dp"
             android:layout_marginBottom="6dp"
             android:layout_weight="1"
             android:text="Go Together"
@@ -76,7 +78,6 @@
             android:textSize="8sp"
             app:layout_constraintBottom_toTopOf="@+id/buttonCheckProfile"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textFriendName"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
@@ -85,13 +86,11 @@
             android:layout_height="30dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="109dp"
             android:text="Check Profile"
             android:textAlignment="gravity"
             android:textSize="8sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textFriendName"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
 

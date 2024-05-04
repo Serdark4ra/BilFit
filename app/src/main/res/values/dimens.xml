@@ -2,4 +2,5 @@
 <resources>
     <dimen name="standard_padding">16dp</dimen>
     <dimen name="text_size">16sp</dimen>
+    <dimen name="recycler_view_height">82dp</dimen>
 </resources>

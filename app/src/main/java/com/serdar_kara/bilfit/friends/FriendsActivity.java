@@ -111,14 +111,13 @@ public class FriendsActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull FriendRequestsViewHolder holder, int position) {
-            String friendUserId = String.valueOf(friendsList.get(position));
+            String friendUserId = String.valueOf(friendRequestsList.get(position));
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             db.collection("Users").document(friendUserId).get()
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
-                            FirebaseUser friend = documentSnapshot.toObject(FirebaseUser.class);
-                            holder.binding.textRequestName.setText(friend.getDisplayName());
-                            holder.binding.textRequestUsername.setText(friend.getDisplayName());
+                            holder.binding.textRequestName.setText(documentSnapshot.getString("name_surname"));
+                            holder.binding.textRequestUsername.setText(documentSnapshot.getString("name_surname"));
                             holder.binding.imageViewRequest.setImageResource(R.drawable.ic_launcher_background);
                         } else {
                             Toast.makeText(FriendsActivity.this, "Something went wrong. Please try again",
@@ -200,26 +199,33 @@ public class FriendsActivity extends AppCompatActivity {
                     recyclerViewFriends.setAdapter(friendsAdapter);
                 });
 
+        Log.d("Friends", "Good so far");
+
         friendRequestsList = new ArrayList<>();
         db.collection("Users").document(currentUserId).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
-                        friendsList = (ArrayList<String>) documentSnapshot.get("friendRequests");
-
-                        // Initialize and set adapter for friend requests RecyclerView
-                        friendRequestsAdapter = new FriendRequestsAdapter(friendRequestsList);
-                        recyclerViewFriendRequests.setAdapter(friendRequestsAdapter);
+                        friendRequestsList = (ArrayList<String>) documentSnapshot.get("friendRequests");
+                        System.out.println(friendRequestsList.get(0));
+                        Log.d("Friends", "Still good");
                         if (friendRequestsList.isEmpty()) {
                             // If empty, set the height of recyclerViewFriendRequests to wrap_content
+                            Log.d("Friends", "Hmmm");
                             ViewGroup.LayoutParams params = recyclerViewFriendRequests.getLayoutParams();
-                            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                            params.height = 0;
                             recyclerViewFriendRequests.setLayoutParams(params);
                         } else {
+                            Log.d("Friends", "Not good");
+                            // Initialize and set adapter for friend requests RecyclerView
+                            friendRequestsAdapter = new FriendRequestsAdapter(friendRequestsList);
+                            recyclerViewFriendRequests.setAdapter(friendRequestsAdapter);
+
                             // If not empty, set a fixed height for recyclerViewFriendRequests
-                            int desiredHeight = getResources().getDimensionPixelSize(recyclerViewFriendRequests.getHeight());
+                            int desiredHeight = 500;
                             ViewGroup.LayoutParams params = recyclerViewFriendRequests.getLayoutParams();
                             params.height = desiredHeight;
                             recyclerViewFriendRequests.setLayoutParams(params);
+
                         }
                         Log.d("Friends", "BBB");
                     } else {
