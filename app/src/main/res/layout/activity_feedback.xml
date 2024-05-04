@@ -11,31 +11,30 @@
         android:id="@+id/ratingBar1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="85dp"
-        tools:layout_editor_absoluteY="171dp" />
-
-    <RatingBar
-        android:id="@+id/ratingBar2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="81dp"
-        tools:layout_editor_absoluteY="549dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="85dp"
+        android:layout_marginTop="171dp" />
 
     <RatingBar
         android:id="@+id/ratingBar3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="85dp"
-        tools:layout_editor_absoluteY="361dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="85dp"
+        android:layout_marginTop="361dp" />
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="244dp"
         android:layout_height="70dp"
         android:text="Rate Difficulty"
-        tools:layout_editor_absoluteX="85dp"
-        tools:layout_editor_absoluteY="89dp"
-        android:textSize="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="85dp"
+        android:layout_marginTop="89dp"
+        android:textSize="30sp"
         android:textAlignment="center"/>
 
     <TextView
@@ -43,18 +42,21 @@
         android:layout_width="244dp"
         android:layout_height="70dp"
         android:text="Rate Focus"
-        tools:layout_editor_absoluteX="85dp"
-        tools:layout_editor_absoluteY="275dp"
-        android:textSize="30dp"
-        android:textAlignment="center"/>/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="85dp"
+        android:layout_marginTop="275dp"
+        android:textSize="30sp"
+        android:textAlignment="center"/>
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="288dp"
-        android:layout_height="67dp"
-        android:text="Rate Number of Sets"
-        android:textAlignment="center"
-        android:textSize="30dp"
-        tools:layout_editor_absoluteX="61dp"
-        tools:layout_editor_absoluteY="459dp" />/>
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="162dp"
+        android:layout_marginTop="437dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
