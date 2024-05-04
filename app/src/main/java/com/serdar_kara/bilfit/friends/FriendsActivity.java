@@ -2,7 +2,10 @@ package com.serdar_kara.bilfit.friends;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,17 +34,164 @@ import com.serdar_kara.bilfit.databinding.FriendRequestRowBinding;
 import com.serdar_kara.bilfit.databinding.FriendRowBinding;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-public class FriendsActivity extends AppCompatActivity {
+import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
-    private class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder> {
+import android.content.Context;
+
+public class FriendsActivity extends AppCompatActivity {
+    public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder> {
 
         private List<String> friendsList;
+        private Map<String, CountDownTimer> timerMap = new HashMap<>();
+        private Context context;
+        private FirebaseFirestore db;
+        private SharedPreferences sharedPreferences;
 
-        public FriendsAdapter(List<String> friendsList) {
-            Log.d("Item", String.valueOf(friendsList.size()));
+        public FriendsAdapter(Context context, List<String> friendsList) {
+            this.context = context;
             this.friendsList = friendsList;
+            this.db = FirebaseFirestore.getInstance();
+            this.sharedPreferences = context.getSharedPreferences("timerPrefs", Context.MODE_PRIVATE);
         }
+
+        @NonNull
+        @Override
+        public FriendsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            FriendRowBinding binding = FriendRowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new FriendsViewHolder(binding);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull FriendsViewHolder holder, int position) {
+            String friendUserId = friendsList.get(position);
+
+            db.collection("Users").document(friendUserId).get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            String friendName = documentSnapshot.getString("name_surname");
+                            holder.bind(friendName);
+                        } else {
+                            Toast.makeText(context, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> Log.d("Friends", "Failed to retrieve friend data"));
+
+            if (timerMap.containsKey(friendUserId)) {
+                startOrResumeTimer(holder, friendUserId);
+            } else {
+                setDefaultUI(holder);
+            }
+
+            holder.binding.buttonGoTogether.setOnClickListener(v -> {
+                holder.binding.buttonGoTogether.setEnabled(false);
+                startOrResumeTimer(holder, friendUserId);
+                sendNotificationToFriend(friendUserId);
+            });
+
+            holder.binding.buttonCheckProfile.setOnClickListener(v -> {
+                // TODO: Implement profile check
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return friendsList.size();
+        }
+
+        private void startOrResumeTimer(FriendsViewHolder holder, String friendUserId) {
+            if (!timerMap.containsKey(friendUserId)) {
+                startNewTimer(holder, friendUserId);
+            } else {
+                CountDownTimer timer = timerMap.get(friendUserId);
+                long remainingTime = sharedPreferences.getLong(friendUserId, 0);
+                timer.start();
+                updateTimerUI(holder, remainingTime);
+            }
+        }
+
+        private void startNewTimer(FriendsViewHolder holder, String friendUserId) {
+            CountDownTimer timer = new CountDownTimer(10 * 60 * 1000, 1000) { // 10 minutes
+                public void onTick(long millisUntilFinished) {
+                    updateTimerUI(holder, millisUntilFinished);
+                    sharedPreferences.edit().putLong(friendUserId, millisUntilFinished).apply();
+                }
+
+                public void onFinish() {
+                    timerMap.remove(friendUserId);
+                    holder.binding.buttonGoTogether.setEnabled(true);
+                    holder.binding.buttonGoTogether.setText("Go Together");
+                    sharedPreferences.edit().remove(friendUserId).apply();
+                }
+            }.start();
+            timerMap.put(friendUserId, timer);
+        }
+
+        private void updateTimerUI(FriendsViewHolder holder, long remainingTimeMillis) {
+            long minutes = TimeUnit.MILLISECONDS.toMinutes(remainingTimeMillis);
+            long seconds = TimeUnit.MILLISECONDS.toSeconds(remainingTimeMillis) - TimeUnit.MINUTES.toSeconds(minutes);
+            String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+            holder.binding.buttonGoTogether.setText(timeLeftFormatted);
+            holder.binding.buttonGoTogether.setEnabled(false);
+        }
+
+        private void setDefaultUI(FriendsViewHolder holder) {
+            holder.binding.buttonGoTogether.setText("Go Together");
+            holder.binding.buttonGoTogether.setEnabled(true);
+        }
+
+        private void sendNotificationToFriend(String friendUserId) {
+            Map<String, Object> notificationData = goTogether();
+            db.collection("Users").document(friendUserId).update("notifications", FieldValue.arrayUnion(notificationData))
+                    .addOnSuccessListener(documentReference -> {
+                        Toast.makeText(context, "Notification sent successfully!!", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(context, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
+                    });
+        }
+
+        private Map<String, Object> goTogether() {
+            Map<String, Object> goTogetherNotification = new HashMap<>();
+            goTogetherNotification.put("sender", getCurrentUserId());
+            goTogetherNotification.put("timestamp", new Date());
+            return goTogetherNotification;
+        }
+
+        public class FriendsViewHolder extends RecyclerView.ViewHolder {
+            private FriendRowBinding binding;
+
+            public FriendsViewHolder(FriendRowBinding binding) {
+                super(binding.getRoot());
+                this.binding = binding;
+            }
+
+            public void bind(String friendName) {
+                binding.textFriendName.setText(friendName);
+                binding.textFriendUsername.setText(friendName);
+                binding.imageViewFriend.setImageResource(R.drawable.ic_launcher_background);
+            }
+        }
+    }
+
+    /*private class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder> {
+
+        private List<String> friendsList;
+        private Map<String, CountDownTimer> timerMap = new HashMap<>(); // Map to store timers for each friend
+        private SharedPreferences sharedPreferences;
+        private Context context;
+
+
+        public FriendsAdapter(Context context, List<String> friendsList) {
+            this.context = context;
+            this.friendsList = friendsList;
+            this.sharedPreferences = context.getSharedPreferences("timerPrefs", Context.MODE_PRIVATE);
+        }
+
 
         @NonNull
         @Override
@@ -71,8 +221,70 @@ public class FriendsActivity extends AppCompatActivity {
                     })
                     .addOnFailureListener(e -> Log.d("Friends", "Fail"));
 
+            if (timerMap.containsKey(friendUserId)) {
+                startOrResumeTimer(holder, friendUserId);
+            } else {
+                holder.binding.buttonGoTogether.setEnabled(true);
+                holder.binding.buttonGoTogether.setText("Go Together");
+            }
+
+            long remainingTimeMillis = sharedPreferences.getLong(friendUserId, 0);
+            if (remainingTimeMillis > 0) {
+                // If there is remaining time, update UI accordingly
+                updateTimerUI(holder, remainingTimeMillis);
+            } else {
+                // If there is no remaining time, set default UI state
+                setDefaultUI(holder);
+            }
+
             holder.binding.buttonGoTogether.setOnClickListener(v -> {
-                // TODO
+                // Disable the button
+                holder.binding.buttonGoTogether.setEnabled(false);
+
+                // Start or resume timer for this friend
+                startOrResumeTimer(holder, friendUserId);
+
+                // Call method to send notification to friend
+                sendNotificationToFriend(friendUserId, holder);
+/*
+                // Get SharedPreferences instance with a specific name
+                SharedPreferences sharedPreferences = FriendsActivity.this.getSharedPreferences("timerPrefs", Context.MODE_PRIVATE);
+
+                // Get the remaining time from SharedPreferences
+                long remainingTimeMillis = sharedPreferences.getLong("remainingTime", 10 * 60 * 1000); // Default: 10 minutes
+
+                // Start a countdown timer with the remaining time
+                new CountDownTimer(remainingTimeMillis, 1000) { // Start from remaining time, tick every second
+                    public void onTick(long millisUntilFinished) {
+                        // Calculate remaining minutes and seconds
+                        int minutes = (int) (millisUntilFinished / 1000) / 60;
+                        int seconds = (int) (millisUntilFinished / 1000) % 60;
+
+                        // Format remaining time as text
+                        String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+
+                        // Set countdown text on the button
+                        holder.binding.buttonGoTogether.setText(timeLeftFormatted);
+
+                        // Save remaining time to SharedPreferences
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putLong("remainingTime", millisUntilFinished);
+                        editor.apply();
+                    }
+
+                    public void onFinish() {
+                        // Enable the button after 10 minutes
+                        holder.binding.buttonGoTogether.setEnabled(true);
+
+                        // Set button text back to its original state
+                        holder.binding.buttonGoTogether.setText("Go Together");
+
+                        // Clear remaining time from SharedPreferences
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.remove("remainingTime");
+                        editor.apply();
+                    }
+                }.start();
             });
 
             holder.binding.buttonCheckProfile.setOnClickListener(v -> {
@@ -80,11 +292,110 @@ public class FriendsActivity extends AppCompatActivity {
             });
         }
 
+        // Method to update UI with remaining time
+        private void updateTimerUI(FriendsViewHolder holder, long remainingTimeMillis) {
+            // Convert remaining time to minutes and seconds
+            long minutes = TimeUnit.MILLISECONDS.toMinutes(remainingTimeMillis);
+            long seconds = TimeUnit.MILLISECONDS.toSeconds(remainingTimeMillis) - TimeUnit.MINUTES.toSeconds(minutes);
+            // Format remaining time as text
+            String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+            // Update button text with remaining time
+            holder.binding.buttonGoTogether.setText(timeLeftFormatted);
+            // Disable the button
+            holder.binding.buttonGoTogether.setEnabled(false);
+        }
+
+        // Method to set default UI state
+        private void setDefaultUI(FriendsViewHolder holder) {
+            // Set default button text
+            holder.binding.buttonGoTogether.setText("Go Together");
+            // Enable the button
+            holder.binding.buttonGoTogether.setEnabled(true);
+        }
+
+        private void sendNotificationToFriend(String friendUserId, FriendsViewHolder holder) {
+            Map<String, Object> notificationData = goTogether();
+            db.collection("Users").document(friendUserId).update("notifications", FieldValue.arrayUnion(notificationData))
+                    .addOnSuccessListener(documentReference -> {
+                        Toast.makeText(FriendsActivity.this, "Notification sent successfully!!",
+                                Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(FriendsActivity.this, "Something went wrong. Please try again",
+                                Toast.LENGTH_SHORT).show();
+                    });
+            startNewTimer(friendUserId, holder);
+
+        }
+
+        private void startNewTimer(String friendUserId,FriendsViewHolder holder) {
+            CountDownTimer timer = new CountDownTimer(10 * 60 * 1000, 1000) { // 10 minutes
+                public void onTick(long millisUntilFinished) {
+                    // Update button text with remaining time
+                    updateButtonText(holder, millisUntilFinished,friendUserId);
+                }
+
+                public void onFinish() {
+                    // Remove timer from map when finished
+                    timerMap.remove(friendUserId);
+                    // Perform any actions required after timer finishes
+                }
+            }.start();
+
+            timerMap.put(friendUserId, timer);
+        }
+
         @Override
         public int getItemCount() {
             return friendsList.size();
         }
 
+        private void startOrResumeTimer(FriendsViewHolder holder, String friendUserId) {
+            // Check if timer is already running for this friend
+            if (!timerMap.containsKey(friendUserId)) {
+                // Start a new timer
+                CountDownTimer timer = new CountDownTimer(10 * 60 * 1000, 1000) { // 10 minutes
+                    public void onTick(long millisUntilFinished) {
+                        // Update button text with remaining time
+                        updateButtonText(holder, millisUntilFinished, friendUserId);
+                    }
+
+                    public void onFinish() {
+                        // Remove timer from map when finished
+                        timerMap.remove(friendUserId);
+
+                        // Enable button and set default text
+                        holder.binding.buttonGoTogether.setEnabled(true);
+                        holder.binding.buttonGoTogether.setText("Go Together");
+                    }
+                }.start();
+
+                // Save timer to map
+                timerMap.put(friendUserId, timer);
+            } else {
+                // Timer already exists, resume it
+                CountDownTimer timer = timerMap.get(friendUserId);
+                long remainingTime = sharedPreferences.getLong(friendUserId, 10 * 60 * 1000); // Default: 10 minutes
+                timer.start();
+            }
+        }
+
+        private void updateButtonText(FriendsViewHolder holder, long millisUntilFinished, String friendUserId) {
+            // Calculate remaining minutes and seconds
+            int minutes = (int) (millisUntilFinished / 1000) / 60;
+            int seconds = (int) (millisUntilFinished / 1000) % 60;
+
+            // Format remaining time as text
+            String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+
+            // Set button text
+            holder.binding.buttonGoTogether.setText(timeLeftFormatted);
+
+            // Save remaining time to SharedPreferences
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putLong(friendUserId, millisUntilFinished);
+            editor.apply();
+        }
         public class FriendsViewHolder extends RecyclerView.ViewHolder {
             private FriendRowBinding binding;
             public FriendsViewHolder(FriendRowBinding binding) {
@@ -93,7 +404,14 @@ public class FriendsActivity extends AppCompatActivity {
 
             }
         }
-    }
+
+        private Map<String, Object> goTogether() {
+            Map<String, Object> goTogetherNotification = new HashMap<>();
+            goTogetherNotification.put("sender", getCurrentUserId());
+            goTogetherNotification.put("timestamp", new Date());
+            return goTogetherNotification;
+        }
+    }*/
 
     private class FriendRequestsAdapter extends RecyclerView.Adapter<FriendRequestsAdapter.FriendRequestsViewHolder> {
         private List<String> friendRequestsList;
@@ -232,7 +550,7 @@ public class FriendsActivity extends AppCompatActivity {
                     if (documentSnapshot.exists()) {
                         friendsList = (ArrayList<String>) documentSnapshot.get("friends");
                     }
-                    friendsAdapter = new FriendsAdapter(friendsList);
+                    friendsAdapter = new FriendsAdapter(this, friendsList);
                     recyclerViewFriends.setAdapter(friendsAdapter);
                 });
 

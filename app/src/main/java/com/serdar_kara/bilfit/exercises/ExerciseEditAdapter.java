@@ -54,7 +54,6 @@ public class ExerciseEditAdapter extends RecyclerView.Adapter<ExerciseEditAdapte
         holder.binding.imageEdit.setOnClickListener(view -> {
             showEditDialog(position);
         });
-
     }
 
     private void showEditDialog(int position) {

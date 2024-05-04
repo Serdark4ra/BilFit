@@ -141,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
     private void retrieveProgramFromDatabase(String userId) {
         db = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        currentUser = auth.getCurrentUser();
         documentReference = db.collection("Users").document(userId);
 
         documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -165,10 +164,10 @@ public class MainActivity extends AppCompatActivity {
                             Log.d("Error", "No program data for the current day: " + determineDayToShowProgramInUpcoming());
                         }
                     } else {
-                        Log.d("Error", "No program data for the current user id: " + currentUser.getUid());
+                        Log.d("Error", "No program data for the current user id: " + userId);
                     }
                 } else {
-                    Log.d("Error", "No such document with the current user id: " + currentUser.getUid());
+                    Log.d("Error", "No such document with the current user id: " + userId);
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -189,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                 String name_surname = documentSnapshot.getString("name_surname");
                 activityMainBinding.textViewUserName.setText(name_surname);
             }else{
-                Log.d("Error", "No such document with the current user id: " + currentUser.getUid());
+                Log.d("Error", "No such document with the current user id: " + userId);
             }
         });
     }
