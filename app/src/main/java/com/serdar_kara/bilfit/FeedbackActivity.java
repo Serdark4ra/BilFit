@@ -13,6 +13,8 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.serdar_kara.bilfit.get_info_activities.UserInfoHolder;
+import com.serdar_kara.bilfit.get_info_activities.UserInfoManager;
 
 public class FeedbackActivity extends AppCompatActivity {
 
@@ -39,15 +41,16 @@ public class FeedbackActivity extends AppCompatActivity {
             return insets;
         });
 
-        String currentUserId = getCurrentUserId();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Users").document(currentUserId).get();
+        UserInfoHolder userInfoHolder = UserInfoManager.getInstance().getUserInfo();
+        double gender = userInfoHolder.getPower();
+
+
 
         RatingBar ratingBar1 = findViewById(R.id.ratingBar1);
         ratingBar1.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar1, float rating, boolean fromUser) {
-                // Handle rating changes here
+                double gender = userInfoHolder.getPower();
             }
         });
     }
