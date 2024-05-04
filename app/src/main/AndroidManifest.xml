@@ -25,6 +25,9 @@
             android:name=".Settings.SettingsActivity"
             android:exported="false" />
         <activity
+            android:name=".FeedbackActivity"
+            android:exported="false" />
+        <activity
             android:name=".ReportActivity"
             android:exported="false" />
         <activity
