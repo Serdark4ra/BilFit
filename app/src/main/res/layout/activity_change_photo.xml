@@ -7,4 +7,35 @@
     android:layout_height="match_parent"
     tools:context=".Settings.ChangePhotoActivity">
 
+    <ImageButton
+        android:id="@+id/imageButton6"
+        android:layout_width="74dp"
+        android:layout_height="72dp"
+        app:srcCompat="@drawable/woman__4_"
+        tools:layout_editor_absoluteX="29dp"
+        tools:layout_editor_absoluteY="22dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton7"
+        android:layout_width="75dp"
+        android:layout_height="70dp"
+        app:srcCompat="@drawable/grandfather"
+        tools:layout_editor_absoluteX="121dp"
+        tools:layout_editor_absoluteY="24dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton8"
+        android:layout_width="70dp"
+        android:layout_height="68dp"
+        app:srcCompat="@drawable/man__1_"
+        tools:layout_editor_absoluteX="214dp"
+        tools:layout_editor_absoluteY="26dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton9"
+        android:layout_width="65dp"
+        android:layout_height="70dp"
+        app:srcCompat="@drawable/girl"
+        tools:layout_editor_absoluteX="302dp"
+        tools:layout_editor_absoluteY="26dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
