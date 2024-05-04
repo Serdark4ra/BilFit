@@ -45,13 +45,18 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
+
         super.onCreate(savedInstanceState);
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activityMainBinding.getRoot());
 
         Button completedButton = activityMainBinding.buttonCompletedExercise;
 
-        setVariablesForUser();
+        setVariablesForUser(currentUser.getUid());
 
         exerciseList = new ArrayList<>();
         exerciseAdapter = new ExerciseAdapter(exerciseList);
@@ -60,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         activityMainBinding.recyclerViewExerciseList.setLayoutManager(new LinearLayoutManager(this));
 
-        retrieveProgramFromDatabase();
+        retrieveProgramFromDatabase(currentUser.getUid());
         activityMainBinding.recyclerViewExerciseList.setAdapter(exerciseAdapter);
 
 
@@ -114,11 +119,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void retrieveProgramFromDatabase() {
+    private void retrieveProgramFromDatabase(String userId) {
         db = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
-        documentReference = db.collection("Users").document(currentUser.getUid());
+        documentReference = db.collection("Users").document(userId);
 
         documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
 
@@ -156,12 +161,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void setVariablesForUser() {
-        mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
-
+    private void setVariablesForUser(String userId) {
         db = FirebaseFirestore.getInstance();
-        documentReference = db.collection("Users").document(currentUser.getUid());
+        documentReference = db.collection("Users").document(userId);
 
         documentReference.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
