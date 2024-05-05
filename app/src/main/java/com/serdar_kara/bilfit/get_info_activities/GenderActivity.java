@@ -34,6 +34,7 @@ public class GenderActivity extends AppCompatActivity {
                     userInfoHolder.setGender("female");
                     goBodyInfoActivity(userInfoHolder);
         });
+
     }
     private void goBodyInfoActivity(UserInfoHolder userInfoHolder) {
         Intent intent = new Intent(GenderActivity.this, BodyInfoActivity.class);

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -19,7 +20,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.serdar_kara.bilfit.ProgramActivity.ProgramActivity;
 import com.serdar_kara.bilfit.Settings.SettingsActivity;
 import com.serdar_kara.bilfit.databinding.ActivityMainBinding;
@@ -91,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, FeedbackActivity.class);
             startActivity(intent);
             completedButton.setVisibility(Button.INVISIBLE);
-            updateUserPoints();
+            //updateUserPoints();
 
         });
 
@@ -123,31 +126,51 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUserPoints() {
-        db = FirebaseFirestore.getInstance();
-        documentReference = db.collection("Users").document(currentUser.getUid());
+        if (currentUser == null) {
+            Log.d(TAG, "User is not logged in.");
+            return;
+        }
 
-        documentReference.get().addOnSuccessListener(documentSnapshot -> {
+        UserInfoHolder userInfoHolder = UserInfoManager.getInstance().getUserInfo();
+        if (userInfoHolder == null) {
+            Log.e(TAG, "UserInfoHolder is null.");
+            // Handle the scenario, perhaps notify the user or attempt to reinitialize the UserInfoHolder
+            return;
+        }
+
+        double power = userInfoHolder.getPower(); // Now safe to call getPower()
+
+        DocumentReference userDocRef = FirebaseFirestore.getInstance().collection("Users").document(currentUser.getUid());
+        userDocRef.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
-                int points = documentSnapshot.getLong("points").intValue();
-                UserInfoHolder userInfoHolder = UserInfoManager.getInstance().getUserInfo();
-                points += 10 * userInfoHolder.getPower();
-                documentReference.update("points", points);
-            }else{
-                Log.d("Error", "No such document with the current user id: " + currentUser.getUid());
+                Number pointsNumber = documentSnapshot.getLong("points");
+                long points = pointsNumber != null ? pointsNumber.longValue() : 0;
+                points += 10 * power; // Calculate new points
+
+                userDocRef.update("points", points)
+                        .addOnSuccessListener(aVoid -> Log.d(TAG, "Points updated successfully."))
+                        .addOnFailureListener(e -> Log.e(TAG, "Error updating points.", e));
+            } else {
+                Log.e(TAG, "No user document found.");
             }
-        });
+        }).addOnFailureListener(e -> Log.e(TAG, "Error fetching user document.", e));
     }
+
 
     private void retrieveProgramFromDatabase(String userId) {
         db = FirebaseFirestore.getInstance();
-        FirebaseAuth auth = FirebaseAuth.getInstance();
         documentReference = db.collection("Users").document(userId);
 
-        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-
+        // Adding a snapshot listener to listen for real-time updates
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()) {
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e);
+                    return;
+                }
+
+                if (documentSnapshot != null && documentSnapshot.exists()) {
                     Map<String, Object> programData = (Map<String, Object>) documentSnapshot.get("program");
                     if (programData != null) {
                         // Get the program for the current day
@@ -170,13 +193,9 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("Error", "No such document with the current user id: " + userId);
                 }
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(TAG, "Error retrieving program data", e);
-            }
         });
     }
+
 
 
     private void setVariablesForUser(String userId) {
@@ -185,13 +204,26 @@ public class MainActivity extends AppCompatActivity {
 
         documentReference.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
+                // Retrieve and display name
                 String name_surname = documentSnapshot.getString("name_surname");
                 activityMainBinding.textViewUserName.setText(name_surname);
-            }else{
+
+                // Retrieve and display points
+                Number pointsNumber = documentSnapshot.getLong("points");
+                if (pointsNumber != null) {  // Check if the points data exists
+                    int points = pointsNumber.intValue();
+                    activityMainBinding.textViewCenter.setText(String.valueOf(points));
+                } else {
+                    activityMainBinding.textViewCenter.setText("0"); // Default to 0 if no points
+                }
+            } else {
                 Log.d("Error", "No such document with the current user id: " + userId);
+                activityMainBinding.textViewUserName.setText("User not found");
+                activityMainBinding.textViewCenter.setText("0");
             }
-        });
+        }).addOnFailureListener(e -> Log.d(TAG, "Error fetching document", e));
     }
+
 
     public boolean[] getExerciseDays(){
         SharedPreferences sharedPreferences = getSharedPreferences("ExerciseDays", Context.MODE_PRIVATE);
