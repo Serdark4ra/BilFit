@@ -63,6 +63,7 @@ public class LoadingInfoSessionSActivity extends AppCompatActivity {
         putProgramToDatabase(program,days);
         userInfoHolder.saveExerciseDaysToThePhone(this, days);
         saveCompletedExercisesToThePhone(this);
+        putPowerToDatabase(userInfoHolder);
 
 
         int completionPercentage = 20;
@@ -89,6 +90,24 @@ public class LoadingInfoSessionSActivity extends AppCompatActivity {
         Intent intent1 = new Intent(LoadingInfoSessionSActivity.this, MainActivity.class);
         startActivity(intent1);
     }
+
+    private void putPowerToDatabase(UserInfoHolder userInfoHolder) {
+        db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
+
+        if (currentUser != null) {
+            documentReference = db.collection("Users").document(currentUser.getUid());
+            double power = userInfoHolder.getPower();
+
+            documentReference.update("power", power)
+                    .addOnSuccessListener(aVoid -> Log.d(TAG, "Power updated successfully"))
+                    .addOnFailureListener(e -> Log.w(TAG, "Error updating power", e));
+        } else {
+            Log.w(TAG, "Current user is null");
+        }
+    }
+
 
 
     public void saveCompletedExercisesToThePhone(Context context) {

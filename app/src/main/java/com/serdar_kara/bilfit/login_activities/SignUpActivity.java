@@ -83,6 +83,7 @@ public class SignUpActivity extends AppCompatActivity {
                             userInfo.put("friends", new ArrayList<String>());
                             userInfo.put("friendRequests", new ArrayList<String>());
                             userInfo.put("points",0);
+                            userInfo.put("power",0.0);
 
                             if (currentUser != null){
                                 documentReference.set(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
