@@ -66,7 +66,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
             float rating = ratingBar1.getRating();
 
-            userDocRef.update("power", 2.0)
+            userDocRef.update("power", (rating - 3.0) / 100.0 * (-1.0))
                     .addOnSuccessListener(aVoid -> Log.d("power", "Points updated successfully."))
                     .addOnFailureListener(e -> Log.e("power", "Error updating points.", e));
 
