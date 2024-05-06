@@ -17,7 +17,9 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Transaction;
 import com.serdar_kara.bilfit.get_info_activities.UserInfoHolder;
 import com.serdar_kara.bilfit.get_info_activities.UserInfoManager;
 
@@ -57,25 +59,36 @@ public class FeedbackActivity extends AppCompatActivity {
 
 
         Button submitButton = findViewById(R.id.submitButton);
-        submitButton.setOnClickListener(view -> {
 
-            String userId = currentUser.getUid();
+        
+        submitButton.setOnClickListener(view -> {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
+            String userId = currentUser.getUid();
             DocumentReference userDocRef = db.collection("Users").document(userId);
             RatingBar ratingBar1 = findViewById(R.id.ratingBar1);
 
             float rating = ratingBar1.getRating();
+            double deltaPower = (rating - 3.0) / 100.0 * (-1.0);
 
-            userDocRef.update("power", (rating - 3.0) / 100.0 * (-1.0))
-                    .addOnSuccessListener(aVoid -> Log.d("power", "Points updated successfully."))
-                    .addOnFailureListener(e -> Log.e("power", "Error updating points.", e));
-
-
-            // Return to the main menu here
-            Intent intent = new Intent(FeedbackActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish(); // Close the current activity
+            // Start a transaction to update the power value
+            db.runTransaction((Transaction.Function<Void>) transaction -> {
+                DocumentSnapshot snapshot = transaction.get(userDocRef);
+                Double currentPower = snapshot.getDouble("power");
+                if (currentPower == null) currentPower = 0.0; // default power if not set
+                double newPower = currentPower + deltaPower;
+                transaction.update(userDocRef, "power", newPower);
+                return null; // This transaction does not return any result
+            }).addOnSuccessListener(aVoid -> {
+                Log.d("power", "Points updated successfully.");
+                // Return to the main menu here
+                Intent intent = new Intent(FeedbackActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish(); // Close the current activity
+            }).addOnFailureListener(e -> {
+                Log.e("power", "Error updating points.", e);
+            });
         });
+
     }
 
 
