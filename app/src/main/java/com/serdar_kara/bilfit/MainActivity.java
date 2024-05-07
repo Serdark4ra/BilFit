@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         if (!isCompleted && isCompleted1){
             completedButton.setVisibility(Button.VISIBLE);
         }else{
-            completedButton.setVisibility(Button.INVISIBLE);
+           // completedButton.setVisibility(Button.INVISIBLE);
         }
 
         completedButton.setOnClickListener(v -> {
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, FeedbackActivity.class);
             startActivity(intent);
             completedButton.setVisibility(Button.INVISIBLE);
-            //updateUserPoints();
+            updateUserPoints();
 
         });
 
@@ -131,30 +131,36 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        UserInfoHolder userInfoHolder = UserInfoManager.getInstance().getUserInfo();
-        if (userInfoHolder == null) {
-            Log.e(TAG, "UserInfoHolder is null.");
-            // Handle the scenario, perhaps notify the user or attempt to reinitialize the UserInfoHolder
-            return;
-        }
+        String userId = currentUser.getUid();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference userDocRef = db.collection("Users").document(userId);
 
-        double power = userInfoHolder.getPower(); // Now safe to call getPower()
-
-        DocumentReference userDocRef = FirebaseFirestore.getInstance().collection("Users").document(currentUser.getUid());
+        // First fetch the user document
         userDocRef.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
                 Number pointsNumber = documentSnapshot.getLong("points");
                 long points = pointsNumber != null ? pointsNumber.longValue() : 0;
-                points += 10 * power; // Calculate new points
 
-                userDocRef.update("points", points)
-                        .addOnSuccessListener(aVoid -> Log.d(TAG, "Points updated successfully."))
-                        .addOnFailureListener(e -> Log.e(TAG, "Error updating points.", e));
+                // Fetch the power value
+                Double power = documentSnapshot.getDouble("power");
+                if (power == null) {
+                    Log.e("power", "Power value is null.");
+                    power = 0.0; // default to 0 if not found
+                }
+
+                // Calculate new points
+                long newPoints = points + (long) (10 * power);
+
+                // Update the points in the database
+                userDocRef.update("points", newPoints)
+                        .addOnSuccessListener(aVoid -> Log.d("power", "Points updated successfully."))
+                        .addOnFailureListener(e -> Log.e("power", "Error updating points.", e));
             } else {
-                Log.e(TAG, "No user document found.");
+                Log.e("power", "No user document found.");
             }
-        }).addOnFailureListener(e -> Log.e(TAG, "Error fetching user document.", e));
+        }).addOnFailureListener(e -> Log.e("power", "Error fetching user document.", e));
     }
+
 
 
     private void retrieveProgramFromDatabase(String userId) {
