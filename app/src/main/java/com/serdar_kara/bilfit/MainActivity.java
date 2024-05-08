@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
         activityMainBinding.Navi.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.navigation_leaderBoard) {
-                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                Intent intent = new Intent(MainActivity.this, LeaderBoardActivity.class);
                 startActivity(intent);
                 return true;
             } else if (item.getItemId() == R.id.navigation_program) {

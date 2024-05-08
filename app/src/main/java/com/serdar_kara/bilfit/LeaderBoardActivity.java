@@ -6,15 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +42,14 @@ public class LeaderBoardActivity extends AppCompatActivity {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         // Call the method to update user points and display leaderboard
-        updateUserPoints();
+        getUsersWithHighPoints();
+        Button back = findViewById(R.id.button_back_to_menu);
+        back.setOnClickListener(v -> {
+            finish();
+        });
     }
 
-    private void updateUserPoints() {
+    private void getUsersWithHighPoints() {
         if (currentUser == null) {
             Log.d(TAG, "User is not logged in.");
             return;
