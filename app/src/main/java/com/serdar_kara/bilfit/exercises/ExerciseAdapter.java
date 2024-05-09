@@ -63,6 +63,54 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         {
             holder.binding.imageExercise.setImageResource(R.drawable.training);
         }
+        else if (exerciseList.get(position).getName().contains("Row"))
+        {
+            holder.binding.imageExercise.setImageResource(R.drawable.back__1_);
+        }
+        else if (exerciseList.get(position).getName().equalsIgnoreCase("Pull-up"))
+        {
+            holder.binding.imageExercise.setImageResource(R.drawable.pull);
+        }
+        else if (Tester.isBackExercise(exerciseList.get(position).getName()))
+        {
+            holder.binding.imageExercise.setImageResource(R.drawable.back__2_);
+        }
+        else if (Tester.isBicepsExercise(exerciseList.get(position).getName()))
+        {
+            if (exerciseList.get(position).getName().equalsIgnoreCase("barbell curl") ||
+                    exerciseList.get(position).getName().equalsIgnoreCase("dumbbell curl") ||
+                    exerciseList.get(position).getName().equalsIgnoreCase("preacher curl") ||
+                    exerciseList.get(position).getName().equalsIgnoreCase("concentration curl") ||
+                    exerciseList.get(position).getName().equalsIgnoreCase("cable curl") ||
+                    exerciseList.get(position).getName().equalsIgnoreCase("spider curl"))
+            {
+                holder.binding.imageExercise.setImageResource(R.drawable.bicep_curl);
+            }
+            else
+            {
+                holder.binding.imageExercise.setImageResource(R.drawable.exercise_icon_hummer_curl);
+            }
+        }
+        else if (Tester.isTricepsExercise(exerciseList.get(position).getName()))
+        {
+            if (exerciseList.get(position).getName().contains("Dip"))
+            {
+                holder.binding.imageExercise.setImageResource(R.drawable.workout__2_);
+            }
+            else if (exerciseList.get(position).getName().contains("Pushdown") || exerciseList.get(position).getName().contains("Extension"))
+            {
+                holder.binding.imageExercise.setImageResource(R.drawable.workout__1_);
+            }
+            else if (exerciseList.get(position).getName().contains("Kickback"))
+            {
+                holder.binding.imageExercise.setImageResource(R.drawable.exercise__1_);
+            }
+            else
+            {
+                holder.binding.imageExercise.setImageResource(R.drawable.triceps);
+            }
+        }
+
         else if (exerciseList.get(position).getName().contains("Swimming"))
         {
             holder.binding.imageExercise.setImageResource(R.drawable.swimming);
