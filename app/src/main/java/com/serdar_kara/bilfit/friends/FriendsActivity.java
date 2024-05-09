@@ -27,6 +27,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.serdar_kara.bilfit.EditFriendsActivity;
 import com.serdar_kara.bilfit.MainActivity;
 import com.serdar_kara.bilfit.R;
 import com.serdar_kara.bilfit.databinding.ActivityFriendsBinding;
@@ -45,10 +46,10 @@ public class FriendsActivity extends AppCompatActivity {
     public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder> {
         private static final String PREFS_NAME = "ButtonTimestamp";
         private static final String TIMESTAMP_KEY_PREFIX = "ButtonTimestamp_";
-        private List<String> friendsList;
-        private Context context;
-        private FirebaseFirestore db;
-        private SharedPreferences sharedPreferences;
+        private final List<String> friendsList;
+        private final Context context;
+        private final FirebaseFirestore db;
+        private final SharedPreferences sharedPreferences;
 
         public FriendsAdapter(Context context, List<String> friendsList) {
             this.context = context;
@@ -402,7 +403,7 @@ public class FriendsActivity extends AppCompatActivity {
     }*/
 
     private class FriendRequestsAdapter extends RecyclerView.Adapter<FriendRequestsAdapter.FriendRequestsViewHolder> {
-        private List<String> friendRequestsList;
+        private final List<String> friendRequestsList;
 
         public FriendRequestsAdapter(List<String> friendRequestsList) {
             this.friendRequestsList = friendRequestsList;
@@ -478,7 +479,7 @@ public class FriendsActivity extends AppCompatActivity {
         }
 
         public class FriendRequestsViewHolder extends RecyclerView.ViewHolder {
-            private FriendRequestRowBinding binding;
+            private final FriendRequestRowBinding binding;
             public FriendRequestsViewHolder(FriendRequestRowBinding binding) {
                 super(binding.getRoot());
                 this.binding = binding;
@@ -546,7 +547,6 @@ public class FriendsActivity extends AppCompatActivity {
                         Log.d("Friends", "Still good");
                         if (friendRequestsList.isEmpty()) {
                             // If empty, set the height of recyclerViewFriendRequests to wrap_content
-                            Log.d("Friends", "Hmmm");
                             ViewGroup.LayoutParams params = recyclerViewFriendRequests.getLayoutParams();
                             params.height = 0;
                             recyclerViewFriendRequests.setLayoutParams(params);
@@ -570,6 +570,10 @@ public class FriendsActivity extends AppCompatActivity {
                 });
 
         binding.addFriendButton.setOnClickListener(v -> showAddFriendDialog());
+        binding.editFriendButton.setOnClickListener(v -> {
+            Intent intent = new Intent(FriendsActivity.this, EditFriendsActivity.class);
+            startActivity(intent);
+        });
     }
     private String getCurrentUserId() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -615,7 +619,7 @@ public class FriendsActivity extends AppCompatActivity {
 
                             // Add friend to the request list of the target user
                             DocumentReference targetUserRef = db.collection("Users").document(userId);
-                            
+
                             targetUserRef.update("friendRequests", FieldValue.arrayUnion(getCurrentUserId()))
                                     .addOnSuccessListener(aVoid -> {
                                         // Successful
