@@ -509,6 +509,7 @@ public class Tester {
 
     public static ArrayList<String> returnAssociatedList(String s)
     {
+        boolean isCardio = false;
         String nameOfClass = "";
 
         for (int i = 0; i < exercisesList.size(); i++)
@@ -520,7 +521,25 @@ public class Tester {
         }
 
         ArrayList<String> associatedExercises = new ArrayList<String>();
-        for (int i = 0; i < exercisesList.size(); i++)
+
+        for (int i = 0; i < cardioExercises.size(); i++)
+        {
+            if (s.equals(cardioExercises.get(i).getName()))
+            {
+                isCardio = true;
+                nameOfClass = String.valueOf(exercisesList.get(i).getClass());
+            }
+        }
+
+        if (isCardio)
+        {
+            for (int i = 0; i < cardioExercises.size(); i++)
+            {
+                associatedExercises.add(cardioExercises.get(i).getName());
+            }
+        }
+
+        for (int i = 0; i < exercisesList.size() && !isCardio; i++)
         {
             if (String.valueOf(exercisesList.get(i).getClass()).equals(nameOfClass))
             {
