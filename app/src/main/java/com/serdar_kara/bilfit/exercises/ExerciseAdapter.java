@@ -115,7 +115,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         {
             holder.binding.imageExercise.setImageResource(R.drawable.swimming);
         }
-        else if (exerciseList.get(position).getName().contains("Jump Rope") ||
+        else if (exerciseList.get(position).getName().contains("Jumping Rope") ||
                  exerciseList.get(position).getName().contains("Box Jumps") ||
                  exerciseList.get(position).getName().contains("Jumping Jacks") ||
                  exerciseList.get(position).getName().contains("Plyometric"))
