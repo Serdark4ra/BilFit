@@ -61,7 +61,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         }
         else if (exerciseList.get(position).getName().contains("Deadlift"))
         {
-            
+            holder.binding.imageExercise.setImageResource(R.drawable.training);
         }
         else if (exerciseList.get(position).getName().contains("Swimming"))
         {
