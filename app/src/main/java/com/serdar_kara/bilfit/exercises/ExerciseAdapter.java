@@ -36,7 +36,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         holder.binding.textExerciseSetReps.setText("3x12");
 
         if (exerciseList.get(position).getName().equalsIgnoreCase("squat") ||
-                exerciseList.get(position).getName().equalsIgnoreCase("dumbbell squat") ||
+                exerciseList.get(position).getName().equalsIgnoreCase("dumbell squat") ||
                 exerciseList.get(position).getName().equalsIgnoreCase("bulgarian split squat") ||
                 exerciseList.get(position).getName().equalsIgnoreCase("hack squat") ||
                 exerciseList.get(position).getName().equalsIgnoreCase("sumo squat"))
