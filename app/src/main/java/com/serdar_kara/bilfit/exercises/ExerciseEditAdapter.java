@@ -169,6 +169,11 @@ public class ExerciseEditAdapter extends RecyclerView.Adapter<ExerciseEditAdapte
         {
             holder.binding.imageExercise.setImageResource(R.drawable.burpee);
         }
+        else if (exerciseList.get(position).getName().contains("Climbing")||
+                (exerciseList.get(position).getName().contains("Mountain Climbers")))
+        {
+            holder.binding.imageExercise.setImageResource(R.drawable.stair_climbing);
+        }
         else if (exerciseList.get(position).getName().contains("Military Press") ||
                 exerciseList.get(position).getName().contains("Arnold Press") ||
                 exerciseList.get(position).getName().contains("Lateral Raise") ||

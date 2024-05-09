@@ -189,6 +189,11 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         {
             holder.binding.imageExercise.setImageResource(R.drawable.chest_exercise2);
         }
+        else if (exerciseList.get(position).getName().contains("Climbing")||
+                (exerciseList.get(position).getName().contains("Mountain Climbers")))
+        {
+            holder.binding.imageExercise.setImageResource(R.drawable.stair_climbing);
+        }
         else {
             // Default image or handle other cases
         }
