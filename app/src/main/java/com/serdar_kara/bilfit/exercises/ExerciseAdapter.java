@@ -176,6 +176,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
                 exerciseList.get(position).getName().contains("Decline Dumbbell Press") ||
                 exerciseList.get(position).getName().contains("Cable Fly") ||
                 exerciseList.get(position).getName().contains("Machine Fly") ||
+                exerciseList.get(position).getName().contains("Dumbbell Fly") ||
                 exerciseList.get(position).getName().contains("Push-ups") ||
                 exerciseList.get(position).getName().contains("Dips"))
         {
