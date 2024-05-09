@@ -74,7 +74,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 
 
-
+    ArrayList<ArrayList<Exercises>> program;
 
     private static final String TAG = "SettingsActivity";
 
@@ -172,22 +172,6 @@ public class SettingsActivity extends AppCompatActivity {
                                 Log.e(TAG, "Error fetching document", e);
                                 // Handle failure
                             });
-
-                    private void putProgramToDatabase(ArrayList<ArrayList<Exercises>> program, boolean[] days) {
-                        db = FirebaseFirestore.getInstance();
-                        auth = FirebaseAuth.getInstance();
-                        currentUser = auth.getCurrentUser();
-                        documentReference = db.collection("Users").document(currentUser.getUid());
-
-                        // Convert the program ArrayList<ArrayList<Exercises>> to a format Firestore understands
-                        // For example, you can use a HashMap to represent the program
-                        HashMap<String, Object> programData = convertProgramToHashMap(program, days);
-
-                        // Update the document with the program data
-                        documentReference.update("program", programData)
-                                .addOnSuccessListener(aVoid -> Log.d(TAG, "Program data added successfully"))
-                                .addOnFailureListener(e -> Log.w(TAG, "Error adding program data", e));
-                    }
                 } else {
                     Log.w(TAG, "Current user is null");
                 }
