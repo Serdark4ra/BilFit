@@ -65,7 +65,6 @@ public class LoadingInfoSessionSActivity extends AppCompatActivity {
         saveCompletedExercisesToThePhone(this);
         putPowerToDatabase(userInfoHolder);
 
-
         int completionPercentage = 20;
         progressBar.setProgress(completionPercentage);
         loadingPercentage.setText(completionPercentage + "%");

@@ -303,7 +303,7 @@ public class UserInfoHolder implements Serializable {
         this.power += change;
     }
 
-    private void generateProgram()
+    public void generateProgram()
     {
         WorkoutPrograms w = new WorkoutPrograms();
 

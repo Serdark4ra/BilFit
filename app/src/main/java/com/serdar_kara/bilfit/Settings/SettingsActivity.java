@@ -59,6 +59,10 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        binding.buttonRegenerate.setOnClickListener(v -> {
+            Toast.makeText(this, "Your program is rearranged according to your feedbakcs", Toast.LENGTH_LONG).show();
+        });
+
         binding.buttonLogout.setOnClickListener(v -> {
             mAuth.signOut();
             Intent intent = new Intent(SettingsActivity.this, SignUpActivity.class);
