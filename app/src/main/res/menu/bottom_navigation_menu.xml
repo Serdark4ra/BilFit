@@ -8,6 +8,7 @@
         android:id="@+id/navigation_program"
         android:icon="@drawable/image_5"
         android:title="" />
+  
 
     <item
         android:id="@+id/navigation_report"
