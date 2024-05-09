@@ -27,7 +27,6 @@ public class FeedbackActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-
     private FirebaseFirestore db;
     private DocumentReference documentReference;
 
