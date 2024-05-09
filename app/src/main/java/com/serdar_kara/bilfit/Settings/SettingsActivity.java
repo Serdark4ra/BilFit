@@ -49,7 +49,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         binding.buttonRegenerate.setOnClickListener(v -> {
-            regenerateWorkoutProgram(new UserInfoHolder()); //TODO buraya firebaseden tüm bilgiler gelcek
+           // regenerateWorkoutProgram(new UserInfoHolder()); //TODO buraya firebaseden tüm bilgiler gelcek
             Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
             startActivity(intent);
         });

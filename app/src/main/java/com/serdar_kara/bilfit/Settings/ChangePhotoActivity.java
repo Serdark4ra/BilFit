@@ -47,18 +47,6 @@ public class ChangePhotoActivity extends AppCompatActivity {
 
         UserInfoHolder userInfoHolder = UserInfoManager.getInstance().getUserInfo();
         // double gender = userInfoHolder.getPower();
-
-        Button submitButton = findViewById(R.id.submitButton2);
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                // Return to the main menu here
-                Intent intent = new Intent(ChangePhotoActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish(); // Close the current activity
-            }
-        });
     }
 
 

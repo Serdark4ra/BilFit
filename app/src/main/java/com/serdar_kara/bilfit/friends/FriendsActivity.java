@@ -1,11 +1,11 @@
 package com.serdar_kara.bilfit.friends;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,19 +41,20 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import android.content.Context;
-
 public class FriendsActivity extends AppCompatActivity {
     public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder> {
-
+        private static final String PREFS_NAME = "ButtonTimestamp";
+        private static final String TIMESTAMP_KEY_PREFIX = "ButtonTimestamp_";
         private List<String> friendsList;
         private Context context;
         private FirebaseFirestore db;
+        private SharedPreferences sharedPreferences;
 
         public FriendsAdapter(Context context, List<String> friendsList) {
             this.context = context;
             this.friendsList = friendsList;
             this.db = FirebaseFirestore.getInstance();
+            this.sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         }
 
         @NonNull
@@ -67,6 +68,18 @@ public class FriendsActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull FriendsViewHolder holder, int position) {
             String friendUserId = friendsList.get(position);
 
+            String timestampKey = TIMESTAMP_KEY_PREFIX + friendUserId;
+            long buttonClickTimestamp = sharedPreferences.getLong(timestampKey, 0);
+
+            if (buttonClickTimestamp != 0 && isWithinTenMinutes(buttonClickTimestamp)) {
+                long elapsedTime = System.currentTimeMillis() - buttonClickTimestamp;
+                if (TimeUnit.MILLISECONDS.toMinutes(elapsedTime) < 10) {
+                    // Button was clicked within the last 10 minutes, disable it and start the timer
+                    holder.binding.buttonGoTogether.setEnabled(false);
+                    startTimer(holder, buttonClickTimestamp, friendUserId);
+                }
+            }
+
             db.collection("Users").document(friendUserId).get()
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
@@ -79,12 +92,15 @@ public class FriendsActivity extends AppCompatActivity {
                     .addOnFailureListener(e -> Log.d("Friends", "Failed to retrieve friend data"));
 
             holder.binding.buttonGoTogether.setOnClickListener(v -> {
-                    sendNotificationToFriend(friendUserId);
+                sendNotificationToFriend(friendUserId);
+                holder.binding.buttonGoTogether.setEnabled(false);
+                startTimer(holder, System.currentTimeMillis(), friendUserId);
             });
 
             holder.binding.buttonCheckProfile.setOnClickListener(v -> {
                 // TODO: Implement profile check
             });
+
         }
 
         @Override
@@ -92,15 +108,39 @@ public class FriendsActivity extends AppCompatActivity {
             return friendsList.size();
         }
 
+        private void startTimer(FriendsViewHolder holder, long startTime, String friendUserId) {
+            new CountDownTimer(TimeUnit.MINUTES.toMillis(10) - (System.currentTimeMillis() - startTime), 1000) {
+                public void onTick(long millisUntilFinished) {
+                    String timeLeft = String.format(Locale.getDefault(), "%02d:%02d",
+                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) % 60,
+                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60);
+                    holder.binding.buttonGoTogether.setText(timeLeft);
+                }
+
+                @SuppressLint("SetTextI18n")
+                public void onFinish() {
+                    holder.binding.buttonGoTogether.setEnabled(true);
+                    holder.binding.buttonGoTogether.setText("Go Together");
+                }
+            }.start();
+
+            // Save timestamp when the button is clicked
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putLong(TIMESTAMP_KEY_PREFIX + friendUserId, startTime);
+            editor.apply();
+        }
+        private boolean isWithinTenMinutes(long timestamp) {
+            long elapsedTime = System.currentTimeMillis() - timestamp;
+            return TimeUnit.MILLISECONDS.toMinutes(elapsedTime) < 10;
+        }
+
         private void sendNotificationToFriend(String friendUserId) {
             Map<String, Object> notificationData = goTogether();
             db.collection("Users").document(friendUserId).update("notifications", FieldValue.arrayUnion(notificationData))
-                    .addOnSuccessListener(documentReference -> {
-                        Toast.makeText(context, "Notification sent successfully!!", Toast.LENGTH_SHORT).show();
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(context, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
-                    });
+                    .addOnSuccessListener(documentReference ->
+                            Toast.makeText(context, "Notification sent successfully!!", Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e ->
+                            Toast.makeText(context, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show());
         }
 
         private Map<String, Object> goTogether() {
@@ -392,9 +432,8 @@ public class FriendsActivity extends AppCompatActivity {
                             Toast.makeText(FriendsActivity.this, "User not found. Please try again.", Toast.LENGTH_SHORT).show();
                         }
                     })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(FriendsActivity.this, "Failed to load user data. Please try again.", Toast.LENGTH_SHORT).show();
-                    });
+                    .addOnFailureListener(e ->
+                            Toast.makeText(FriendsActivity.this, "Failed to load user data. Please try again.", Toast.LENGTH_SHORT).show());
 
             // Accept button click listener
             holder.binding.buttonAccept.setOnClickListener(v -> {
@@ -411,13 +450,10 @@ public class FriendsActivity extends AppCompatActivity {
                                         FriendsActivity.this.recreate();
                                         Toast.makeText(FriendsActivity.this, "Friend request accepted.", Toast.LENGTH_SHORT).show();
                                     })
-                                    .addOnFailureListener(e -> {
-                                        Toast.makeText(FriendsActivity.this, "Failed to accept friend request. Please try again.", Toast.LENGTH_SHORT).show();
-                                    });
+                                    .addOnFailureListener(e -> Toast.makeText(FriendsActivity.this, "Failed to accept friend request. Please try again.", Toast.LENGTH_SHORT).show());
                         })
-                        .addOnFailureListener(e -> {
-                            Toast.makeText(FriendsActivity.this, "Failed to accept friend request. Please try again.", Toast.LENGTH_SHORT).show();
-                        });
+                        .addOnFailureListener(e ->
+                                Toast.makeText(FriendsActivity.this, "Failed to accept friend request. Please try again.", Toast.LENGTH_SHORT).show());
             });
 
             // Deny button click listener
@@ -431,9 +467,7 @@ public class FriendsActivity extends AppCompatActivity {
                             FriendsActivity.this.recreate();
                             Toast.makeText(FriendsActivity.this, "Friend request denied.", Toast.LENGTH_SHORT).show();
                         })
-                        .addOnFailureListener(e -> {
-                            Toast.makeText(FriendsActivity.this, "Failed to deny friend request. Please try again.", Toast.LENGTH_SHORT).show();
-                        });
+                        .addOnFailureListener(e -> Toast.makeText(FriendsActivity.this, "Failed to deny friend request. Please try again.", Toast.LENGTH_SHORT).show());
             });
         }
 
