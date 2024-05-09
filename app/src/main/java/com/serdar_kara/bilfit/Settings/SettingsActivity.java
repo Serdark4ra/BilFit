@@ -13,11 +13,14 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.serdar_kara.bilfit.FeedbackActivity;
 import com.serdar_kara.bilfit.MainActivity;
 import com.serdar_kara.bilfit.databinding.ActivitySettingsBinding;
 import com.serdar_kara.bilfit.get_info_activities.GenderActivity;
+import com.serdar_kara.bilfit.get_info_activities.UserInfoHolder;
 import com.serdar_kara.bilfit.login_activities.ForgotPasswordActivity;
 import com.serdar_kara.bilfit.login_activities.SignUpActivity;
+import java.util.ArrayList;
 
 public class SettingsActivity extends AppCompatActivity {
     private ActivitySettingsBinding binding;
@@ -42,6 +45,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         binding.buttonChangePhoto.setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivity.this, ChangePhotoActivity.class);
+            startActivity(intent);
+        });
+
+        binding.buttonRegenerate.setOnClickListener(v -> {
+            regenerateWorkoutProgram(new UserInfoHolder()); //TODO buraya firebaseden tüm bilgiler gelcek
+            Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
             startActivity(intent);
         });
 
@@ -74,6 +83,12 @@ public class SettingsActivity extends AppCompatActivity {
 
 
 
+    }
+
+    public void regenerateWorkoutProgram(UserInfoHolder userInfoHolder, ArrayList<ArrayList<String>> program)
+    {
+        program.clear();
+        userInfoHolder.regenerateWorkoutProgram();
     }
 
 
