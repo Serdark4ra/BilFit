@@ -18,6 +18,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.serdar_kara.bilfit.FeedbackActivity;
 import com.serdar_kara.bilfit.MainActivity;
 import com.serdar_kara.bilfit.R;
@@ -29,7 +31,63 @@ import com.serdar_kara.bilfit.login_activities.SignUpActivity;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.RatingBar;
+import android.widget.Toast;
+import android.widget.Button;
+import android.view.View;
+import android.content.Intent;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Transaction;
+import com.serdar_kara.bilfit.get_info_activities.UserInfoHolder;
+import com.serdar_kara.bilfit.get_info_activities.UserInfoManager;
 public class SettingsActivity extends AppCompatActivity {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ArrayList<ArrayList<Exercises>> program;
+
+    private static final String TAG = "SettingsActivity";
+
+    private FirebaseAuth auth;
+    private FirebaseFirestore db;
+    private DocumentReference documentReference;
+
+
     private ActivitySettingsBinding binding;
     private TextView username;
     private FirebaseAuth mAuth;
@@ -128,7 +186,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void regenerateWorkoutProgram(UserInfoHolder userInfoHolder, ArrayList<ArrayList<String>> program)
     {
-        program.clear();
         userInfoHolder.regenerateWorkoutProgram();
     }
     private void updateUsernameTextView() {

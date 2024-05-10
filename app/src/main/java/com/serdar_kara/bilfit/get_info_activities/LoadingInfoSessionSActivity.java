@@ -1,9 +1,5 @@
 package com.serdar_kara.bilfit.get_info_activities;
 
-import static android.content.ContentValues.TAG;
-
-import static java.lang.Thread.sleep;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,12 +8,8 @@ import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,15 +18,18 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.serdar_kara.bilfit.MainActivity;
-import com.serdar_kara.bilfit.R;
 import com.serdar_kara.bilfit.algorithm.Exercises;
 import com.serdar_kara.bilfit.databinding.ActivityLoadingInfoSessionSactivityBinding;
+import com.serdar_kara.bilfit.get_info_activities.UserInfoHolder;
+import com.serdar_kara.bilfit.get_info_activities.UserInfoManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class LoadingInfoSessionSActivity extends AppCompatActivity {
+
+    private static final String TAG = "LoadingInfoSessionSActivity";
 
     private ActivityLoadingInfoSessionSactivityBinding binding;
     private FirebaseFirestore db;
@@ -55,12 +50,11 @@ public class LoadingInfoSessionSActivity extends AppCompatActivity {
         ProgressBar progressBar = binding.progressBar;
         TextView loadingPercentage = binding.textViewLoadingPercentage;
 
-        System.out.println("BURAYA GELDIIIIIIIIIIIIIIIIIIIII");
         userInfoHolder.setPower();
         ArrayList<ArrayList<Exercises>> program = userInfoHolder.getProgram();
 
         boolean[] days = userInfoHolder.getDays();
-        putProgramToDatabase(program,days);
+        putProgramToDatabase(program, days);
         userInfoHolder.saveExerciseDaysToThePhone(this, days);
         saveCompletedExercisesToThePhone(this);
         putPowerToDatabase(userInfoHolder);
@@ -70,7 +64,7 @@ public class LoadingInfoSessionSActivity extends AppCompatActivity {
         loadingPercentage.setText(completionPercentage + "%");
 
         try {
-            sleep(2000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -80,11 +74,10 @@ public class LoadingInfoSessionSActivity extends AppCompatActivity {
         loadingPercentage.setText(completionPercentage + "%");
 
         try {
-            sleep(1500);
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
 
         Intent intent1 = new Intent(LoadingInfoSessionSActivity.this, MainActivity.class);
         startActivity(intent1);
@@ -95,19 +88,40 @@ public class LoadingInfoSessionSActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
 
-        if (currentUser != null) {
-            documentReference = db.collection("Users").document(currentUser.getUid());
-            double power = userInfoHolder.getPower();
+            if (currentUser != null) {
+                documentReference = db.collection("Users").document(currentUser.getUid());
+                double power = userInfoHolder.getPower();
 
-            documentReference.update("power", power)
-                    .addOnSuccessListener(aVoid -> Log.d(TAG, "Power updated successfully"))
-                    .addOnFailureListener(e -> Log.w(TAG, "Error updating power", e));
-        } else {
-            Log.w(TAG, "Current user is null");
+                // Create a map to update multiple fields in the Firestore document
+                Map<String, Object> data = new HashMap<>();
+                data.put("power", power);
+                data.put("gender", userInfoHolder.getGender());
+                data.put("chest", userInfoHolder.isChest());
+                data.put("back", userInfoHolder.isBack());
+                data.put("arm", userInfoHolder.isArm());
+                data.put("leg", userInfoHolder.isLeg());
+                data.put("age", userInfoHolder.getAge());
+                data.put("weight", userInfoHolder.getWeight());
+                data.put("height", userInfoHolder.getHeight());
+                data.put("isMondayEligible", userInfoHolder.isMondayEligible());
+                data.put("isTuesdayEligible", userInfoHolder.isTuesdayEligible());
+                data.put("isWednesdayEligible", userInfoHolder.isWednesdayEligible());
+                data.put("isThursdayEligible", userInfoHolder.isThursdayEligible());
+                data.put("isFridayEligible", userInfoHolder.isFridayEligible());
+                data.put("isSaturdayEligible", userInfoHolder.isSaturdayEligible());
+                data.put("isSundayEligible", userInfoHolder.isSundayEligible());
+                data.put("purpose", userInfoHolder.getPurpose());
+                data.put("bodyType", userInfoHolder.getBodyType());
+                data.put("pushupCount", userInfoHolder.getPushupCount());
+                // Add other variables here similarly
+
+                documentReference.update(data)
+                        .addOnSuccessListener(aVoid -> Log.d(TAG, "User data updated successfully"))
+                        .addOnFailureListener(e -> Log.w(TAG, "Error updating user data", e));
+            } else {
+                Log.w(TAG, "Current user is null");
+            }
         }
-    }
-
-
 
     public void saveCompletedExercisesToThePhone(Context context) {
         String PREF_NAME = "CompletedExerciseDays";
@@ -128,37 +142,24 @@ public class LoadingInfoSessionSActivity extends AppCompatActivity {
 
         // Convert the program ArrayList<ArrayList<Exercises>> to a format Firestore understands
         // For example, you can use a HashMap to represent the program
-        // Here, assuming you have a method to convert the program to a HashMap
         HashMap<String, Object> programData = convertProgramToHashMap(program, days);
 
         // Update the document with the program data
         documentReference.update("program", programData)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "Program data added successfully");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding program data", e);
-                    }
-                });
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "Program data added successfully"))
+                .addOnFailureListener(e -> Log.w(TAG, "Error adding program data", e));
     }
 
     // Method to convert the program ArrayList<ArrayList<Exercises>> to a HashMap
     private HashMap<String, Object> convertProgramToHashMap(ArrayList<ArrayList<Exercises>> program, boolean[] days) {
         HashMap<String, Object> programData = new HashMap<>();
-        String[] gunler = {"Monday" , "Tuesday", "Wednesday", "Thursday" ,"Friday" , "Saturday", "Sunday"};
+        String[] gunler = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
         int k = 0;
         for (int i = 0; i < program.size(); i++) {
             boolean gunBulundu = true;
             String currentDay = "";
-            for (;gunBulundu && k < 7; k++)
-            {
-                if (days[k])
-                {
+            for (; gunBulundu && k < 7; k++) {
+                if (days[k]) {
                     currentDay = gunler[k];
                     gunBulundu = false;
                 }
@@ -173,6 +174,5 @@ public class LoadingInfoSessionSActivity extends AppCompatActivity {
         }
         return programData;
     }
-
 
 }

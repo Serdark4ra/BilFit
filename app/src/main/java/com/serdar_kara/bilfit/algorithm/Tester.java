@@ -15,6 +15,98 @@ public class Tester {
 
     }
 
+    public static boolean isBackExercise(String s)
+    {
+        for (int i = 0; i < exercisesList.size(); i++)
+        {
+            if (exercisesList.get(i).getName().equalsIgnoreCase(s))
+            {
+                System.out.println("buraya giriyor. TESTER 24.SATIR ");
+                System.out.println("classin adi da su ki : " + String.valueOf(exercisesList.get(i).getClass()));
+                if (String.valueOf(exercisesList.get(i).getClass()).equalsIgnoreCase("class com.serdar_kara.bilfit.algorithm.BackExercises"))
+                {
+                    return  true;
+                }
+            }
+        }
+        return  false;
+    }
+
+    public static boolean isLegExercise(String s)
+    {
+        for (int i = 0; i < exercisesList.size(); i++)
+        {
+            if (exercisesList.get(i).getName().equalsIgnoreCase(s))
+            {
+                if (String.valueOf(exercisesList.get(i).getClass()).equalsIgnoreCase("class com.serdar_kara.bilfit.algorithm.LegExercises"))
+                {
+                    return  true;
+                }
+            }
+        }
+        return  false;
+    }
+
+    public static boolean isBicepsExercise(String s)
+    {
+        for (int i = 0; i < exercisesList.size(); i++)
+        {
+            if (exercisesList.get(i).getName().equalsIgnoreCase(s))
+            {
+                if (String.valueOf(exercisesList.get(i).getClass()).equalsIgnoreCase("class com.serdar_kara.bilfit.algorithm.BicepsExercises"))
+                {
+                    return  true;
+                }
+            }
+        }
+        return  false;
+    }
+
+    public static boolean isTricepsExercise(String s)
+    {
+        for (int i = 0; i < exercisesList.size(); i++)
+        {
+            if (exercisesList.get(i).getName().equalsIgnoreCase(s))
+            {
+                if (String.valueOf(exercisesList.get(i).getClass()).equalsIgnoreCase("class com.serdar_kara.bilfit.algorithm.TricepsExercises"))
+                {
+                    return  true;
+                }
+            }
+        }
+        return  false;
+    }
+
+    public static boolean isShoulderExercise(String s)
+    {
+        for (int i = 0; i < exercisesList.size(); i++)
+        {
+            if (exercisesList.get(i).getName().equalsIgnoreCase(s))
+            {
+                if (String.valueOf(exercisesList.get(i).getClass()).equalsIgnoreCase("class com.serdar_kara.bilfit.algorithm.ShoulderExercises"))
+                {
+                    return  true;
+                }
+            }
+        }
+        return  false;
+    }
+
+    public static boolean isChestExercise(String s)
+    {
+        for (int i = 0; i < exercisesList.size(); i++)
+        {
+            if (exercisesList.get(i).getName().equalsIgnoreCase(s))
+            {
+                if (String.valueOf(exercisesList.get(i).getClass()).equalsIgnoreCase("class com.serdar_kara.bilfit.algorithm.ChestExercises"))
+                {
+                    return  true;
+                }
+            }
+        }
+        return  false;
+    }
+
     public static void generateMuscleProgram (ArrayList<ArrayList<Exercises>> program, double power, boolean generateHalf)
     {
         for (int i = 0; i < program.size(); i++)
@@ -417,6 +509,7 @@ public class Tester {
 
     public static ArrayList<String> returnAssociatedList(String s)
     {
+        boolean isCardio = false;
         String nameOfClass = "";
 
         for (int i = 0; i < exercisesList.size(); i++)
@@ -428,7 +521,25 @@ public class Tester {
         }
 
         ArrayList<String> associatedExercises = new ArrayList<String>();
-        for (int i = 0; i < exercisesList.size(); i++)
+
+        for (int i = 0; i < cardioExercises.size(); i++)
+        {
+            if (s.equals(cardioExercises.get(i).getName()))
+            {
+                isCardio = true;
+                nameOfClass = String.valueOf(exercisesList.get(i).getClass());
+            }
+        }
+
+        if (isCardio)
+        {
+            for (int i = 0; i < cardioExercises.size(); i++)
+            {
+                associatedExercises.add(cardioExercises.get(i).getName());
+            }
+        }
+
+        for (int i = 0; i < exercisesList.size() && !isCardio; i++)
         {
             if (String.valueOf(exercisesList.get(i).getClass()).equals(nameOfClass))
             {
