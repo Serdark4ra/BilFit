@@ -1,65 +1,11 @@
-<<<<<<< Updated upstream
-package com.serdar_kara.bilfit.Settings;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.RatingBar;
-import android.widget.Toast;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.serdar_kara.bilfit.FeedbackActivity;
-import com.serdar_kara.bilfit.MainActivity;
-import com.serdar_kara.bilfit.R;
-import com.serdar_kara.bilfit.get_info_activities.UserInfoHolder;
-import com.serdar_kara.bilfit.get_info_activities.UserInfoManager;
-
-public class ChangePhotoActivity extends AppCompatActivity {
-
-    private String getCurrentUserId() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            return user.getUid();
-        } else {
-            Toast.makeText(ChangePhotoActivity.this, "Something went wrong. Please try again",
-                    Toast.LENGTH_SHORT).show();
-            return "0000";
-        }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_change_photo);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
-        UserInfoHolder userInfoHolder = UserInfoManager.getInstance().getUserInfo();
-        // double gender = userInfoHolder.getPower();
-    }
-
-
-
-}
-=======
 package com.serdar_kara.bilfit.Settings;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -74,6 +20,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -101,86 +48,139 @@ public class ChangePhotoActivity extends AppCompatActivity {
     private FirebaseStorage firebaseStorage;
     private FirebaseFirestore firebaseFirestore;
 
+    private ActivityChangePhotoBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_change_photo);
+        binding = ActivityChangePhotoBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+
         profileImageView = findViewById(R.id.imageButton6); // Assume this ID for your ImageView
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
-        registerGalleryActivityResultLauncher();
-        registerPermissionLauncher();
+        registerLauncher();
 
-        profileImageView.setOnClickListener(v -> attemptToOpenGallery());
-    }
-
-    private void attemptToOpenGallery() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            openGallery();
-        } else {
-            if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
-            } else {
-                Snackbar.make(profileImageView, "Permission denied permanently. Please enable it from settings.", Snackbar.LENGTH_LONG)
-                        .setAction("Settings", v -> {
-                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                            Uri uri = Uri.fromParts("package", getPackageName(), null);
-                            intent.setData(uri);
-                            startActivity(intent);
-                        }).show();
-            }
-        }
-    }
-
-    private void registerGalleryActivityResultLauncher() {
-        galleryActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                imageData = result.getData().getData();
-                profileImageView.setImageURI(imageData);
+        binding.profileButtonSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 uploadImageToFirebase();
             }
         });
+
+        binding.toolbar.setNavigationOnClickListener(v -> {
+            Intent intent = new Intent(ChangePhotoActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        });
+
     }
 
-    private void registerPermissionLauncher() {
-        permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-            if (isGranted) {
-                openGallery();
-            } else {
-                if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    Snackbar.make(profileImageView, "Permission needed to access gallery", Snackbar.LENGTH_INDEFINITE)
-                            .setAction("Allow", v -> permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE))
-                            .show();
-                } else {
-                    Snackbar.make(profileImageView, "Permission denied permanently. Please enable it from settings.", Snackbar.LENGTH_LONG)
-                            .setAction("Settings", v -> {
-                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package", getPackageName(), null);
-                                intent.setData(uri);
-                                startActivity(intent);
-                            }).show();
+    public void imageClicked(View view){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+
+            if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED){
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_MEDIA_IMAGES)){
+                    Snackbar.make(view,"Permission needed to add images",Snackbar.LENGTH_INDEFINITE).setAction("Give Permission", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //req
+                            permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES);
+                        }
+                    }).show();
+                }else{
+                    //permiss req
+                    permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
+                }
+
+            }else{
+                //gallery
+                Intent intentToGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                galleryActivityResultLauncher.launch(intentToGallery);
+            }
+        }else{
+            if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_EXTERNAL_STORAGE)){
+                    Snackbar.make(view,"Permission needed to add images",Snackbar.LENGTH_INDEFINITE).setAction("Give Permission", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //req
+                            permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
+                        }
+                    }).show();
+                }else{
+                    //permiss req
+                    permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
+                    System.out.println("2");
+                }
+
+            }else{
+                //gallery
+                Intent intentToGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                galleryActivityResultLauncher.launch(intentToGallery);
+            }
+        }
+
+
+    }
+
+    private void registerLauncher(){
+        galleryActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult o) {
+                if (o.getResultCode() == RESULT_OK){
+                    Intent intentFromResult = o.getData();
+                    if (intentFromResult != null){
+                        imageData = intentFromResult.getData();
+                        binding.imageButton6.setImageURI(imageData);
+                    }
+                }
+            }
+        });
+        permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
+            @Override
+            public void onActivityResult(Boolean o) {
+                if (o){
+                    Intent intentToGallery = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    galleryActivityResultLauncher.launch(intentToGallery);
+                }else{
+                    Toast.makeText(ChangePhotoActivity.this,"Permission Needed!",Toast.LENGTH_LONG).show();
+
                 }
             }
         });
     }
 
-    private void openGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        galleryActivityResultLauncher.launch(intent);
-    }
+
+
+
 
     private void uploadImageToFirebase() {
         if (imageData != null) {
             String userId = firebaseAuth.getCurrentUser().getUid();
             StorageReference fileRef = firebaseStorage.getReference().child("ProfilePhotos/" + userId + ".jpg");
-            fileRef.putFile(imageData).addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+
+            UploadTask uploadTask = fileRef.putFile(imageData);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("Firebase", "Upload failed, retrying...", e);
+                    uploadImageToFirebase(); // Retry uploading
+                }
+            }).addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
                 updateFirestoreUserProfileImage(uri.toString());
-            })).addOnFailureListener(e -> Toast.makeText(ChangePhotoActivity.this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            })).addOnFailureListener(e -> {
+                Toast.makeText(ChangePhotoActivity.this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            });
+        } else {
+            Toast.makeText(this, "No image selected to upload.", Toast.LENGTH_LONG).show();
         }
     }
+
+
 
     private void updateFirestoreUserProfileImage(String imageUrl) {
         Map<String, Object> userUpdates = new HashMap<>();
@@ -192,4 +192,4 @@ public class ChangePhotoActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> Toast.makeText(ChangePhotoActivity.this, "Failed to update profile image.", Toast.LENGTH_SHORT).show());
     }
 }
->>>>>>> Stashed changes
+

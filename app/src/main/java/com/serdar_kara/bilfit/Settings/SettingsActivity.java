@@ -13,6 +13,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,6 +46,8 @@ public class SettingsActivity extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
         username = findViewById(R.id.textView_user_name);
         updateUsernameTextView();
+
+        loadUserProfilePhoto();
 
 
 
@@ -96,10 +99,32 @@ public class SettingsActivity extends AppCompatActivity {
         }else{
             mAuth.sendPasswordResetEmail(email);
         }
-
-
-
     }
+
+    private void loadUserProfilePhoto() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            FirebaseFirestore.getInstance().collection("Users").document(user.getUid())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            DocumentSnapshot doc = task.getResult();
+                            if (doc.exists() && doc.contains("profileImage")) {
+                                String photoUrl = doc.getString("profileImage");
+                                if (photoUrl != null && !photoUrl.isEmpty()) {
+                                    Glide.with(this)
+                                            .load(photoUrl)
+                                            .circleCrop() // if you want to apply circle cropping to the image
+                                            .into(binding.imageViewUser);
+                                }
+                            }
+                        } else {
+                            Toast.makeText(this, "Failed to load user photo.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+
 
     public void regenerateWorkoutProgram(UserInfoHolder userInfoHolder, ArrayList<ArrayList<String>> program)
     {
@@ -110,13 +135,13 @@ public class SettingsActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("Users")
-                .document(currentUser.getUid()) // Geçerli kullanıcının UID'sini kullanarak belirli bir kullanıcının belgesini alın
+                .document(currentUser.getUid())
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult(); // Belgeyi al
+                        DocumentSnapshot document = task.getResult();
 
-                        if (document.exists()) { // Belge var mı diye kontrol et
+                        if (document.exists()) {
                             String userName = document.getString("name_surname");
                             // TextView'a kullanıcı adını ayarla
                             username.setText(userName);

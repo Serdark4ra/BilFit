@@ -49,6 +49,9 @@ dependencies {
 
     implementation("com.google.android.material:material:1.9.0")
 
+    implementation ("com.github.bumptech.glide:glide:4.13.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.13.0")
+
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)
