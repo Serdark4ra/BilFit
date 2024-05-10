@@ -23,6 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.serdar_kara.bilfit.FeedbackActivity;
 import com.serdar_kara.bilfit.MainActivity;
 import com.serdar_kara.bilfit.R;
+import com.serdar_kara.bilfit.algorithm.Exercises;
 import com.serdar_kara.bilfit.databinding.ActivitySettingsBinding;
 import com.serdar_kara.bilfit.get_info_activities.GenderActivity;
 import com.serdar_kara.bilfit.get_info_activities.UserInfoHolder;
@@ -54,26 +55,6 @@ import com.google.firebase.firestore.Transaction;
 import com.serdar_kara.bilfit.get_info_activities.UserInfoHolder;
 import com.serdar_kara.bilfit.get_info_activities.UserInfoManager;
 public class SettingsActivity extends AppCompatActivity {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
