@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         if (!isCompleted && isCompleted1){
             completedButton.setVisibility(Button.VISIBLE);
         }else{
-           // completedButton.setVisibility(Button.INVISIBLE);
+            completedButton.setVisibility(Button.INVISIBLE);
         }
 
         completedButton.setOnClickListener(v -> {
