@@ -28,44 +28,25 @@
             android:textSize="30dp"/>
     </androidx.appcompat.widget.Toolbar>
     <!-- ImageButtons -->
-    <ImageButton
+    <ImageView
         android:id="@+id/imageButton6"
         android:layout_width="74dp"
         android:layout_height="72dp"
         app:srcCompat="@drawable/woman__4_"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"/>
 
-    <ImageButton
-        android:id="@+id/imageButton7"
-        android:layout_width="75dp"
-        android:layout_height="70dp"
-        app:srcCompat="@drawable/grandfather"
-        app:layout_constraintStart_toEndOf="@id/imageButton6"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"/>
-
-    <ImageButton
-        android:id="@+id/imageButton8"
-        android:layout_width="70dp"
-        android:layout_height="68dp"
-        app:srcCompat="@drawable/man__1_"
-        app:layout_constraintStart_toEndOf="@id/imageButton7"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"/>
-
-    <ImageButton
-        android:id="@+id/imageButton9"
-        android:layout_width="65dp"
-        android:layout_height="70dp"
-        app:srcCompat="@drawable/girl"
-        app:layout_constraintStart_toEndOf="@id/imageButton8"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"/>
+    <Button
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/profile_button_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        app:layout_constraintTop_toBottomOf="@id/imageButton6"
+        tools:layout_editor_absoluteX="174dp"
+        tools:layout_editor_absoluteY="268dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
