@@ -81,11 +81,10 @@ public class ReportActivity extends AppCompatActivity {
 
         Button backToMainMenuButton = findViewById(R.id.button_back_to_menu);
 
-        // Set OnClickListener to navigate back to the main menu
         backToMainMenuButton.setOnClickListener(view -> {
             Intent intent = new Intent(ReportActivity.this, MainActivity.class);
             startActivity(intent);
-            finish(); // Optional: finish() this activity so it's removed from the stack
+            finish();
         });
 
         super.onCreate(savedInstanceState);

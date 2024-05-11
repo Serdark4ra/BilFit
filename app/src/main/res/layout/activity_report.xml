@@ -7,10 +7,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     tools:context=".ReportActivity">
-
-    <!-- Title -->
-
-    <!-- Image for Calories Burned -->
+    
 
     <TextView
         android:id="@+id/title"
