@@ -79,6 +79,7 @@ public class ReportActivity extends AppCompatActivity {
     private ArrayList<ExerciseModel> exerciseList;
     private int goalpoints = 10000;
     private int index = 0;
+    private int day = 0;
 
     private ExerciseAdapter exerciseAdapter;
     TextView caloriesText;
@@ -130,7 +131,7 @@ public class ReportActivity extends AppCompatActivity {
                 Number pointsNumber = documentSnapshot.getLong("points");
                 if (pointsNumber != null) {  // Check if the points data exists
                     int points = pointsNumber.intValue();
-                    int day = calculateAverageDailyPoints(points , index);
+                    day = calculateAverageDailyPoints(points , index);
                     showDaysToReachGoal(points , goalpoints , day);
 
 
@@ -158,7 +159,9 @@ public class ReportActivity extends AppCompatActivity {
     private int calculateAverageDailyPoints(int totalPoints, int daysPassed) {
         // Eğer hiç gün geçmediyse, ortalama günlük puan 0 olmalı
         if (daysPassed == 0) {
-            return 0;
+            index++;
+            return 1;
+
         }
 
         // Ortalama günlük puanı hesaplayın
@@ -176,8 +179,8 @@ public class ReportActivity extends AppCompatActivity {
 
         // Eğer kalan gün sayısı negatifse, kullanıcı zaten hedefine ulaşmıştır veya hedefe ulaşması imkansızdır
         if (remainingDays < 0) {
-            daysToGoalText.setText("You've already reached your goal!");
-            goalpoints = 2*goalpoints;
+            daysToGoalText.setText("You've already reached your goal!\nYou've new goal.");
+            goalpoints = 2 * goalpoints;
 
         } else {
             daysToGoalText.setText("Days left to reach your goal: " + remainingDays);
