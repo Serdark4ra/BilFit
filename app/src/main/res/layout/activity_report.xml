@@ -5,36 +5,88 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context=".ReportActivity">
 
+    <!-- Title -->
+
+    <!-- Image for Calories Burned -->
+
     <TextView
-        android:id="@+id/textView15"
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="28dp"
+        android:text="Weekly Workout Report"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/caloriesImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/calories_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp"/>
+
+    <!-- Text for Calories Burned -->
+    <TextView
+        android:id="@+id/caloriesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/calories_have_burned_so_far"
         android:textSize="18sp"
-        android:layout_marginTop="70sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/caloriesImage"
+        app:layout_constraintTop_toTopOf="@id/caloriesImage"
+        android:layout_marginStart="16dp"/>
 
+    <!-- Image for Reduced Cancer Risk -->
+    <ImageView
+        android:id="@+id/cancerImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/cancer_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/caloriesImage"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp"/>
+
+    <!-- Text for Reduced Cancer Risk -->
     <TextView
-        android:id="@+id/textView16"
+        android:id="@+id/cancerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="You've reduced your risk of getting cancer by this much:"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintStart_toEndOf="@id/cancerImage"
+        app:layout_constraintTop_toTopOf="@id/cancerImage"
+        android:layout_marginStart="16dp"/>
 
+    <!-- Image for Reduced Heart Attack Risk -->
+    <ImageView
+        android:id="@+id/heartAttackImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/heart_attack_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cancerImage"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp"/>
+
+    <!-- Text for Reduced Heart Attack Risk -->
     <TextView
-        android:id="@+id/textView17"
+        android:id="@+id/heartAttackText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="You've reduced your risk of having a heart attack by this much:"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView16"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintStart_toEndOf="@id/heartAttackImage"
+        app:layout_constraintTop_toTopOf="@id/heartAttackImage"
+        android:layout_marginStart="16dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

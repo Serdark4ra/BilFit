@@ -69,9 +69,9 @@ public class ReportActivity extends AppCompatActivity {
     private DocumentReference documentReference;
     private ArrayList<ExerciseModel> exerciseList;
     private ExerciseAdapter exerciseAdapter;
-    TextView textView15;
-    TextView textView16;
-    TextView textView17;
+    TextView caloriesText;
+    TextView cancerText;
+    TextView heartAttackText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,9 +85,9 @@ public class ReportActivity extends AppCompatActivity {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
 
 
-            textView15 = findViewById(R.id.textView15);
-            textView16 = findViewById(R.id.textView16);
-            textView17 = findViewById(R.id.textView17);
+            caloriesText = findViewById(R.id.caloriesText);
+            cancerText = findViewById(R.id.cancerText);
+            heartAttackText = findViewById(R.id.heartAttackText);
 
             setTexts(currentUser.getUid());
 
@@ -116,14 +116,14 @@ public class ReportActivity extends AppCompatActivity {
                     String formattedN1 = String.format("%.6f", n1);
                     String formattedN2 = String.format("%.6f", n2);
 
-                    textView15.setText("Calories have burned so far: " + points * 3);
-                    textView16.setText("You've reduced your risk of getting cancer by this much: %" + formattedN1);
-                    textView17.setText("You've reduced your risk of having a heart attack by this much: %" + formattedN2);
+                    caloriesText.setText("Calories have burned so far: " + points * 3);
+                    cancerText.setText("You've reduced your risk of getting cancer by this much: %" + formattedN1);
+                    heartAttackText.setText("You've reduced your risk of having a heart attack by this much: %" + formattedN2);
 
                 } else {
-                    textView15.setText("Calories have burned so far: " + 0);; // Default to 0 if no points
-                    textView16.setText("You've reduced your risk of getting cancer by this much: " + 0);
-                    textView17.setText("You've reduced your risk of having a heart attack by this much: " + 0);
+                    caloriesText.setText("Calories have burned so far: " + 0);; // Default to 0 if no points
+                    cancerText.setText("You've reduced your risk of getting cancer by this much: " + 0);
+                    heartAttackText.setText("You've reduced your risk of having a heart attack by this much: " + 0);
                 }
             } else {
                 Log.d("Error", "No such document with the current user id: " + userId);
