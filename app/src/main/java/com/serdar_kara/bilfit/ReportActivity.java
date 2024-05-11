@@ -79,6 +79,15 @@ public class ReportActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
+        Button backToMainMenuButton = findViewById(R.id.button_back_to_menu);
+
+        // Set OnClickListener to navigate back to the main menu
+        backToMainMenuButton.setOnClickListener(view -> {
+            Intent intent = new Intent(ReportActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish(); // Optional: finish() this activity so it's removed from the stack
+        });
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_report);
