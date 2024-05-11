@@ -55,12 +55,14 @@ public class GoalActivity extends AppCompatActivity {
                 }
                 intent.putExtra("userInfoHolder", userInfoHolder);
                 startActivity(intent);
+                finish();
             }
         });
 
         binding.buttonPrevGoal.setOnClickListener(view -> {
             Intent intentPrev = new Intent(GoalActivity.this, PreferredDaysActivity.class);
             startActivity(intentPrev);
+            finish();
         });
 
     }

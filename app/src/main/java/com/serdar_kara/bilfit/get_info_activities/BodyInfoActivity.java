@@ -41,10 +41,12 @@ public class BodyInfoActivity extends AppCompatActivity {
             intent.putExtra("userInfoHolder", userInfoHolder);
 
             startActivity(intent);
+            finish();
         });
         binding.buttonPrevBodyInfo.setOnClickListener(view -> {
             Intent intentPrev = new Intent(BodyInfoActivity.this, GenderActivity.class);
             startActivity(intentPrev);
+            finish();
         });
 
 

@@ -81,6 +81,7 @@ public class LoadingInfoSessionSActivity extends AppCompatActivity {
 
         Intent intent1 = new Intent(LoadingInfoSessionSActivity.this, MainActivity.class);
         startActivity(intent1);
+        finish();
     }
 
     private void putPowerToDatabase(UserInfoHolder userInfoHolder) {

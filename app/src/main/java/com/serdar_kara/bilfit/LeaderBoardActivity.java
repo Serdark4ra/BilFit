@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -45,6 +46,8 @@ public class LeaderBoardActivity extends AppCompatActivity {
         getUsersWithHighPoints();
         Button back = findViewById(R.id.button_back_to_menu);
         back.setOnClickListener(v -> {
+            Intent intent = new Intent(LeaderBoardActivity.this, MainActivity.class);
+            startActivity(intent);
             finish();
         });
     }
