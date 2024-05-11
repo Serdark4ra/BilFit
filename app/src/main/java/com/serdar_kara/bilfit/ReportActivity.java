@@ -2,7 +2,16 @@ package com.serdar_kara.bilfit;
 
 import static android.content.ContentValues.TAG;
 import static android.content.ContentValues.TAG;
+import android.graphics.Color;
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 
+import java.net.DatagramPacket;
+import java.util.ArrayList;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -68,10 +77,12 @@ public class ReportActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private DocumentReference documentReference;
     private ArrayList<ExerciseModel> exerciseList;
+    private int index = 1;
     private ExerciseAdapter exerciseAdapter;
     TextView caloriesText;
     TextView cancerText;
     TextView heartAttackText;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +129,7 @@ public class ReportActivity extends AppCompatActivity {
                 if (pointsNumber != null) {  // Check if the points data exists
                     int points = pointsNumber.intValue();
 
+
                     double n1 = (double) points / 30000.0;
                     double n2 = (double) points / 25000.0;
 
@@ -138,4 +150,5 @@ public class ReportActivity extends AppCompatActivity {
             }
         }).addOnFailureListener(e -> Log.d(TAG, "Error fetching document", e));
     }
+
 }
