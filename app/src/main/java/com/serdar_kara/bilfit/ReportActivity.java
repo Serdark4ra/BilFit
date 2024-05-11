@@ -77,7 +77,9 @@ public class ReportActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private DocumentReference documentReference;
     private ArrayList<ExerciseModel> exerciseList;
-    private int index = 1;
+    private int goalpoints = 10000;
+    private int index = 0;
+
     private ExerciseAdapter exerciseAdapter;
     TextView caloriesText;
     TextView cancerText;
@@ -128,6 +130,9 @@ public class ReportActivity extends AppCompatActivity {
                 Number pointsNumber = documentSnapshot.getLong("points");
                 if (pointsNumber != null) {  // Check if the points data exists
                     int points = pointsNumber.intValue();
+                    int day = calculateAverageDailyPoints(points , index);
+                    showDaysToReachGoal(points , goalpoints , day);
+
 
 
                     double n1 = (double) points / 30000.0;
@@ -149,6 +154,34 @@ public class ReportActivity extends AppCompatActivity {
                 Log.d("Error", "No such document with the current user id: " + userId);
             }
         }).addOnFailureListener(e -> Log.d(TAG, "Error fetching document", e));
+    }
+    private int calculateAverageDailyPoints(int totalPoints, int daysPassed) {
+        // Eğer hiç gün geçmediyse, ortalama günlük puan 0 olmalı
+        if (daysPassed == 0) {
+            return 0;
+        }
+
+        // Ortalama günlük puanı hesaplayın
+        int averageDailyPoints = totalPoints / daysPassed;
+        index++;
+
+        return averageDailyPoints;
+    }
+    private void showDaysToReachGoal(int totalPoints, int goalPoints, int averageDailyPoints) {
+        // Hedefe ulaşmak için kalan gün sayısını hesaplayın
+        int remainingDays = (goalPoints - totalPoints) / averageDailyPoints;
+
+        // Hedefe ulaşmak için kalan gün sayısını göstermek için bir TextView bulun
+        TextView daysToGoalText = findViewById(R.id.textView15);
+
+        // Eğer kalan gün sayısı negatifse, kullanıcı zaten hedefine ulaşmıştır veya hedefe ulaşması imkansızdır
+        if (remainingDays < 0) {
+            daysToGoalText.setText("You've already reached your goal!");
+            goalpoints = 2*goalpoints;
+
+        } else {
+            daysToGoalText.setText("Days left to reach your goal: " + remainingDays);
+        }
     }
 
 }
