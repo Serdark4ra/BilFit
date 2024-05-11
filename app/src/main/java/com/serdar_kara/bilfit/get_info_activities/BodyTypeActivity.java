@@ -49,6 +49,7 @@ public class BodyTypeActivity extends AppCompatActivity {
                 Intent intent = new Intent(BodyTypeActivity.this, GetPushupActivity.class);
                 intent.putExtra("userInfoHolder", userInfoHolder);
                 startActivity(intent);
+                finish();
             }
         });
         binding.buttonPrevBodyType.setOnClickListener(view -> {
@@ -58,6 +59,7 @@ public class BodyTypeActivity extends AppCompatActivity {
             else
                 intentPrev = new Intent(BodyTypeActivity.this, TargetMusclesActivity.class);
             startActivity(intentPrev);
+            finish();
         });
 
 

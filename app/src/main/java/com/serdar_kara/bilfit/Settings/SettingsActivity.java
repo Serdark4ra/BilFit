@@ -56,10 +56,6 @@ import com.serdar_kara.bilfit.get_info_activities.UserInfoHolder;
 import com.serdar_kara.bilfit.get_info_activities.UserInfoManager;
 public class SettingsActivity extends AppCompatActivity {
 
-
-
-
-
     ArrayList<ArrayList<Exercises>> program;
 
     private static final String TAG = "SettingsActivity";
@@ -100,6 +96,7 @@ public class SettingsActivity extends AppCompatActivity {
         binding.buttonChangePhoto.setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivity.this, ChangePhotoActivity.class);
             startActivity(intent);
+            finish();
         });
 
         binding.buttonRegenerate.setOnClickListener(v -> {
@@ -124,6 +121,8 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         binding.toolbarSettings.setNavigationOnClickListener(v -> {
+            Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+            startActivity(intent);
             finish();
         });
     }

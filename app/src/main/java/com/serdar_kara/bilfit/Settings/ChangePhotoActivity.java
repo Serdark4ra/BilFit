@@ -73,6 +73,8 @@ public class ChangePhotoActivity extends AppCompatActivity {
         });
 
         binding.toolbar.setNavigationOnClickListener(v -> {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
             finish();
         });
 

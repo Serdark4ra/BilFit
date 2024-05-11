@@ -34,10 +34,12 @@ public class TargetMusclesActivity extends AppCompatActivity {
             Intent intent = new Intent(TargetMusclesActivity.this, BodyTypeActivity.class);
             intent.putExtra("userInfoHolder", userInfoHolder);
             startActivity(intent);
+            finish();
         });
         binding.buttonPrev.setOnClickListener(view -> {
             Intent intentPrev = new Intent(TargetMusclesActivity.this, GoalActivity.class);
             startActivity(intentPrev);
+            finish();
         });
     }
 

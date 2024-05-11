@@ -49,11 +49,13 @@ public class GetPushupActivity extends AppCompatActivity {
                 Intent intent = new Intent(GetPushupActivity.this, LoadingInfoSessionSActivity.class);
                 intent.putExtra("userInfoHolder", userInfoHolder);
                 startActivity(intent);
+                finish();
             }
         });
         binding.buttonPrevPushup.setOnClickListener(view -> {
             Intent intentPrev = new Intent(GetPushupActivity.this, BodyTypeActivity.class);
             startActivity(intentPrev);
+            finish();
         });
 
     }
