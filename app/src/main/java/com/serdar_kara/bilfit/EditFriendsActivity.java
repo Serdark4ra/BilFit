@@ -15,14 +15,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.serdar_kara.bilfit.databinding.ActivityEditFriendsBinding;
-import com.serdar_kara.bilfit.databinding.ActivityFriendsBinding;
 import com.serdar_kara.bilfit.databinding.FriendEditRowBinding;
 import androidx.appcompat.app.AlertDialog;
+
 import com.serdar_kara.bilfit.friends.FriendsActivity;
 
 import java.util.ArrayList;
@@ -53,6 +55,8 @@ public class EditFriendsActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull EditFriendsActivity.EditFriendsAdapter.EditFriendsViewHolder holder, int position) {
             String friendUserId = friendsList.get(position);
+            loadUserProfilePhoto(holder.binding, friendUserId);
+
             AtomicReference<String> friendName = new AtomicReference<>();
 
             db.collection("Users").document(friendUserId).get()
@@ -130,6 +134,30 @@ public class EditFriendsActivity extends AppCompatActivity {
                 binding.textEditName.setText(friendName);
                 binding.textEditUsername.setText(friendName);
                 binding.imageViewEdit.setImageResource(R.drawable.ic_launcher_background);
+            }
+        }
+
+        private void loadUserProfilePhoto(FriendEditRowBinding binding, String userId) {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                FirebaseFirestore.getInstance().collection("Users").document(userId)
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful() && task.getResult() != null) {
+                                DocumentSnapshot doc = task.getResult();
+                                if (doc.exists() && doc.contains("profileImage")) {
+                                    String photoUrl = doc.getString("profileImage");
+                                    if (photoUrl != null && !photoUrl.isEmpty()) {
+                                        Glide.with(EditFriendsActivity.this)
+                                                .load(photoUrl)
+                                                .circleCrop() // if you want to apply circle cropping to the image
+                                                .into(binding.imageViewEdit);
+                                    }
+                                }
+                            } else {
+                                Toast.makeText(EditFriendsActivity.this, "Failed to load user photo.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         }
     }

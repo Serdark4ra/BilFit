@@ -21,9 +21,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -41,6 +43,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class FriendsActivity extends AppCompatActivity {
     public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder> {
@@ -67,7 +70,9 @@ public class FriendsActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull FriendsViewHolder holder, int position) {
+
             String friendUserId = friendsList.get(position);
+            loadUserProfilePhoto(holder.binding, friendUserId);
 
             String timestampKey = TIMESTAMP_KEY_PREFIX + friendUserId;
             long buttonClickTimestamp = sharedPreferences.getLong(timestampKey, 0);
@@ -99,7 +104,17 @@ public class FriendsActivity extends AppCompatActivity {
             });
 
             holder.binding.buttonCheckProfile.setOnClickListener(v -> {
-                // TODO: Implement profile check
+                db.collection("Users").document(friendUserId).get()
+                        .addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists()) {
+                                String friendName = documentSnapshot.getString("name_surname");
+                                long points = documentSnapshot.getLong("points");
+                                Toast.makeText(context, "Points of " + friendName + ": " + points, Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(context, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(e -> Log.d("Friends", "Failed to retrieve friend data"));
             });
 
         }
@@ -165,6 +180,30 @@ public class FriendsActivity extends AppCompatActivity {
                 binding.imageViewFriend.setImageResource(R.drawable.ic_launcher_background);
             }
         }
+
+        private void loadUserProfilePhoto(FriendRowBinding binding, String userId) {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                FirebaseFirestore.getInstance().collection("Users").document(userId)
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful() && task.getResult() != null) {
+                                DocumentSnapshot doc = task.getResult();
+                                if (doc.exists() && doc.contains("profileImage")) {
+                                    String photoUrl = doc.getString("profileImage");
+                                    if (photoUrl != null && !photoUrl.isEmpty()) {
+                                        Glide.with(FriendsActivity.this)
+                                                .load(photoUrl)
+                                                .circleCrop() // if you want to apply circle cropping to the image
+                                                .into(binding.imageViewFriend);
+                                    }
+                                }
+                            } else {
+                                Toast.makeText(FriendsActivity.this, "Failed to load user photo.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        }
     }
 
     private class FriendRequestsAdapter extends RecyclerView.Adapter<FriendRequestsAdapter.FriendRequestsViewHolder> {
@@ -184,6 +223,7 @@ public class FriendsActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull FriendRequestsViewHolder holder, int position) {
             String friendUserId = String.valueOf(friendRequestsList.get(position));
+            loadUserProfilePhoto(holder.binding, friendUserId);
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
             // Load user data based on friendUserId
@@ -244,6 +284,30 @@ public class FriendsActivity extends AppCompatActivity {
         public int getItemCount() {
 
             return friendRequestsList.size();
+        }
+
+        private void loadUserProfilePhoto(FriendRequestRowBinding binding, String userId) {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                FirebaseFirestore.getInstance().collection("Users").document(userId)
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful() && task.getResult() != null) {
+                                DocumentSnapshot doc = task.getResult();
+                                if (doc.exists() && doc.contains("profileImage")) {
+                                    String photoUrl = doc.getString("profileImage");
+                                    if (photoUrl != null && !photoUrl.isEmpty()) {
+                                        Glide.with(FriendsActivity.this)
+                                                .load(photoUrl)
+                                                .circleCrop() // if you want to apply circle cropping to the image
+                                                .into(binding.imageViewRequest);
+                                    }
+                                }
+                            } else {
+                                Toast.makeText(FriendsActivity.this, "Failed to load user photo.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
         }
 
         public class FriendRequestsViewHolder extends RecyclerView.ViewHolder {
@@ -337,10 +401,16 @@ public class FriendsActivity extends AppCompatActivity {
                     }
                 });
 
-        binding.addFriendButton.setOnClickListener(v -> showAddFriendDialog());
+        binding.addFriendButton.setOnClickListener(v -> showAddFriendDialog(friendsList));
         binding.editFriendButton.setOnClickListener(v -> {
-            Intent intent = new Intent(FriendsActivity.this, EditFriendsActivity.class);
-            startActivity(intent);
+            if (friendsList.size() == 0)
+            {
+                Toast.makeText(FriendsActivity.this, "No friends to edit", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Intent intent = new Intent(FriendsActivity.this, EditFriendsActivity.class);
+                startActivity(intent);
+            }
         });
     }
     private String getCurrentUserId() {
@@ -353,7 +423,8 @@ public class FriendsActivity extends AppCompatActivity {
             return "0000";
         }
     }
-    private void showAddFriendDialog() {
+    private void showAddFriendDialog(ArrayList<String> friendsList) {
+        AtomicBoolean isFound = new AtomicBoolean(false);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add Friend");
 
@@ -389,25 +460,30 @@ public class FriendsActivity extends AppCompatActivity {
                             if ( userId.equals(getCurrentUserId())) {
                                 Toast.makeText(FriendsActivity.this, "You cannot send a request to yourself!",Toast.LENGTH_SHORT).show();
                             }else{
-                                db.collection("Users").document(userId).get()
-                                        .addOnSuccessListener(documentSnapshoot -> {
-                                            if (documentSnapshoot.exists()) {
-                                                Toast.makeText(FriendsActivity.this, username + " is already in the friend list!" , Toast.LENGTH_SHORT).show();
-                                            } else {
-                                                // Add friend to the request list of the target user
-                                                DocumentReference targetUserRef = db.collection("Users").document(userId);
 
-                                                targetUserRef.update("friendRequests", FieldValue.arrayUnion(getCurrentUserId()))
-                                                        .addOnSuccessListener(aVoid -> {
-                                                            // Successful
-                                                            Toast.makeText(FriendsActivity.this, "Friend request sent to user ", Toast.LENGTH_SHORT).show();
-                                                        })
-                                                        .addOnFailureListener(e -> {
-                                                            // Error
-                                                            Toast.makeText(FriendsActivity.this, "Failed to send friend request. Please try again.", Toast.LENGTH_SHORT).show();
-                                                        });
-                                            }
-                                        });
+                                    for (int i = 0; i < friendsList.size() && !isFound.get(); i++) {
+                                        if (friendsList.get(i).equals(userId)) {
+                                            isFound.set(true);
+                                        }
+                                    }
+
+                                if ( isFound.equals(true) ) {
+                                    Toast.makeText(FriendsActivity.this, username + " is already in the friend list!", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    // Add friend to the request list of the target user
+                                    DocumentReference targetUserRef = db.collection("Users").document(userId);
+
+                                    targetUserRef.update("friendRequests", FieldValue.arrayUnion(getCurrentUserId()))
+                                            .addOnSuccessListener(aVoid -> {
+                                                // Successful
+                                                Toast.makeText(FriendsActivity.this, "Friend request sent to user ", Toast.LENGTH_SHORT).show();
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                // Error
+                                                Toast.makeText(FriendsActivity.this, "Failed to send friend request. Please try again.", Toast.LENGTH_SHORT).show();
+                                            });
+                                }
                             }
                         } else {
                             // No user
