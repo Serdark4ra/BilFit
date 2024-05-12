@@ -114,10 +114,12 @@ public class ReportActivity extends AppCompatActivity {
             finish();
         });
 
-
+        daysToGoalText = findViewById(R.id.textView15);
         caloriesText = binding.caloriesText;
         cancerText = binding.cancerText;
         heartAttackText = binding.heartAttackText;
+        findCurrentUserPlace();
+        setTexts(currentUser.getUid());
     }
 
     private void setTexts(String userId) {
@@ -133,10 +135,10 @@ public class ReportActivity extends AppCompatActivity {
                     int points = pointsNumber.intValue();
                     double n1 = (double) points / 30000.0;
                     double n2 = (double) points / 25000.0;
-                    findCurrentUserPlace();
 
-                    String formattedN1 = String.format("%.6f", n1);
-                    String formattedN2 = String.format("%.6f", n2);
+
+                    String formattedN1 = String.format("%.2f", n1);
+                    String formattedN2 = String.format("%.2f", n2);
 
                     caloriesText.setText("Calories have burned so far: " + points * 3);
                     cancerText.setText("You've reduced your risk of getting cancer by this much: %" + formattedN1);
