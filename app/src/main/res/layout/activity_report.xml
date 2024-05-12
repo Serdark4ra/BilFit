@@ -9,25 +9,13 @@
     tools:context=".ReportActivity"
     tools:ignore="MissingClass">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="28dp"
-        android:text="Weekly Workout Report"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/caloriesImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:src="@drawable/calories_image"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintTop_toBottomOf="@id/toolbarSettings"
         android:layout_marginTop="32dp"
         android:layout_marginStart="16dp"/>
 
@@ -56,24 +44,34 @@
     <!-- Text for Reduced Cancer Risk -->
     <TextView
         android:id="@+id/cancerText"
-        android:layout_width="270dp"
+        android:layout_width="200dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:text="You've reduced your risk of getting cancer by this much:"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@id/cancerImage"
         app:layout_constraintTop_toTopOf="@id/cancerImage" />
-    <Button
-        android:id="@+id/button_back_to_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
-        android:text="Back to main menu"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Image for Reduced Heart Attack Risk -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/baseline_arrow_back_24"
+        app:titleTextAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:titleTextColor="#FFFFFF" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Weekly Workout Report"
+            android:textColor="#FFFFFF"
+            android:layout_gravity="center"
+            android:textSize="30dp"/>
+    </androidx.appcompat.widget.Toolbar>
+
     <ImageView
         android:id="@+id/heartAttackImage"
         android:layout_width="100dp"
@@ -94,6 +92,7 @@
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@id/heartAttackImage"
         app:layout_constraintTop_toTopOf="@id/heartAttackImage" />
+
 
     <TextView
         android:id="@+id/textView15"

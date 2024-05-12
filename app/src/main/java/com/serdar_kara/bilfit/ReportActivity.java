@@ -5,10 +5,10 @@ import static android.content.ContentValues.TAG;
 import android.graphics.Color;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import com.github.mikephil.charting.charts.LineChart;
+/*import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.LineDataSet;*/ //Burası bende hata veriyor
 
 import java.net.DatagramPacket;
 import java.util.ArrayList;
@@ -36,6 +36,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.serdar_kara.bilfit.ProgramActivity.ProgramActivity;
 import com.serdar_kara.bilfit.Settings.SettingsActivity;
 import com.serdar_kara.bilfit.databinding.ActivityMainBinding;
+import com.serdar_kara.bilfit.databinding.ActivityReportBinding;
+import com.serdar_kara.bilfit.databinding.ActivitySettingsBinding;
 import com.serdar_kara.bilfit.exercises.ExerciseAdapter;
 import com.serdar_kara.bilfit.exercises.ExerciseModel;
 import com.serdar_kara.bilfit.friends.FriendsActivity;
@@ -81,6 +83,8 @@ public class ReportActivity extends AppCompatActivity {
     private int index = 0;
     private int day = 0;
 
+    private ActivityReportBinding binding;
+
     private ExerciseAdapter exerciseAdapter;
     TextView caloriesText;
     TextView cancerText;
@@ -93,15 +97,18 @@ public class ReportActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-        Button backToMainMenuButton = findViewById(R.id.button_back_to_menu);
 
-        backToMainMenuButton.setOnClickListener(view -> {
+
+        super.onCreate(savedInstanceState);
+
+        binding = ActivityReportBinding.inflate(getLayoutInflater());
+
+        binding.toolbarSettings.setNavigationOnClickListener(v -> {
             Intent intent = new Intent(ReportActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         });
 
-        super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_report);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -172,7 +179,12 @@ public class ReportActivity extends AppCompatActivity {
     }
     private void showDaysToReachGoal(int totalPoints, int goalPoints, int averageDailyPoints) {
         // Hedefe ulaşmak için kalan gün sayısını hesaplayın
-        int remainingDays = (goalPoints - totalPoints) / averageDailyPoints;
+        int remainingDays;
+        if (averageDailyPoints != 0 ) { // divide by 0 error here
+            remainingDays = (goalPoints - totalPoints) / averageDailyPoints;
+        } else {
+            remainingDays = (goalPoints - totalPoints) / 100;
+        }
 
         // Hedefe ulaşmak için kalan gün sayısını göstermek için bir TextView bulun
         TextView daysToGoalText = findViewById(R.id.textView15);
