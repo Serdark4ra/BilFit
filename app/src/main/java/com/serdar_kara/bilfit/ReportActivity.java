@@ -137,8 +137,8 @@ public class ReportActivity extends AppCompatActivity {
                     double n2 = (double) points / 25000.0;
 
 
-                    String formattedN1 = String.format("%.2f", n1);
-                    String formattedN2 = String.format("%.2f", n2);
+                    String formattedN1 = String.format("%.6f", n1);
+                    String formattedN2 = String.format("%.6f", n2);
 
                     caloriesText.setText("Calories have burned so far: " + points * 3);
                     cancerText.setText("You've reduced your risk of getting cancer by this much: %" + formattedN1);
