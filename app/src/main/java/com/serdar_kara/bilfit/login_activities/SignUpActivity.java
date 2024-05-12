@@ -84,6 +84,7 @@ public class SignUpActivity extends AppCompatActivity {
                             userInfo.put("friendRequests", new ArrayList<String>());
                             userInfo.put("points",0);
                             userInfo.put("power",0.0);
+                            userInfo.put("profileImage","https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png"); // Use the same variable name as in user data
 
                             if (currentUser != null){
                                 documentReference.set(userInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -100,7 +101,7 @@ public class SignUpActivity extends AppCompatActivity {
                             Intent intent = new Intent(SignUpActivity.this,GenderActivity.class);
                             startActivity(intent);
 
-                    }else{
+                        }else{
                             Toast.makeText(SignUpActivity.this, task.getException().toString(),
                                     Toast.LENGTH_SHORT).show();
                             Log.d("Login Page","Create account failed!");
@@ -110,6 +111,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         }
     }
+
 
 
 }

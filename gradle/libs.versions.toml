@@ -11,6 +11,7 @@ firebaseFirestore = "24.11.0"
 firebaseAuth = "22.3.1"
 gridlayout = "1.0.0"
 firebaseDatabase = "21.0.0"
+mpandroidchart = "1.7.5"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -24,6 +25,7 @@ firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 gridlayout = { group = "androidx.gridlayout", name = "gridlayout", version.ref = "gridlayout" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+mpandroidchart = { group = "org.quanqi", name = "mpandroidchart", version.ref = "mpandroidchart" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

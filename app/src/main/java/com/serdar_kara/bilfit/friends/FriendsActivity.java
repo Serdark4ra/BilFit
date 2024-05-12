@@ -21,9 +21,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -41,6 +43,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class FriendsActivity extends AppCompatActivity {
     public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder> {
@@ -67,7 +70,9 @@ public class FriendsActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull FriendsViewHolder holder, int position) {
+
             String friendUserId = friendsList.get(position);
+            loadUserProfilePhoto(holder.binding, friendUserId);
 
             String timestampKey = TIMESTAMP_KEY_PREFIX + friendUserId;
             long buttonClickTimestamp = sharedPreferences.getLong(timestampKey, 0);
@@ -99,7 +104,17 @@ public class FriendsActivity extends AppCompatActivity {
             });
 
             holder.binding.buttonCheckProfile.setOnClickListener(v -> {
-                // TODO: Implement profile check
+                db.collection("Users").document(friendUserId).get()
+                        .addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists()) {
+                                String friendName = documentSnapshot.getString("name_surname");
+                                long points = documentSnapshot.getLong("points");
+                                Toast.makeText(context, "Points of " + friendName + ": " + points, Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(context, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(e -> Log.d("Friends", "Failed to retrieve friend data"));
             });
 
         }
@@ -165,242 +180,31 @@ public class FriendsActivity extends AppCompatActivity {
                 binding.imageViewFriend.setImageResource(R.drawable.ic_launcher_background);
             }
         }
+
+        private void loadUserProfilePhoto(FriendRowBinding binding, String userId) {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                FirebaseFirestore.getInstance().collection("Users").document(userId)
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful() && task.getResult() != null) {
+                                DocumentSnapshot doc = task.getResult();
+                                if (doc.exists() && doc.contains("profileImage")) {
+                                    String photoUrl = doc.getString("profileImage");
+                                    if (photoUrl != null && !photoUrl.isEmpty()) {
+                                        Glide.with(FriendsActivity.this)
+                                                .load(photoUrl)
+                                                .circleCrop() // if you want to apply circle cropping to the image
+                                                .into(binding.imageViewFriend);
+                                    }
+                                }
+                            } else {
+                                Toast.makeText(FriendsActivity.this, "Failed to load user photo.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        }
     }
-
-    /*private class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder> {
-
-        private List<String> friendsList;
-        private Map<String, CountDownTimer> timerMap = new HashMap<>(); // Map to store timers for each friend
-        private SharedPreferences sharedPreferences;
-        private Context context;
-
-
-        public FriendsAdapter(Context context, List<String> friendsList) {
-            this.context = context;
-            this.friendsList = friendsList;
-            this.sharedPreferences = context.getSharedPreferences("timerPrefs", Context.MODE_PRIVATE);
-        }
-
-
-        @NonNull
-        @Override
-        public FriendsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-            FriendRowBinding binding = FriendRowBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
-            return new FriendsViewHolder(binding);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull FriendsViewHolder holder, int position) {
-            System.out.println("Here");
-            String friendUserId = String.valueOf(friendsList.get(position));
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection("Users").document(friendUserId).get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        if (documentSnapshot.exists()) {
-                            //FirebaseUser friend = documentSnapshot.toObject(FirebaseUser.class);
-                            holder.binding.textFriendName.setText(documentSnapshot.getString("name_surname"));
-                            holder.binding.textFriendUsername.setText(documentSnapshot.getString("name_surname"));
-                            holder.binding.imageViewFriend.setImageResource(R.drawable.ic_launcher_background);
-                            Log.d("Friends", friendUserId);
-                        } else {
-                            Toast.makeText(FriendsActivity.this, "Something went wrong. Please try again",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(e -> Log.d("Friends", "Fail"));
-
-            if (timerMap.containsKey(friendUserId)) {
-                startOrResumeTimer(holder, friendUserId);
-            } else {
-                holder.binding.buttonGoTogether.setEnabled(true);
-                holder.binding.buttonGoTogether.setText("Go Together");
-            }
-
-            long remainingTimeMillis = sharedPreferences.getLong(friendUserId, 0);
-            if (remainingTimeMillis > 0) {
-                // If there is remaining time, update UI accordingly
-                updateTimerUI(holder, remainingTimeMillis);
-            } else {
-                // If there is no remaining time, set default UI state
-                setDefaultUI(holder);
-            }
-
-            holder.binding.buttonGoTogether.setOnClickListener(v -> {
-                // Disable the button
-                holder.binding.buttonGoTogether.setEnabled(false);
-
-                // Start or resume timer for this friend
-                startOrResumeTimer(holder, friendUserId);
-
-                // Call method to send notification to friend
-                sendNotificationToFriend(friendUserId, holder);
-/*
-                // Get SharedPreferences instance with a specific name
-                SharedPreferences sharedPreferences = FriendsActivity.this.getSharedPreferences("timerPrefs", Context.MODE_PRIVATE);
-
-                // Get the remaining time from SharedPreferences
-                long remainingTimeMillis = sharedPreferences.getLong("remainingTime", 10 * 60 * 1000); // Default: 10 minutes
-
-                // Start a countdown timer with the remaining time
-                new CountDownTimer(remainingTimeMillis, 1000) { // Start from remaining time, tick every second
-                    public void onTick(long millisUntilFinished) {
-                        // Calculate remaining minutes and seconds
-                        int minutes = (int) (millisUntilFinished / 1000) / 60;
-                        int seconds = (int) (millisUntilFinished / 1000) % 60;
-
-                        // Format remaining time as text
-                        String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-
-                        // Set countdown text on the button
-                        holder.binding.buttonGoTogether.setText(timeLeftFormatted);
-
-                        // Save remaining time to SharedPreferences
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putLong("remainingTime", millisUntilFinished);
-                        editor.apply();
-                    }
-
-                    public void onFinish() {
-                        // Enable the button after 10 minutes
-                        holder.binding.buttonGoTogether.setEnabled(true);
-
-                        // Set button text back to its original state
-                        holder.binding.buttonGoTogether.setText("Go Together");
-
-                        // Clear remaining time from SharedPreferences
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.remove("remainingTime");
-                        editor.apply();
-                    }
-                }.start();
-            });
-
-            holder.binding.buttonCheckProfile.setOnClickListener(v -> {
-                //TODO
-            });
-        }
-
-        // Method to update UI with remaining time
-        private void updateTimerUI(FriendsViewHolder holder, long remainingTimeMillis) {
-            // Convert remaining time to minutes and seconds
-            long minutes = TimeUnit.MILLISECONDS.toMinutes(remainingTimeMillis);
-            long seconds = TimeUnit.MILLISECONDS.toSeconds(remainingTimeMillis) - TimeUnit.MINUTES.toSeconds(minutes);
-            // Format remaining time as text
-            String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-            // Update button text with remaining time
-            holder.binding.buttonGoTogether.setText(timeLeftFormatted);
-            // Disable the button
-            holder.binding.buttonGoTogether.setEnabled(false);
-        }
-
-        // Method to set default UI state
-        private void setDefaultUI(FriendsViewHolder holder) {
-            // Set default button text
-            holder.binding.buttonGoTogether.setText("Go Together");
-            // Enable the button
-            holder.binding.buttonGoTogether.setEnabled(true);
-        }
-
-        private void sendNotificationToFriend(String friendUserId, FriendsViewHolder holder) {
-            Map<String, Object> notificationData = goTogether();
-            db.collection("Users").document(friendUserId).update("notifications", FieldValue.arrayUnion(notificationData))
-                    .addOnSuccessListener(documentReference -> {
-                        Toast.makeText(FriendsActivity.this, "Notification sent successfully!!",
-                                Toast.LENGTH_SHORT).show();
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(FriendsActivity.this, "Something went wrong. Please try again",
-                                Toast.LENGTH_SHORT).show();
-                    });
-            startNewTimer(friendUserId, holder);
-
-        }
-
-        private void startNewTimer(String friendUserId,FriendsViewHolder holder) {
-            CountDownTimer timer = new CountDownTimer(10 * 60 * 1000, 1000) { // 10 minutes
-                public void onTick(long millisUntilFinished) {
-                    // Update button text with remaining time
-                    updateButtonText(holder, millisUntilFinished,friendUserId);
-                }
-
-                public void onFinish() {
-                    // Remove timer from map when finished
-                    timerMap.remove(friendUserId);
-                    // Perform any actions required after timer finishes
-                }
-            }.start();
-
-            timerMap.put(friendUserId, timer);
-        }
-
-        @Override
-        public int getItemCount() {
-            return friendsList.size();
-        }
-
-        private void startOrResumeTimer(FriendsViewHolder holder, String friendUserId) {
-            // Check if timer is already running for this friend
-            if (!timerMap.containsKey(friendUserId)) {
-                // Start a new timer
-                CountDownTimer timer = new CountDownTimer(10 * 60 * 1000, 1000) { // 10 minutes
-                    public void onTick(long millisUntilFinished) {
-                        // Update button text with remaining time
-                        updateButtonText(holder, millisUntilFinished, friendUserId);
-                    }
-
-                    public void onFinish() {
-                        // Remove timer from map when finished
-                        timerMap.remove(friendUserId);
-
-                        // Enable button and set default text
-                        holder.binding.buttonGoTogether.setEnabled(true);
-                        holder.binding.buttonGoTogether.setText("Go Together");
-                    }
-                }.start();
-
-                // Save timer to map
-                timerMap.put(friendUserId, timer);
-            } else {
-                // Timer already exists, resume it
-                CountDownTimer timer = timerMap.get(friendUserId);
-                long remainingTime = sharedPreferences.getLong(friendUserId, 10 * 60 * 1000); // Default: 10 minutes
-                timer.start();
-            }
-        }
-
-        private void updateButtonText(FriendsViewHolder holder, long millisUntilFinished, String friendUserId) {
-            // Calculate remaining minutes and seconds
-            int minutes = (int) (millisUntilFinished / 1000) / 60;
-            int seconds = (int) (millisUntilFinished / 1000) % 60;
-
-            // Format remaining time as text
-            String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-
-            // Set button text
-            holder.binding.buttonGoTogether.setText(timeLeftFormatted);
-
-            // Save remaining time to SharedPreferences
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putLong(friendUserId, millisUntilFinished);
-            editor.apply();
-        }
-        public class FriendsViewHolder extends RecyclerView.ViewHolder {
-            private FriendRowBinding binding;
-            public FriendsViewHolder(FriendRowBinding binding) {
-                super(binding.getRoot());
-                this.binding = binding;
-
-            }
-        }
-
-        private Map<String, Object> goTogether() {
-            Map<String, Object> goTogetherNotification = new HashMap<>();
-            goTogetherNotification.put("sender", getCurrentUserId());
-            goTogetherNotification.put("timestamp", new Date());
-            return goTogetherNotification;
-        }
-    }*/
 
     private class FriendRequestsAdapter extends RecyclerView.Adapter<FriendRequestsAdapter.FriendRequestsViewHolder> {
         private final List<String> friendRequestsList;
@@ -419,6 +223,7 @@ public class FriendsActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull FriendRequestsViewHolder holder, int position) {
             String friendUserId = String.valueOf(friendRequestsList.get(position));
+            loadUserProfilePhoto(holder.binding, friendUserId);
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
             // Load user data based on friendUserId
@@ -442,6 +247,9 @@ public class FriendsActivity extends AppCompatActivity {
                 db.collection("Users").document(getCurrentUserId())
                         .update("friendRequests", FieldValue.arrayRemove(friendUserId))
                         .addOnSuccessListener(aVoid -> {
+                            db.collection("Users").document(friendUserId)
+                                    .update("friends", FieldValue.arrayUnion(getCurrentUserId()))
+                                    .addOnFailureListener(e -> Toast.makeText(FriendsActivity.this, "Failed to accept friend request. Please try again.", Toast.LENGTH_SHORT).show());
                             // Add user to friend list in Firestore
                             db.collection("Users").document(getCurrentUserId())
                                     .update("friends", FieldValue.arrayUnion(friendUserId))
@@ -476,6 +284,30 @@ public class FriendsActivity extends AppCompatActivity {
         public int getItemCount() {
 
             return friendRequestsList.size();
+        }
+
+        private void loadUserProfilePhoto(FriendRequestRowBinding binding, String userId) {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                FirebaseFirestore.getInstance().collection("Users").document(userId)
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful() && task.getResult() != null) {
+                                DocumentSnapshot doc = task.getResult();
+                                if (doc.exists() && doc.contains("profileImage")) {
+                                    String photoUrl = doc.getString("profileImage");
+                                    if (photoUrl != null && !photoUrl.isEmpty()) {
+                                        Glide.with(FriendsActivity.this)
+                                                .load(photoUrl)
+                                                .circleCrop() // if you want to apply circle cropping to the image
+                                                .into(binding.imageViewRequest);
+                                    }
+                                }
+                            } else {
+                                Toast.makeText(FriendsActivity.this, "Failed to load user photo.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
         }
 
         public class FriendRequestsViewHolder extends RecyclerView.ViewHolder {
@@ -569,10 +401,16 @@ public class FriendsActivity extends AppCompatActivity {
                     }
                 });
 
-        binding.addFriendButton.setOnClickListener(v -> showAddFriendDialog());
+        binding.addFriendButton.setOnClickListener(v -> showAddFriendDialog(friendsList));
         binding.editFriendButton.setOnClickListener(v -> {
-            Intent intent = new Intent(FriendsActivity.this, EditFriendsActivity.class);
-            startActivity(intent);
+            if (friendsList.size() == 0)
+            {
+                Toast.makeText(FriendsActivity.this, "No friends to edit", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Intent intent = new Intent(FriendsActivity.this, EditFriendsActivity.class);
+                startActivity(intent);
+            }
         });
     }
     private String getCurrentUserId() {
@@ -585,7 +423,8 @@ public class FriendsActivity extends AppCompatActivity {
             return "0000";
         }
     }
-    private void showAddFriendDialog() {
+    private void showAddFriendDialog(ArrayList<String> friendsList) {
+        AtomicBoolean isFound = new AtomicBoolean(false);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add Friend");
 
@@ -608,6 +447,7 @@ public class FriendsActivity extends AppCompatActivity {
         builder.setPositiveButton("Add", (dialog, which) -> {
             String username = editTextUsername.getText().toString().trim();
 
+
             // Find the user
             db.collection("Users")
                     .whereEqualTo("name_surname", username)
@@ -617,18 +457,34 @@ public class FriendsActivity extends AppCompatActivity {
                             QueryDocumentSnapshot documentSnapshot = (QueryDocumentSnapshot) queryDocumentSnapshots.getDocuments().get(0); // Get the first document
                             String userId = documentSnapshot.getId();
 
-                            // Add friend to the request list of the target user
-                            DocumentReference targetUserRef = db.collection("Users").document(userId);
+                            if ( userId.equals(getCurrentUserId())) {
+                                Toast.makeText(FriendsActivity.this, "You cannot send a request to yourself!",Toast.LENGTH_SHORT).show();
+                            }else{
 
-                            targetUserRef.update("friendRequests", FieldValue.arrayUnion(getCurrentUserId()))
-                                    .addOnSuccessListener(aVoid -> {
-                                        // Successful
-                                        Toast.makeText(FriendsActivity.this, "Friend request sent to user: " + userId, Toast.LENGTH_SHORT).show();
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        // Error
-                                        Toast.makeText(FriendsActivity.this, "Failed to send friend request. Please try again.", Toast.LENGTH_SHORT).show();
-                                    });
+                                    for (int i = 0; i < friendsList.size() && !isFound.get(); i++) {
+                                        if (friendsList.get(i).equals(userId)) {
+                                            isFound.set(true);
+                                        }
+                                    }
+
+                                if ( isFound.equals(true) ) {
+                                    Toast.makeText(FriendsActivity.this, username + " is already in the friend list!", Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    // Add friend to the request list of the target user
+                                    DocumentReference targetUserRef = db.collection("Users").document(userId);
+
+                                    targetUserRef.update("friendRequests", FieldValue.arrayUnion(getCurrentUserId()))
+                                            .addOnSuccessListener(aVoid -> {
+                                                // Successful
+                                                Toast.makeText(FriendsActivity.this, "Friend request sent to user ", Toast.LENGTH_SHORT).show();
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                // Error
+                                                Toast.makeText(FriendsActivity.this, "Failed to send friend request. Please try again.", Toast.LENGTH_SHORT).show();
+                                            });
+                                }
+                            }
                         } else {
                             // No user
                             Toast.makeText(FriendsActivity.this, "User not found with username: " + username, Toast.LENGTH_SHORT).show();

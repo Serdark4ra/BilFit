@@ -9,13 +9,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -29,8 +26,6 @@ import com.serdar_kara.bilfit.databinding.ActivityMainBinding;
 import com.serdar_kara.bilfit.exercises.ExerciseAdapter;
 import com.serdar_kara.bilfit.exercises.ExerciseModel;
 import com.serdar_kara.bilfit.friends.FriendsActivity;
-import com.serdar_kara.bilfit.get_info_activities.UserInfoHolder;
-import com.serdar_kara.bilfit.get_info_activities.UserInfoManager;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -95,30 +90,41 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             completedButton.setVisibility(Button.INVISIBLE);
             updateUserPoints();
+            finish();
 
+        });
+
+        activityMainBinding.alertButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, NotificationsActivity.class);
+            startActivity(intent);
         });
 
         activityMainBinding.settingsButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent);
+            finish();
         });
 
         activityMainBinding.Navi.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.navigation_leaderBoard) {
                 Intent intent = new Intent(MainActivity.this, LeaderBoardActivity.class);
                 startActivity(intent);
+                finish();
                 return true;
             } else if (item.getItemId() == R.id.navigation_program) {
                 Intent intent = new Intent(MainActivity.this, ProgramActivity.class);
                 startActivity(intent);
+                finish();
                 return true;
             } else if (item.getItemId() == R.id.navigation_friends) {
                 Intent intent = new Intent(MainActivity.this, FriendsActivity.class);
                 startActivity(intent);
+                finish();
                 return true;
             } else if (item.getItemId() == R.id.navigation_report) {
                 Intent intent = new Intent(MainActivity.this, ReportActivity.class);
                 startActivity(intent);
+                finish();
                 return true;
             }
             return false;

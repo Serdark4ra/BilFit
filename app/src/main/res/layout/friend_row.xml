@@ -86,7 +86,7 @@
             android:layout_height="30dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:text="Check Profile"
+            android:text="Check Points"
             android:textAlignment="gravity"
             android:textSize="8sp"
             app:layout_constraintBottom_toBottomOf="parent"
