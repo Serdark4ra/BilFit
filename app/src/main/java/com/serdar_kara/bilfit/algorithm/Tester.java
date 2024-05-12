@@ -15,6 +15,29 @@ public class Tester {
 
     }
 
+    public static String getSuitibleExercisesAccoringToPower(String exerciseName, double power)
+    {
+        for (int i = 0; i < exercisesList.size(); i++)
+        {
+            if (exercisesList.get(i).getName().equalsIgnoreCase(exerciseName) &&
+                exercisesList.get(i).getZorluk() < power)
+            {
+                return  exercisesList.get(i).getName();
+            }
+        }
+
+        for (int i = 0; i < cardioExercises.size(); i++)
+        {
+            if (cardioExercises.get(i).getName().equalsIgnoreCase(exerciseName) &&
+            cardioExercises.get(i).getZorluk() < power)
+            {
+                return  cardioExercises.get(i).getName();
+            }
+        }
+
+        return null;
+    }
+
     public static boolean isBackExercise(String s)
     {
         for (int i = 0; i < exercisesList.size(); i++)
