@@ -97,11 +97,9 @@ public class ReportActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-
-
         super.onCreate(savedInstanceState);
-
         binding = ActivityReportBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         binding.toolbarSettings.setNavigationOnClickListener(v -> {
             Intent intent = new Intent(ReportActivity.this, MainActivity.class);
