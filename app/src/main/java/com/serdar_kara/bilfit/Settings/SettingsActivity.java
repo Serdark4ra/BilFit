@@ -68,10 +68,7 @@ import com.serdar_kara.bilfit.get_info_activities.UserInfoManager;
 import org.checkerframework.checker.units.qual.A;
 
 public class SettingsActivity extends AppCompatActivity {
-<<<<<<< HEAD
-=======
 
->>>>>>> 938a76ae38b47745604f76817f25f9b905a9b964
     ArrayList<ArrayList<Exercises>> program;
 
     private ArrayList<String> exerciseList;
