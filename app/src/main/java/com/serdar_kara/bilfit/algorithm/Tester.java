@@ -17,25 +17,42 @@ public class Tester {
 
     public static String getSuitibleExercisesAccoringToPower(String exerciseName, double power)
     {
+        String classNameOfGivenExercise = "";
+        boolean found = false;
         for (int i = 0; i < exercisesList.size(); i++)
         {
-            if (exercisesList.get(i).getName().equalsIgnoreCase(exerciseName) &&
-                exercisesList.get(i).getZorluk() < power)
+            if (exercisesList.get(i).getName().equalsIgnoreCase(exerciseName))
             {
-                return  exercisesList.get(i).getName();
+                found = true;
+                classNameOfGivenExercise = String.valueOf(exercisesList.get(i).getClass());
+            }
+        }
+
+        for (int i = 0; i < cardioExercises.size() && !found; i++)
+        {
+            if (cardioExercises.get(i).getName().equalsIgnoreCase(exerciseName))
+            {
+                classNameOfGivenExercise = String.valueOf(exercisesList.get(i).getClass());
+            }
+        }
+
+        for (int i = 0; i < exercisesList.size(); i++)
+        {
+            if (String.valueOf(exercisesList.get(i).getClass()).equals(classNameOfGivenExercise) && power > exercisesList.get(i).getZorluk())
+            {
+                return exercisesList.get(i).getName();
             }
         }
 
         for (int i = 0; i < cardioExercises.size(); i++)
         {
-            if (cardioExercises.get(i).getName().equalsIgnoreCase(exerciseName) &&
-            cardioExercises.get(i).getZorluk() < power)
+            if (power > cardioExercises.get(i).getZorluk())
             {
-                return  cardioExercises.get(i).getName();
+                return cardioExercises.get(i).getName();
             }
         }
 
-        return null;
+        return  null;
     }
 
     public static boolean isBackExercise(String s)
