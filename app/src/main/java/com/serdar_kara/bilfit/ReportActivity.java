@@ -109,6 +109,7 @@ public class ReportActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.toolbarReport.setNavigationOnClickListener(v -> {
+            Toast.makeText(ReportActivity.this, "Back", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(ReportActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
