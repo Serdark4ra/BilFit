@@ -138,7 +138,6 @@ public class NotificationsActivity extends AppCompatActivity {
 
                 binding.textNotificationsName.setText(friendName);
                 binding.textTime.setText(timeAgo);
-                binding.imageViewNotifications.setImageResource(R.drawable.ic_launcher_background);
             }
 
             private String getTimeAgo(long timeDifference) {
