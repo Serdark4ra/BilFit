@@ -198,9 +198,8 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
             holder.binding.imageExercise.setImageResource(R.drawable.stair_climbing);
         }
         else {
-            // Default image or handle other cases
+            holder.binding.imageExercise.setImageResource(R.drawable.exercise);
         }
-
 
 
 
