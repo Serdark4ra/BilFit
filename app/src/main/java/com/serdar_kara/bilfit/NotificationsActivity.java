@@ -97,6 +97,9 @@ public class NotificationsActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
+            if (notifications == null) {
+                return 0;
+            }
             return notifications.size();
         }
 

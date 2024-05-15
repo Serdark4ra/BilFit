@@ -5,22 +5,9 @@ import static android.content.ContentValues.TAG;
 import android.graphics.Color;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-/*import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;*/
-import android.os.Bundle;
-import android.util.Log;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
+
+
 import java.net.DatagramPacket;
 import java.util.ArrayList;
 import android.content.Context;
@@ -62,10 +49,13 @@ import com.serdar_kara.bilfit.get_info_activities.UserInfoManager;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -118,29 +108,18 @@ public class ReportActivity extends AppCompatActivity {
         binding = ActivityReportBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.toolbarSettings.setNavigationOnClickListener(v -> {
+        binding.toolbarReport.setNavigationOnClickListener(v -> {
             Intent intent = new Intent(ReportActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         });
 
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_report);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-
-            caloriesText = findViewById(R.id.caloriesText);
-            cancerText = findViewById(R.id.cancerText);
-            heartAttackText = findViewById(R.id.heartAttackText);
-            daysToGoalText = findViewById(R.id.textView15);
-
-
-
-            setTexts(currentUser.getUid());
-
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        daysToGoalText = findViewById(R.id.textView15);
+        caloriesText = binding.caloriesText;
+        cancerText = binding.cancerText;
+        heartAttackText = binding.heartAttackText;
+        findCurrentUserPlace();
+        setTexts(currentUser.getUid());
     }
 
     private void setTexts(String userId) {
@@ -156,7 +135,7 @@ public class ReportActivity extends AppCompatActivity {
                     int points = pointsNumber.intValue();
                     double n1 = (double) points / 30000.0;
                     double n2 = (double) points / 25000.0;
-                    findCurrentUserPlace();
+
 
                     String formattedN1 = String.format("%.6f", n1);
                     String formattedN2 = String.format("%.6f", n2);
