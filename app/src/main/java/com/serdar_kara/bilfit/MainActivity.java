@@ -245,22 +245,31 @@ public class MainActivity extends AppCompatActivity {
         }
         return days;
     }
+    public boolean[] getCompletedExerciseDays(){
+        SharedPreferences sharedPreferences = getSharedPreferences("CompletedExerciseDays", Context.MODE_PRIVATE);
+        boolean[] days = new boolean[7];
+        for (int i = 0; i < 7; i++) {
+            days[i] = sharedPreferences.getBoolean("day_" + i, false);
+        }
+        return days;
+    }
 
     public String determineDayToShowProgramInUpcoming() {
         LocalDate today = LocalDate.now();
-        DayOfWeek dayOfWeek = today.getDayOfWeek();
+        int value = today.getDayOfWeek().getValue();
 
-        boolean[] exerciseDays = getExerciseDays();
-
-        int currentDayIndex = dayOfWeek.getValue(); // Day of week as 1 (Monday) to 7 (Sunday)
-
-        for (int i = 0; i < 7; i++) {
-            if (exerciseDays[(currentDayIndex + i) % 7]) {
-                return dayOfWeekFromIndex(currentDayIndex + i);
+        for (int i = value; i <= 7; i++) {
+            if (getExerciseDays()[i - 1]) {
+                if (!getCompletedExerciseDays()[i - 1]) {
+                    return dayOfWeekFromIndex(i - 1);
+                }
             }
         }
-        return dayOfWeekFromIndex(currentDayIndex);
+
+        return "Monday";
+
     }
+
 
     private String dayOfWeekFromIndex(int index) {
         switch (index % 7 + 1) { // Modulo 7 and shift by 1 to match DayOfWeek values
@@ -281,6 +290,8 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return "";
         }
+
+
     }
 
 
