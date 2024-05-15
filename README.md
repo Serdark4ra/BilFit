@@ -10,6 +10,10 @@ You can download our application using the following link on any Android phone w
 
 Download link for the app:
 
+# Techs used
+    Android Studio
+    Firebase
+
 # Dependicies
     
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
