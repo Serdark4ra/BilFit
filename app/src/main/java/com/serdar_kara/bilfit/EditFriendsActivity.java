@@ -133,7 +133,6 @@ public class EditFriendsActivity extends AppCompatActivity {
             public void bind(String friendName) {
                 binding.textEditName.setText(friendName);
                 binding.textEditUsername.setText(friendName);
-                binding.imageViewEdit.setImageResource(R.drawable.ic_launcher_background);
             }
         }
 

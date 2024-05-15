@@ -177,7 +177,6 @@ public class FriendsActivity extends AppCompatActivity {
             public void bind(String friendName) {
                 binding.textFriendName.setText(friendName);
                 binding.textFriendUsername.setText(friendName);
-                binding.imageViewFriend.setImageResource(R.drawable.ic_launcher_background);
             }
         }
 
