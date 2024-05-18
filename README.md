@@ -36,6 +36,19 @@ Download link for the app:
   Serdar Kara <br/>
   Yusuf Bedri Bitiren <br/>
 
+# Personal Logs
+Serdar Kara 
+
+1 - 7 April: Main Activity
+8 - 14 April: Main Activity
+15 - 21 April: Main Activity
+22 - 28 April: Program Activity
+29 April - 5 May: Program Activity
+6 - 12 May: Settings Activity and related Activities
+
+    
+    
+
 
 
   
