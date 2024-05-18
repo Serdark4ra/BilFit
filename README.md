@@ -54,7 +54,17 @@ Mehmet Akif Yavuz
 22 - 28 April: Friends Activity, 2 - 3 hours<br/>
 29 April - 5 May: Gui design of friends related screens, 5 hours<br/>
 6 - 12 May: Edit Friends Activity, Notifications Activity, 4 hours<br/>
+
+Yusuf Bedri Bitiren
     
+1 - 7 April: Initial project setup, UI design, skeletons for Exercises, 2-3 hours roughly<br/>
+8 - 14 April: FeedbackActivity, Algorithm structure, initial tests, 5-6 hours roughly<br/>
+15 - 21 April: Continued Algorithm development, began UserInfoHolder implementation, refined UI design, 5 hours<br/>
+22 - 28 April: Exercises, UserInfoHolder, improved UI elements, 2-3 hours<br/>
+29 April - 5 May: Testing and debugging, refined Algorithm and UserInfoHolder, 5 hours<br/>
+6 - 12 May: FeedbackActivity and Exercises, 4 hours<br/>
+13 - 18 May: Finalized classes, 3-4 hours<br/>
+
     
 
 
