@@ -65,6 +65,15 @@ Yusuf Bedri Bitiren
 6 - 12 May: FeedbackActivity and Exercises, 4 hours<br/>
 13 - 18 May: Finalized classes, 3-4 hours<br/>
 
+Oğuzhan Demir
+
+1 - 7 April: GUI Design, Drawables<br/>
+8 - 14 April: GUI Desig , User Info Pagesn<br/>
+15 - 21 April: GUI Design, User Info Pages<br/>
+22 - 28 April: GUI Design Leaderboard Activity<br/>
+29 April - 5 May: Leaderboard Activity, Report Activity<br/>
+6 - 12 May: Report Activity, GUI Design<br/>
+
     
 
 
