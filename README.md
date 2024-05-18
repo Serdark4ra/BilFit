@@ -39,13 +39,21 @@ Download link for the app:
 # Personal Logs
 Serdar Kara 
 
-1 - 7 April: Main Activity
-8 - 14 April: Main Activity
-15 - 21 April: Main Activity
-22 - 28 April: Program Activity
-29 April - 5 May: Program Activity
-6 - 12 May: Settings Activity and related Activities
+1 - 7 April: Main Activity<br/>
+8 - 14 April: Main Activity<br/>
+15 - 21 April: Main Activity<br/>
+22 - 28 April: Program Activity<br/>
+29 April - 5 May: Program Activity<br/>
+6 - 12 May: Settings Activity and related Activities<br/>
 
+Mehmet Akif Yavuz 
+
+1 - 7 April: GUI design, 2 - 3 hours roughly<br/>
+8 - 14 April: GitHub Connection and User class, 5 - 6 hours roughly<br/>
+15 - 21 April: Friends Activity, 5 hours<br/>
+22 - 28 April: Friends Activity, 2 - 3 hours<br/>
+29 April - 5 May: Gui design of friends related screens, 5 hours<br/>
+6 - 12 May: Edit Friends Activity, Notifications Activity, 4 hours<br/>
     
     
 
