@@ -74,6 +74,16 @@ Oğuzhan Demir
 29 April - 5 May: Leaderboard Activity, Report Activity<br/>
 6 - 12 May: Report Activity, GUI Design<br/>
 
+Altan Altay
+
+1 - 7 April: User class, UI design, Tester class, 3-4 hours roughly<br/>
+8 - 14 April: FeedbackActivity, Algorithm structure, WorkoutPrograms class 5-6 hours roughly<br/>
+15 - 21 April: Continued Algorithm development, WorkoutPrograms class improvements, 4 hours<br/>
+22 - 28 April: UserInfoHolder, 2-3 hours<br/>
+29 April - 5 May: Testing and debugging, refined Algorithm and UserInfoHolder, 5 hours<br/>
+6 - 12 May: SettingsActivity, Tester class improvements, Report Activity, Exercise Photos 6 hours<br/>
+13 - 18 May: Regenerate, 3-4 hours<br/>
+
     
 
 
