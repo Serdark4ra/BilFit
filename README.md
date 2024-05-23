@@ -36,6 +36,12 @@ Download link for the app:
   Serdar Kara <br/>
   Yusuf Bedri Bitiren <br/>
 
+# Photos from BilFit
+![unnamed-3](https://github.com/Serdark4ra/BilFit/assets/116960634/bf8f2072-a29c-4578-a5a4-87b6aaaa311e)
+![unnamed](https://github.com/Serdark4ra/BilFit/assets/116960634/77ef9233-0e12-4b85-8c36-4f38f9a19fd6)
+![unnamed-2](https://github.com/Serdark4ra/BilFit/assets/116960634/37b12da1-1019-4355-94e9-f7161b1cb4fc)
+
+
 # Personal Logs
 Serdar Kara 
 
